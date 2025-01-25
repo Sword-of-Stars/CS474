@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     with doc.create(Section("The simple stuff")):
         doc.append("Some regular text and some")
-        doc.append(italic("italic text. "))
+        doc.append(italic(" italic text. "))
         doc.append("\nAlso some crazy characters: $&#{}")
         with doc.create(Subsection("Math that is incorrect")):
             doc.append(Math(data=["2*3", "=", 9]))
@@ -75,4 +75,4 @@ if __name__ == "__main__":
                 kitten_pic.add_image(image_filename, width="120px")
                 kitten_pic.add_caption("Look it's on its back")
 
-    #doc.generate_pdf("lab/full", clean_tex=False, compiler='pdflatex')
+    doc.generate_pdf("lab/full", clean_tex=False)
