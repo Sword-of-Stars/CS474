@@ -1,0 +1,64 @@
+{%- macro bold_red(character) -%}
+    \textcolor{red}{\textbf{ {{character}} }}
+{%- endmacro -%}
+
+{% macro pop_set(set_) %}
+    {%- if not set_ -%}
+    \varnothing
+    {%- else -%}
+        \{ 
+        {%- for item in set_ -%}
+            {{ item }}
+           {%- if not loop.last -%}
+            , 
+           {%- endif -%}
+        {%- endfor -%}
+        \}
+    {%- endif %}
+{% endmacro %}
+
+
+{% for state, closure in e_closure_table.items() %}
+\subsection*{Handling State ${{ state }}$}
+
+\begin{enumerate}
+    \item \textcolor{gray}{Calculate the $\epsilon$-closure of the state in M; call the result $S$.} 
+    From the $\epsilon$-closure table, we know that $E(\{ {{state}} \})=\{ {{closure}} \}$. 
+    
+    \item \textcolor{gray}{Calculate the transitions in $M$ from each state in $R$ on each input character.} 
+    \begin{itemize}
+        {% for character, value in transitions.get(state, 'ERROR').items() %}
+            \item [{{bold_red(character)}}] 
+            Here we must collect all places we can get to when reading an {{bold_red(character)}}
+            starting in any state in $\{ {{closure}} \}$. 
+            Since
+            \begin{itemize}
+            {%- for e_closure_state in closure -%}
+                \item $\delta({{e_closure_state}}, {{bold_red(character)}}) = {{ pop_set(transitions.get(e_closure_state, empty_set).get(character, empty_set)) }}$
+            {%- endfor %}
+            \end{itemize}
+            we see then that $\delta_R({{state}},{{bold_red(character)}})$ includes at least $\{ {{partial_closure.get(state, empty_set).get(character, empty_set)}} \}$.
+        {% endfor %}
+    \end{itemize}
+
+    \item \textcolor{gray}{For each input character, calculate the $\epsilon$-closure of the resulting set of states.}   
+    \begin{itemize}
+    {% for character, value in transitions.get(state, 'ERROR').items() %}
+            \item [{{bold_red(character)}}] 
+            Merging the relevant rows in the table for $E(\{ {{partial_closure.get(state, empty_set).get(character, empty_set) }} \})$, 
+            we see that $\delta_R( {{state}}, {{character}} )=\{ {{aggregate_closure.get(state, empty_set)[character]}} \}$. 
+        {% endfor %}
+    \end{itemize}
+\end{enumerate}
+
+After processing state {{state}}, we add these new transitions to $M'$, shown below
+%This is depicted below with the original NFA $M$ on the left and $M'$ on the right.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{phase1/part_c/out/figures/step_{{state}}.png}
+    \label{fig:M_after_step_{{state}}}
+\end{figure}
+
+{% endfor %}
+
+We have now successfully removed all $\epsilon$-transitions from $M$ to produce $M'$.

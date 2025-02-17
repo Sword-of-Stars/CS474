@@ -1,0 +1,47 @@
+This is LuaTeX, Version 1.18.1 (MiKTeX 24.4) (INITEX)  16 FEB 2025 13:48
+ restricted system commands enabled.
+**luatex.ini
+
+(C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/tex/generic/tex-ini-files
+/luatex.ini
+(C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/tex/generic/tex-ini-files
+/luatexconfig.tex
+(C:/Users/matthew.wanta/AppData/Roaming/MiKTeX/tex/generic/config/pdftexconfig.
+tex))
+(C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/tex/generic/config/luatex
+iniconfig.tex)
+(C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/tex/generic/unicode-data/
+load-unicode-data.tex 
+load-unicode-data.tex v1.18 (2025-01-07)
+Reading Unicode data
+# UnicodeData-16.0.0.txt
+# Modified 2024-08-25 18:05 GMT [JAW]
+)
+(C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/tex/luatex/hyph-utf8/etex
+.src
+(C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers,
+\maxdimen=\dimen10
+\hideskip=\skip10
+\centering=\skip11
+\p@=\dimen11
+\z@=\dimen12
+\z@skip=\skip12
+\voidb@x=\box10
+ parameters,
+\smallskipamount=\skip13
+\medskipamount=\skip14
+\bigskipamount=\skip15
+\normalbaselineskip=\skip16
+\normallineskip=\skip17
+\normallineskiplimit=\dimen13
+\jot=\dimen14
+\interdisplaylinepenalty=\count23
+\interfootnotelinepenalty=\count24
+ fonts, more fonts,
+! Font \preloaded=manfnt not loadable: metric data not found or bad.
+<to be read again> 
+\par 
+l.468 
+    
+!  ==> Fatal error occurred, no output PDF file produced!
