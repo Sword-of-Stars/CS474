@@ -90,21 +90,19 @@ aggregate_closure = {
 def reverse_transform_dict_with_integers(data):
     reversed_data = {}
     for key, value in data.items():
-        new_key = int(key[1:]) # Remove 'q' and convert to integer
+        new_key = int(key[1:]) 
         if isinstance(value, set):
-            new_value = {int(item[1:]) if item else None for item in value} # Handle empty set by checking for item before conversion, although in current context empty sets should remain empty sets
-            new_value = {item for item in new_value if item is not None} # Remove None if any were added from empty strings in sets (though in current case should not be an issue)
-        elif isinstance(value, dict):
+            new_value = {int(item[1:]) if item else None for item in value} 
+            new_value = {item for item in new_value if item is not None} # 
             new_value = {}
             for inner_key, inner_value in value.items():
                 if isinstance(inner_value, set):
-                    new_inner_value = {int(item[1:]) if item else None for item in inner_value} #Same logic as above for sets
-                    new_inner_value = {item for item in new_inner_value if item is not None} # Remove None values
-                else: # Assuming empty set case, handle based on possible types if needed
-                    new_inner_value = set() # Keep as empty set
+                    new_inner_value = {int(item[1:]) if item else None for item in inner_value} 
+                    new_inner_value = {item for item in new_inner_value if item is not None} #
+                else: 
+                    new_inner_value = set() 
                 new_value[inner_key] = new_inner_value
-        else: # Handle cases where value is not set or dict as needed
-            new_value = value # Or handle differently if other types appear
+            new_value = value 
 
         reversed_data[new_key] = new_value
     return reversed_data
@@ -114,7 +112,7 @@ reversed_transitions = reverse_transform_dict_with_integers(transitions)
 reversed_partial_closure = reverse_transform_dict_with_integers(partial_closure)
 reversed_aggregate_closure = reverse_transform_dict_with_integers(aggregate_closure)
 
-latex_empty_set = r'\varnothing' # Define as raw string
+latex_empty_set = r'\varnothing' # raw string
 
 data = {
     "e_closure_table": reversed_e_closure,
@@ -150,10 +148,10 @@ with open("phase1/part_c/out/e_removal.tex", "w") as f:
     f.write(conclusion)
 
 tex_filepath = "phase1/part_c/out/e_removal.tex"
-output_dir = "phase1/part_c/out/" # Directory where you want PDFs
+output_dir = "phase1/part_c/out/" # directory where you want PDFs
 
 subprocess.run(["pdflatex",
                  "-output-directory=" + output_dir,
                  tex_filepath])
 
-print(f"PDF generated in output directory: {output_dir}/e_removal.pdf") # Confirmation
+print(f"PDF generated in output directory: {output_dir}/e_removal.pdf")

@@ -9,7 +9,7 @@ with open("lab/testy.tex", "w") as f:
     f.write(j_template.render())
 
 tex_filepath = "lab/testy.tex"
-output_dir = "lab/part_c/out/" # Directory where you want PDFs
+output_dir = "lab/part_c/out/" 
 
 subprocess.run(["luatex",
                  "-output-directory=" + output_dir,
