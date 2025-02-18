@@ -228,6 +228,10 @@ def incremental_subset_method(nfa):
 
     return dfa_table
 
+###########################
+# Begin Solution Creation #
+###########################
+
 # NFA which matches strings beginning with "a", ending with "a", and
 # containing no consecutive "b"s
 example_nfa = NFA(
@@ -247,11 +251,15 @@ example_nfa = NFA(
 example_nfa.show_diagram(layout_method="circo", path=f"{OUT_PATH}/original.png")
 nfa_without_e_transitions = remove_e_transitions_from_NFA(example_nfa)
 
+# Once the e-transitions are removed, we can generate a solution
 
-my_Solution = Solution()
+my_Solution = Solution() # our templates for Solution are loaded in by default
 my_Solution.add_dynamic_content("e_removal.tex", nfa_without_e_transitions)
 my_Solution.generate_pdf()
 
+
+# Ideally, this would be combined into a single file. However, I'm doing it in parts
+# to match the provided NFA->DFA visualizer in the course notes 
 working_nfa = NFA(
     states={1, 2, 3, 4, 5},
     input_symbols={"a", "b"},
