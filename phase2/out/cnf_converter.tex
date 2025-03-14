@@ -146,17 +146,17 @@ the following variables are nullable:
 For each appearance of the nullable variable in the grammar, add a rule where that variable is replaced by $\epsilon$. This 
 results in the following grammar:
 \begin{align*}
-    S &\to b  | S  | aB  | AaB \\
-    A &\to AB  | \varepsilon  | S  | B \\
-    B &\to SA  | S  | bbb  | AS  | ASA \\
+    S &\to b  | AaB  | aB  | S \\
+    A &\to AB  | \varepsilon  | B  | S \\
+    B &\to SA  | bbb  | S  | AS  | ASA \\
     S0 &\to S \\
     \end{align*}
 
 Finally, remove all $\epsilon$-rules to yield
 \begin{align*}
-    S &\to b  | S  | aB  | AaB \\
-    A &\to AB  | S  | B \\
-    B &\to SA  | S  | bbb  | AS  | ASA \\
+    S &\to b  | AaB  | aB  | S \\
+    A &\to AB  | B  | S \\
+    B &\to SA  | bbb  | S  | AS  | ASA \\
     S0 &\to S \\
     \end{align*}
 
@@ -182,10 +182,10 @@ One way to visualize this is through a directed graph.
 We will perform this operation for all unit rules
 in the provided grammar, which yields:
 \begin{align*}
-    S &\to b  | aB  | AaB \\
-    A &\to b  | SA  | bbb  | AS  | ASA  | aB  | AaB  | AB \\
-    B &\to b  | SA  | bbb  | AS  | aB  | AaB  | ASA \\
-    S0 &\to b  | aB  | AaB \\
+    S &\to b  | AaB  | aB \\
+    A &\to AB  | AaB  | SA  | bbb  | b  | aB  | AS  | ASA \\
+    B &\to SA  | AaB  | bbb  | b  | aB  | AS  | ASA \\
+    S0 &\to b  | AaB  | aB \\
     \end{align*}
 
 
@@ -194,10 +194,10 @@ in the provided grammar, which yields:
 If any rule contains a combination of terminals and variables, then simply replace that terminal with a variable. 
 For example, the terminal $a$ would be replaced by $U_a$. This yields the following grammar:
 \begin{align*}
-    S &\to b  | U_aB  | AU_aB \\
-    A &\to b  | SA  | AS  | ASA  | AB  | AU_aB  | U_aB  | U_bU_bU_b \\
-    B &\to b  | SA  | AS  | ASA  | AU_aB  | U_aB  | U_bU_bU_b \\
-    S0 &\to b  | U_aB  | AU_aB \\
+    S &\to b  | AU_aB  | U_aB \\
+    A &\to AB  | SA  | b  | AS  | ASA  | AU_aB  | U_bU_bU_b  | U_aB \\
+    B &\to SA  | b  | AS  | ASA  | AU_aB  | U_bU_bU_b  | U_aB \\
+    S0 &\to b  | AU_aB  | U_aB \\
     [Ua] &\to a \\
     [Ub] &\to b \\
     \end{align*}
@@ -208,8 +208,8 @@ go through the rules that are too long and combine variables until they are exac
 complete, this yields the following grammar:
 \begin{align*}
     S &\to b  | U_aB  | CB \\
-    A &\to b  | SA  | AS  | AB  | U_aB  | DA  | CB  | EU_b \\
-    B &\to b  | SA  | AS  | U_aB  | DA  | CB  | EU_b \\
+    A &\to AB  | SA  | b  | AS  | U_aB  | DA  | CB  | EU_b \\
+    B &\to SA  | b  | AS  | U_aB  | DA  | CB  | EU_b \\
     S0 &\to b  | U_aB  | CB \\
     [Ua] &\to a \\
     [Ub] &\to b \\
