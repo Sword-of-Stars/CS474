@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2025.1.24)  14 MAR 2025 01:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2025.1.24)  14 MAR 2025 01:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./phase1/part_c/out/e_removal.tex
-(phase1/part_c/out/e_removal.tex
+**./phase2/out/cnf_converter.tex
+(phase2/out/cnf_converter.tex
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
 
@@ -679,23 +679,23 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__pdf_internal_box=\box98
 )
 (C:\Users\matthew.wanta\OneDrive - West Point\Documents\AY 25-2\CS474\CS474\pha
-se1\part_c\out\e_removal.aux)
-\openout1 = `e_removal.aux'.
+se2\out\cnf_converter.aux)
+\openout1 = `cnf_converter.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -758,99 +758,71 @@ df-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 \c@lstlisting=\count331
-LaTeX Font Info:    Trying to load font information for U+msa on input line 65.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 66.
 
 
 (C:\Users\matthew.wanta\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.f
 d
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 65.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 66.
 
 
 (C:\Users\matthew.wanta\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.f
 d
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<phase1/part_c/out/figures/step_1.png, id=4, 464.73625pt x 330.23375pt>
-File: phase1/part_c/out/figures/step_1.png Graphic file (type png)
-<use phase1/part_c/out/figures/step_1.png>
-Package pdftex.def Info: phase1/part_c/out/figures/step_1.png  used on input li
-ne 119.
-(pdftex.def)             Requested size: 226.48395pt x 160.93413pt.
+Underfull \hbox (badness 10000) in paragraph at lines 69--70
+
+ []
+
 
 
 [1{C:/Users/matthew.wanta/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
- <./phase1/part_c/out/figures/step_1.png>]
-<phase1/part_c/out/figures/step_2.png, id=20, 525.965pt x 375.4025pt>
-File: phase1/part_c/out/figures/step_2.png Graphic file (type png)
-<use phase1/part_c/out/figures/step_2.png>
-Package pdftex.def Info: phase1/part_c/out/figures/step_2.png  used on input li
-ne 171.
-(pdftex.def)             Requested size: 226.48395pt x 161.64905pt.
-<phase1/part_c/out/figures/step_3.png, id=21, 443.6575pt x 242.9075pt>
-File: phase1/part_c/out/figures/step_3.png Graphic file (type png)
-<use phase1/part_c/out/figures/step_3.png>
-Package pdftex.def Info: phase1/part_c/out/figures/step_3.png  used on input li
-ne 223.
-(pdftex.def)             Requested size: 226.48395pt x 123.99979pt.
+]
+<phase2/chomsky_converter/out/directed_graph.png, id=17, 462.528pt x 346.896pt>
+
+File: phase2/chomsky_converter/out/directed_graph.png Graphic file (type png)
+<use phase2/chomsky_converter/out/directed_graph.png>
+Package pdftex.def Info: phase2/chomsky_converter/out/directed_graph.png  used 
+on input line 177.
+(pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+[2 <./phase2/chomsky_converter/out/directed_graph.png>]
 
-
-
-[2 <./phase1/part_c/out/figures/step_2.png>]
-<phase1/part_c/out/figures/step_4.png, id=26, 394.47375pt x 304.13625pt>
-File: phase1/part_c/out/figures/step_4.png Graphic file (type png)
-<use phase1/part_c/out/figures/step_4.png>
-Package pdftex.def Info: phase1/part_c/out/figures/step_4.png  used on input li
-ne 277.
-(pdftex.def)             Requested size: 226.48395pt x 174.6171pt.
-
-
-[3 <./phase1/part_c/out/figures/step_3.png> <./phase1/part_c/out/figures/step_4
-.png>]
-<phase1/part_c/out/figures/step_5.png, id=32, 394.47375pt x 304.13625pt>
-File: phase1/part_c/out/figures/step_5.png Graphic file (type png)
-<use phase1/part_c/out/figures/step_5.png>
-Package pdftex.def Info: phase1/part_c/out/figures/step_5.png  used on input li
-ne 329.
-(pdftex.def)             Requested size: 226.48395pt x 174.6171pt.
-
-
-[4 <./phase1/part_c/out/figures/step_5.png>]
+[3]
 (C:\Users\matthew.wanta\OneDrive - West Point\Documents\AY 25-2\CS474\CS474\pha
-se1\part_c\out\e_removal.aux)
+se2\out\cnf_converter.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 19234 strings out of 473536
- 401478 string characters out of 5711084
- 785634 words of memory out of 5000000
- 42159 multiletter control sequences out of 15000+600000
- 566714 words of font info for 67 fonts, out of 8000000 for 9000
+ 19201 strings out of 473536
+ 400248 string characters out of 5711084
+ 786586 words of memory out of 5000000
+ 42128 multiletter control sequences out of 15000+600000
+ 566402 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,11n,107p,429b,572s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,12n,107p,426b,322s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmbx10.pfb><C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/matthew.wanta/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/matthew.wanta/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/
-matthew.wanta/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr1
-0.pfb><C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmr12.pfb><C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/matthew.wanta/AppData/Local/Pr
-ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/matthew.wanta/
-AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users
+/matthew.wanta/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmm
+i7.pfb><C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmr10.pfb><C:/Users/matthew.wanta/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/matthew.wanta/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/matthew.wanta/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 Output written on "C:\Users\matthew.wanta\OneDrive - West Point\Documents\AY 25
--2\CS474\CS474\phase1\part_c\out\e_removal.pdf" (4 pages, 200856 bytes).
+-2\CS474\CS474\phase2\out\cnf_converter.pdf" (3 pages, 130798 bytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
+ 63 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

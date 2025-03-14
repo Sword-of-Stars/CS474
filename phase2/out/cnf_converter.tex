@@ -1,0 +1,222 @@
+\documentclass{article}
+\usepackage[a4paper, margin=1in]{geometry} % Adjust margins
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usetikzlibrary{automata, positioning}
+\usepackage{helvet} % Match font to reference
+\pagestyle{fancy}
+\usepackage{enumitem,xcolor}
+
+
+% Ensure proper header spacing
+\setlength{\headheight}{15pt} % Adjust height of the header
+\setlength{\headsep}{10pt} 
+
+% Define Header/Footer
+\fancyhf{}
+\fancyhead[L]{\textbf{Advanced Topics in Computer Science}} % Left header
+\fancyhead[R]{Chomsky Normal Form Converter} % Right header
+\cfoot{\thepage} % Page number at center bottom
+
+% Define colors for section and subsection titles
+\usepackage{titlesec}
+\definecolor{sectioncolor}{rgb}{0.1, 0.3, 0.7} % Dark blue
+\titleformat{\section}{\large\bfseries\color{sectioncolor}}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries\color{sectioncolor}}{\thesubsection}{1em}{}
+
+% Define custom colors for different text types
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\newcommand{\important}[1]{\textcolor{red}{#1}}
+\newtcbtheorem
+  []% init options
+  {definition}% name
+  {Definition}% title
+  {%
+    colback=blue!5,
+    colframe=blue!35!black,
+    fonttitle=\bfseries,
+  }% options
+  {def}% prefix
+\newcommand{\note}[1]{\textcolor{green!50!black}{#1}}
+
+% Theorem environment setup
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\definecolor{codegray}{gray}{0.9}
+\lstdefinestyle{customc}{
+  backgroundcolor=\color{codegray},
+  language=C,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red}
+}
+\begin{document}
+
+\title{\textbf{Chomsky Normal Form Converter}}
+\author{Scooter Computer}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+
+The following is a conversion of a context-free grammar (CFG) into Chomsky Normal Form (CNF). \\
+
+This conversion has five steps:
+\begin{enumerate}
+\item Ensure the start variable is not on the RHS
+\item Eliminate $\epsilon$-rules by first finding nullable variables
+\item Eliminate unit rules
+\item RHS is either one terminal or just variables
+\item Ensure RHS has at most two variables
+\end{enumerate}
+
+Right-hand side will be abbreviated to RHS and left-hand side will be abbreviated to LHS.
+
+Consider the following grammar:
+\begin{align*}
+    S &\to AaB  | b  | S \\
+    A &\to S  | \varepsilon  | AB \\
+    B &\to bbb  | ASA \\
+    \end{align*}
+
+\section{Ensure the start variable is not on the RHS}
+
+
+
+
+  
+    
+    
+  
+    
+    
+  
+    
+      
+    
+    
+  
+
+  
+    
+      
+    
+    
+  
+    
+    
+  
+    
+    
+  
+
+  
+    
+    
+  
+    
+      
+    
+    
+  
+
+
+
+
+  The grammar contains productions with S on the right-hand side. To eliminate these productions, simply add a new state as follows:
+  \begin{align*}
+    S_0 \to S
+  \end{align*}
+
+
+\section{Eliminate $\epsilon$-rules}
+First, we need to find nullable variables in the grammar, which are any variables that can produce $\epsilon$. In this grammar,
+the following variables are nullable:
+\begin{align*}
+    V_{\epsilon}=\{ A\}
+\end{align*}
+
+For each appearance of the nullable variable in the grammar, add a rule where that variable is replaced by $\epsilon$. This 
+results in the following grammar:
+\begin{align*}
+    S &\to b  | S  | aB  | AaB \\
+    A &\to AB  | \varepsilon  | S  | B \\
+    B &\to SA  | S  | bbb  | AS  | ASA \\
+    S0 &\to S \\
+    \end{align*}
+
+Finally, remove all $\epsilon$-rules to yield
+\begin{align*}
+    S &\to b  | S  | aB  | AaB \\
+    A &\to AB  | S  | B \\
+    B &\to SA  | S  | bbb  | AS  | ASA \\
+    S0 &\to S \\
+    \end{align*}
+
+\section{Eliminate unit rules}
+
+
+The grammar contains unit rules. Recall that unit rules are rules of the form:
+\begin{align*}
+    A \to B \\
+    B \to C | D\\
+\end{align*}
+Notice that $B$ can be eliminated via $A \to C | D$. 
+Essentially, we substitute all of the rules of $B$ into $A$. 
+One way to visualize this is through a directed graph.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{phase2/chomsky_converter/out/directed_graph.png}
+    \caption{A visual representation of which variables can be reached via a series of applications of unit rules.}
+    \label{fig:dir_graph}
+\end{figure}
+
+We will perform this operation for all unit rules
+in the provided grammar, which yields:
+\begin{align*}
+    S &\to b  | aB  | AaB \\
+    A &\to b  | SA  | bbb  | AS  | ASA  | aB  | AaB  | AB \\
+    B &\to b  | SA  | bbb  | AS  | aB  | AaB  | ASA \\
+    S0 &\to b  | aB  | AaB \\
+    \end{align*}
+
+
+
+\section{Ensure RHS is either one terminal or just variables}
+If any rule contains a combination of terminals and variables, then simply replace that terminal with a variable. 
+For example, the terminal $a$ would be replaced by $U_a$. This yields the following grammar:
+\begin{align*}
+    S &\to b  | U_aB  | AU_aB \\
+    A &\to b  | SA  | AS  | ASA  | AB  | AU_aB  | U_aB  | U_bU_bU_b \\
+    B &\to b  | SA  | AS  | ASA  | AU_aB  | U_aB  | U_bU_bU_b \\
+    S0 &\to b  | U_aB  | AU_aB \\
+    [Ua] &\to a \\
+    [Ub] &\to b \\
+    \end{align*}
+
+\section{Break up long RHS rules}
+Finally, we need to break up rules that are longer than two variables. The simplest approach for this is to 
+go through the rules that are too long and combine variables until they are exactly two variables long. Once
+complete, this yields the following grammar:
+\begin{align*}
+    S &\to b  | U_aB  | CB \\
+    A &\to b  | SA  | AS  | AB  | U_aB  | DA  | CB  | EU_b \\
+    B &\to b  | SA  | AS  | U_aB  | DA  | CB  | EU_b \\
+    S0 &\to b  | U_aB  | CB \\
+    [Ua] &\to a \\
+    [Ub] &\to b \\
+    C &\to AU_a \\
+    D &\to AS \\
+    E &\to U_bU_b \\
+    \end{align*}
+
+Now, notice that all rules point to either a single terminal or exactly two variables. This grammar is now in Chomsky Normal Form.
+\end{document}
