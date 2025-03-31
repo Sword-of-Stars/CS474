@@ -1,19 +1,20 @@
 
 \begin{document}
 
-\title{\textbf{Chomsky Normal Form Converter}}
-\author{Scooter Computer}
+\title{\textbf{Turing Machine Converter}}
+\author{Doodlebob}
 \date{}
 \maketitle
 \thispagestyle{fancy}
 
-The following is a conversion of a context-free grammar (CFG) into Chomsky Normal Form (CNF). \\
+The following is an auto-explainer for Turing Machines (TM) as represented by a series of figures depicting the tape as it is moving. \\
 
-This conversion has five steps:
-\begin{enumerate}
-\item Ensure the start variable is not on the RHS
-\item Eliminate $\epsilon$-rules by first finding nullable variables
-\item Eliminate unit rules
-\item RHS is either one terminal or just variables
-\item Ensure RHS has at most two variables
-\end{enumerate}
+A computation of $T = (Q, \sigma, \gamma, \delta, q_0, h_a, h_r)$ on input string w is a sequence of configu-
+rations, where:
+\begin{itemize}
+\item The first configuration is $q_0w$.
+\item Each configuration yields the next via a single transition. To observe what character to read,
+the TM looks at the cell to the right of where the state name is.
+\item $T$ is in state $q$ observing symbol $y_1$.
+\end{itemize}
+If the transition moves L in the leftmost cell on the tape, the TM automatically stops and rejects.
