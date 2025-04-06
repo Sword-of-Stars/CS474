@@ -1,112 +1,21 @@
+\section{Transition Function}
 
-Right-hand side will be abbreviated to RHS and left-hand side will be abbreviated to LHS.
-
-Consider the following grammar:
+The transition function $\delta$ is defined as follows:
 \begin{align*}
-    {% for variable, rules in initial_grammar.items() -%}
-    {{variable}} &\to {% for rule in rules -%} {{ "\\varepsilon" if rule == 'e' else rule }} {% if not loop.last %} | {% endif %}
-    {%- endfor %}\\
-    {% endfor -%}
+{%- for key, value in tf.items() -%}
+    \delta({{ key[0] }},\,{{ key[1] }}) &= ({{ value[0] }},\,{{ value[1] }},\,{{ value[2] }}) {%- if not loop.last %}\\[0.5em]{%- endif %}
+{%- endfor %}
 \end{align*}
 
-\section{Ensure the start variable is not on the RHS}
+\section{Turing Machine Simulation Visualizations}
 
-{% set ns = namespace(s_found=false) %}
+The simulation produced the following sequence of transitions. For each transition, the tape is displayed in a fixed window (so the tape does not shift), and the head (with its state label) moves along the tape.
 
-{% for variable, rules in initial_grammar.items() %}
-  {% for rule in rules %}
-    {% if "S" in rule %}
-      {% set ns.s_found = true %}
-    {% endif %}
-    {{s_found}}
-  {% endfor %}
-{% endfor %}
-
-
-{% if ns.s_found %}
-  The grammar contains productions with S on the right-hand side. To eliminate these productions, simply add a new state as follows:
-  \begin{align*}
-    S_0 \to S
-  \end{align*}
-{% else %}
-  The grammar does not contain S on the right-hand side of any production, and we can proceed to the next step.
-{% endif %}
-
-\section{Eliminate $\epsilon$-rules}
-First, we need to find nullable variables in the grammar, which are any variables that can produce $\epsilon$. In this grammar,
-the following variables are nullable:
-\begin{align*}
-    V_{\epsilon}=\{ {%- for variable in nullable %} {{variable}} {%- if not loop.last -%} , {% endif -%} {%- endfor -%}\}
-\end{align*}
-
-For each appearance of the nullable variable in the grammar, add a rule where that variable is replaced by $\epsilon$. This 
-results in the following grammar:
-\begin{align*}
-    {% for variable, rules in e_removal_1_grammar.items() -%}
-    {{variable}} &\to {% for rule in rules -%} {{ "\\varepsilon" if rule == 'e' else rule }} {% if not loop.last %} | {% endif %}
-    {%- endfor %}\\
-    {% endfor -%}
-\end{align*}
-
-Finally, remove all $\epsilon$-rules to yield
-\begin{align*}
-    {% for variable, rules in e_removal_2_grammar.items() -%}
-    {{variable}} &\to {% for rule in rules -%} {{ "\\varepsilon" if rule == 'e' else rule }} {% if not loop.last %} | {% endif %}
-    {%- endfor %}\\
-    {% endfor -%}
-\end{align*}
-
-\section{Eliminate unit rules}
-
-{% if has_unit_rules %}
-The grammar contains unit rules. Recall that unit rules are rules of the form:
-\begin{align*}
-    A \to B \\
-    B \to C | D\\
-\end{align*}
-Notice that $B$ can be eliminated via $A \to C | D$. 
-Essentially, we substitute all of the rules of $B$ into $A$. 
-One way to visualize this is through a directed graph.
-
+{%- for idx in range(plots|length) %}
+\subsection*{Transition {{ idx+1 }}}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\linewidth]{phase2/chomsky_converter/out/directed_graph.png}
-    \caption{A visual representation of which variables can be reached via a series of applications of unit rules.}
-    \label{fig:dir_graph}
+    \includegraphics[width=0.8\linewidth]{plots/plot{{ idx+1 }}.png}
+    \caption{Configuration at Transition {{ idx+1 }}}
 \end{figure}
-
-We will perform this operation for all unit rules
-in the provided grammar, which yields:
-\begin{align*}
-    {% for variable, rules in unit_removed_grammar.items() -%}
-    {{variable}} &\to {% for rule in rules -%} {{ "\\varepsilon" if rule == 'e' else rule }} {% if not loop.last %} | {% endif %}
-    {%- endfor %}\\
-    {% endfor -%}
-\end{align*}
-
-{% else %}
-  The grammar does not contain any unit rules.
-{% endif %}
-
-\section{Ensure RHS is either one terminal or just variables}
-If any rule contains a combination of terminals and variables, then simply replace that terminal with a variable. 
-For example, the terminal $a$ would be replaced by $U_a$. This yields the following grammar:
-\begin{align*}
-    {% for variable, rules in one_term_or_var_grammar.items() -%}
-    {{variable}} &\to {% for rule in rules -%} {{ "\\varepsilon" if rule == 'e' else rule }} {% if not loop.last %} | {% endif %}
-    {%- endfor %}\\
-    {% endfor -%}
-\end{align*}
-
-\section{Break up long RHS rules}
-Finally, we need to break up rules that are longer than two variables. The simplest approach for this is to 
-go through the rules that are too long and combine variables until they are exactly two variables long. Once
-complete, this yields the following grammar:
-\begin{align*}
-    {% for variable, rules in final_grammar.items() -%}
-    {{variable}} &\to {% for rule in rules -%} {{ "\\varepsilon" if rule == 'e' else rule }} {% if not loop.last %} | {% endif %}
-    {%- endfor %}\\
-    {% endfor -%}
-\end{align*}
-
-Now, notice that all rules point to either a single terminal or exactly two variables. This grammar is now in Chomsky Normal Form.
+{%- endfor %}
