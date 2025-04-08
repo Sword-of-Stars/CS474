@@ -101,44 +101,107 @@ The transition function $\delta$ is defined as follows:
 
 \section{Turing Machine Simulation Visualizations}
 
-The simulation produced the following sequence of transitions. For each transition, the tape is displayed in a fixed window (so the tape does not shift), and the head (with its state label) moves along the tape.
+The simulation produced the following sequence of transitions. For each transition, the tape is displayed in a fixed window (so the tape does not shift), and the head (with its state label) moves along the tape. In each transition, we detail:
+\begin{itemize}
+    \item \textbf{Head Position:} The index of the cell where the head is located.
+    \item \textbf{Read Symbol:} The symbol at that cell that is being processed.
+    \item \textbf{Rewritten Symbol:} The symbol that is written on the tape (if it is changed).
+    \item \textbf{New State:} The Turing machine's state after applying the transition.
+\end{itemize}
 \subsection*{Transition 1}
+\textbf{Explanation:}
+\newline In the initial configuration, the Turing Machine loads the input tape. The head is positioned at the starting cell (index \textbf0), reading the symbol \textbf{`1`}. Since no transition has been performed yet, no rewriting occurs.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot1.png}
     \caption{Configuration at Transition 1}
 \end{figure}
 \subsection*{Transition 2}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf1, reading the symbol \textbf{`1`}.
+    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq1.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot2.png}
     \caption{Configuration at Transition 2}
 \end{figure}
 \subsection*{Transition 3}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf2, reading the symbol \textbf{`0`}.
+    \item The machine rewrites this cell with \textbf{`0`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq0.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot3.png}
     \caption{Configuration at Transition 3}
 \end{figure}
 \subsection*{Transition 4}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf3, reading the symbol \textbf{`1`}.
+    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq1.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot4.png}
     \caption{Configuration at Transition 4}
 \end{figure}
 \subsection*{Transition 5}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf4, reading the symbol \textbf{`0`}.
+    \item The machine rewrites this cell with \textbf{`0`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq0.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot5.png}
     \caption{Configuration at Transition 5}
 \end{figure}
 \subsection*{Transition 6}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf5, reading the symbol \textbf{`1`}.
+    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq1.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot6.png}
     \caption{Configuration at Transition 6}
 \end{figure}
 \subsection*{Transition 7}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf6, reading the symbol \textbf{`⊔`}.
+    \item The machine rewrites this cell with \textbf{`⊔`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq2.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot7.png}

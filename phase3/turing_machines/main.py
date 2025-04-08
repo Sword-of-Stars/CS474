@@ -121,18 +121,50 @@ def plot_all_configurations_individually_fixed(configs, fixed_left, fixed_right,
         fig = plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, blank_symbol)
         plots.append(fig)
 
-def record_configurations(tm, max_steps=50):
-    configurations = []
-    configurations.append((dict(tm.tape), tm.head, tm.current_state))
+# def record_configurations(tm, max_steps=50):
+#     configurations = []
+#     configurations.append((dict(tm.tape), tm.head, tm.current_state))
+    
+#     for _ in range(max_steps):
+#         if tm.is_halted():
+#             break
+#         if not tm.step():
+#             break
+#         configurations.append((dict(tm.tape), tm.head, tm.current_state))
+    
+#     return configurations
+
+def record_detailed_configurations(tm, max_steps=50):
+    configs = []
+    details = [] 
+    
+    initial_config = (dict(tm.tape), tm.head, tm.current_state)
+    configs.append(initial_config)
+    details.append({
+        "head_position": tm.head,
+        "read_symbol": tm.tape.get(tm.head, tm.blank_symbol),
+        "written_symbol": None,   
+        "new_state": tm.current_state,
+    })
     
     for _ in range(max_steps):
         if tm.is_halted():
             break
+        read_symbol = tm.tape.get(tm.head, tm.blank_symbol)
         if not tm.step():
             break
-        configurations.append((dict(tm.tape), tm.head, tm.current_state))
+
+        written_symbol = tm.tape.get(tm.head - 1, tm.blank_symbol)  
+        
+        configs.append((dict(tm.tape), tm.head, tm.current_state))
+        details.append({
+            "head_position": tm.head,
+            "read_symbol": read_symbol,
+            "written_symbol": written_symbol,
+            "new_state": tm.current_state,
+        })
     
-    return configurations
+    return configs, details
 
 transition_function = {
     ('q0', '0'): ('x', 'R', 'q1'),
@@ -153,12 +185,13 @@ tm = TuringMachine(
     transition_function=transition_function
 )
 
-configs = record_configurations(tm, max_steps=10)
-plot_all_configurations_individually_fixed(configs, fixed_left=-5, fixed_right=15, blank_symbol='⊔')
+configs_dets = record_detailed_configurations(tm, max_steps=10)
+plot_all_configurations_individually_fixed(configs_dets[0], fixed_left=-5, fixed_right=15, blank_symbol='⊔')
 
 data = {
     "plots": plots,
     "tf":transition_function,
+    "details": configs_dets[1]
 }
 
 my_Solution = Solution("templates", "out/tm_steps.tex")
