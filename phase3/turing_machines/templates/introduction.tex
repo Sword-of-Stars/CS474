@@ -1,0 +1,36 @@
+
+\begin{document}
+
+\title{\textbf{Turing Machine Converter}}
+\author{Doodlebob}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+
+The following is an auto-explainer for Turing Machines (TM) as represented by a series of figures depicting the tape as it is moving. \\
+
+A computation of $T = (Q, \Sigma, \Gamma, \delta, q_0, h_a, h_r)$ on input string w is a sequence of configu-
+rations, where:
+\begin{itemize}
+\item The first configuration is $q_0w$.
+\item Each configuration yields the next via a single transition. To observe what character to read,
+the TM looks at the cell to the right of where the state name is.
+\item $T$ is in state $q$ observing symbol $y_1$.
+\end{itemize}
+If the transition moves L in the leftmost cell on the tape, the TM automatically stops and rejects.
+
+\section{Turing Machine Definition}
+
+A Turing Machine is defined as a 7-tuple 
+\[
+(Q, \Sigma, \Gamma, \delta, q_0, h_a, h_r)
+\]
+where:
+\begin{itemize}
+    \item $Q$ is a finite set of states,
+    \item $\Sigma$ is a finite input alphabet,
+    \item $\Gamma$ is a finite tape alphabet with $\Sigma \subset \Gamma$, and $\sqcup \in \Gamma \setminus \Sigma$ is the blank symbol,
+    \item $q_0 \in Q$ is the start state,
+    \item $h_a, h_r \in Q$ are the accept and reject states respectively (with $h_a \neq h_r$),
+    \item $\delta$ is the transition function.
+\end{itemize}

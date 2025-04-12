@@ -1,0 +1,40 @@
+\section{Transition Function}
+
+The transition function $\delta$ is defined as follows:
+\begin{align*}
+{%- for key, value in tf.items() -%}
+    \delta({{ key[0] }},\,{{ key[1] }}) &= ({{ value[0] }},\,{{ value[1] }},\,{{ value[2] }}) {%- if not loop.last %}\\[0.5em]{%- endif %}
+{%- endfor %}
+\end{align*}
+
+\section{Turing Machine Simulation Visualizations}
+
+The simulation produced the following sequence of transitions. For each transition, the tape is displayed in a fixed window (so the tape does not shift), and the head (with its state label) moves along the tape. In each transition, we detail:
+\begin{itemize}
+    \item \textbf{Head Position:} The index of the cell where the head is located.
+    \item \textbf{Read Symbol:} The symbol at that cell that is being processed.
+    \item \textbf{Rewritten Symbol:} The symbol that is written on the tape (if it is changed).
+    \item \textbf{New State:} The Turing machine's state after applying the transition.
+\end{itemize}
+
+{%- for idx in range(plots|length) %}
+\subsection*{Transition {{ idx+1 }}}
+\textbf{Explanation:}
+{%- if idx == 0 %}
+\newline In the initial configuration, the Turing Machine loads the input tape. The head is positioned at the starting cell (index \textbf{{ details[idx].head_position }}), reading the symbol \textbf{`{{ details[idx].read_symbol }}`}. Since no transition has been performed yet, no rewriting occurs.
+{%- else %}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf{{ details[idx].head_position }}, reading the symbol \textbf{`{{ details[idx].read_symbol }}`}.
+    \item The machine rewrites this cell with \textbf{`{{ details[idx].written_symbol }}`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbf{{ details[idx].new_state }}.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+{%- endif %}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot{{ idx+1 }}.png}
+    \caption{Configuration at Transition {{ idx+1 }}}
+\end{figure}
+{%- endfor %}
