@@ -1,0 +1,41 @@
+\section{DFA Transition Function}
+
+The DFA's transition function, $\delta$, is defined as follows:
+\begin{align*}
+{%- for state, transitions in tf.items() -%}
+    {%- for symbol, target in transitions.items() -%}
+        \delta({{ state }},\,{{ symbol }}) &= {{ target }} {%- if not loop.last %}\\[0.5em]{%- endif %}
+    {%- endfor %}
+{%- if not loop.last %}\\[1em]{%- endif %}
+{%- endfor %}
+\end{align*}
+
+\section{DFA Minimization Visualizations}
+
+The following sequence of minimization steps was performed on the DFA. In each step, the current partition of the DFA's states is visualized. States grouped in the same block are considered equivalent with respect to their transitions. The process starts with the initial partition (separating final and non-final states) and iteratively refines until no further changes occur.
+
+{%- for idx in range(plots|length) %}
+\subsection*{Minimization Step {{ idx+1 }}}
+\textbf{Explanation:}
+{%- if idx == 0 %}
+\newline Initially, the DFA's states are partitioned into final and non-final states. The partition is as follows:
+\begin{itemize}
+    {%- if details[idx].partition|length == 2 %}
+    \item \textbf{Final States:} \textbf{ {{ details[idx].partition[0] }} }
+    \item \textbf{Non-Final States:} \textbf{ {{ details[idx].partition[1] }} }
+    {%- else %}
+    \item \textbf{Partition:} \textbf{ {{ details[idx].partition }} }
+    {%- endif %}
+\end{itemize}
+{%- else %}
+\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
+\newline \textbf{Current Partition:} \textbf{ {{ details[idx].partition }} }\\[1ex]
+\textbf{Description:} {{ details[idx].description }}
+{%- endif %}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot{{ idx+1 }}.png}
+    \caption{Partition configuration at minimization step {{ idx+1 }}}
+\end{figure}
+{%- endfor %}
