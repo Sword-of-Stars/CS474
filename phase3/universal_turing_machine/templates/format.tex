@@ -1,0 +1,193 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows, matrix, fit, calc, decorations}
+\usetikzlibrary{decorations.pathreplacing}
+
+\usepackage{xcolor}
+\usepackage{xstring}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+\definecolor{statecolor}{RGB}{50,50,200}
+\definecolor{dststatecolor}{RGB}{20,20,150}
+\definecolor{tapesymbolcolor}{RGB}{180,50,50}
+\definecolor{writesymbolcolor}{RGB}{220,50,50}
+\definecolor{directioncolor}{RGB}{50,150,50}
+\definecolor{redtape}{RGB}{220,50,50}
+\definecolor{greentape}{RGB}{50,180,50}
+\definecolor{purpletape}{RGB}{180,100,200}
+\definecolor{highlightcolor}{RGB}{255,240,200}
+
+\geometry{margin=1.5cm}
+
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, fit, decorations.pathreplacing, calc}
+\usepackage{xstring}
+
+\newcommand{\dynamicTapeAdvanced}[7][]{%
+    % #1: Optional tikzpicture parameters
+    % #2: Title for the tape
+    % #3: Head position (0-indexed)
+    % #4: Cells per line (use 0 for single line)
+    % #5: String of 0s and 1s
+    % #6: Pointer positions and labels: "pos1:label1,pos2:label2,..."
+    % #7: Bracket ranges and labels: "start1-end1:label1,start2-end2:label2,..."
+    \begin{tikzpicture}[
+        cell/.style={draw, minimum size=0.8cm, anchor=center},
+        marked/.style={fill=yellow!30},
+        head/.style={draw, red, thick, minimum width=1cm, minimum height=1.2cm},
+        baseline={(0,-0.5cm)},  % Consistent baseline for alignment
+        pointer/.style={-stealth, thick, blue},
+        #1
+    ]
+        % Title/Header
+        \node[align=center, font=\bfseries, anchor=north] at (0,2) {#2};
+        
+        % Calculate string length
+        \StrLen{#5}[\stringlength]
+        
+        % Determine if wrapping is needed
+        \pgfmathtruncatemacro{\cellsperline}{max(#4,\stringlength)}
+        \ifnum#4>0
+            \pgfmathtruncatemacro{\cellsperline}{#4}
+        \fi
+        
+        % Define vertical spacing between rows (increased from 1.2cm)
+        \def\verticalspace{2cm}
+        
+        % Draw cells from the string
+        \foreach \i in {1,...,\stringlength} {
+            % Extract the character at position \i
+            \StrChar{#5}{\i}[\currentchar]
+            
+            % Calculate 0-indexed position
+            \pgfmathtruncatemacro{\zeroindex}{\i-1}
+            
+            % Calculate row and column position
+            \pgfmathtruncatemacro{\row}{int(\zeroindex/\cellsperline)}
+            \pgfmathtruncatemacro{\col}{int(\zeroindex-\row*\cellsperline)}
+            
+            % Check if this is the head position
+            \pgfmathparse{int(\zeroindex==#3)}
+            \ifnum\pgfmathresult=1
+                \node[cell, marked] (c\zeroindex) at (\col*0.8cm, -\row*\verticalspace) {\currentchar};
+            \else
+                \node[cell] (c\zeroindex) at (\col*0.8cm, -\row*\verticalspace) {\currentchar};
+            \fi
+        }
+    
+        
+        % Process pointers
+        \foreach \pointerspec in {#6} {
+            \IfSubStr{\pointerspec}{:}{%
+                % Extract position and label
+                \StrBefore{\pointerspec}{:}[\pointerpos]
+                \StrBehind{\pointerspec}{:}[\pointerlabel]
+                
+                % Draw the pointer
+                \draw[pointer] ($(c\pointerpos.south) + (0,-0.5cm)$) -- (c\pointerpos.south);
+                \node[blue, below] at ($(c\pointerpos.south) + (0,-0.5cm)$) {\pointerlabel};
+            }{%
+                % No label provided, just position
+                \pgfmathtruncatemacro{\pointerpos}{\pointerspec}
+                
+                % Draw the pointer without label
+                \draw[pointer] ($(c\pointerpos.south) + (0,-0.5cm)$) -- (c\pointerpos.south);
+            }
+        }
+        
+        % Process brackets - with increased vertical space for the bracket label
+        \foreach \bracketspec in {#7} {
+            \IfSubStr{\bracketspec}{:}{%
+                % Extract range and label
+                \StrBefore{\bracketspec}{:}[\bracketrange]
+                \StrBehind{\bracketspec}{:}[\bracketlabel]
+                
+                % Extract start and end
+                \StrBefore{\bracketrange}{-}[\bracketstart]
+                \StrBehind{\bracketrange}{-}[\bracketend]
+                
+                % Calculate rows for start and end
+                \pgfmathtruncatemacro{\startrow}{int(\bracketstart/\cellsperline)}
+                \pgfmathtruncatemacro{\endrow}{int(\bracketend/\cellsperline)}
+                
+                % If on same row, draw a single bracket
+                \ifnum\startrow=\endrow
+                    \draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+                        ([yshift=0.4cm]c\bracketstart.north west) -- 
+                        ([yshift=0.4cm]c\bracketend.north east) 
+                        node[midway, above=5pt] {\bracketlabel};
+                \else
+                    % Multiple rows - draw separate brackets for each row
+                    % First row: from start to end of line
+                    \pgfmathtruncatemacro{\firstrowend}{min((\startrow+1)*\cellsperline-1, \stringlength-1)}
+                    \draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+                        ([yshift=0.4cm]c\bracketstart.north west) -- 
+                        ([yshift=0.4cm]c\firstrowend.north east)
+                        node[midway, above=5pt] {\bracketlabel};
+                    
+                    % Middle rows if any
+                    \foreach \r in {\startrow,...,\endrow} {
+                        \ifnum\r>\startrow
+                            \ifnum\r<\endrow
+                                \pgfmathtruncatemacro{\rowstart}{\r*\cellsperline}
+                                \pgfmathtruncatemacro{\rowend}{min((\r+1)*\cellsperline-1, \stringlength-1)}
+                                \draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+                                    ([yshift=0.4cm]c\rowstart.north west) -- 
+                                    ([yshift=0.4cm]c\rowend.north east);
+                            \fi
+                        \fi
+                    }
+                    
+                    % Last row: from start of line to end
+                    \pgfmathtruncatemacro{\lastrowstart}{\endrow*\cellsperline}
+                    \draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+                        ([yshift=0.4cm]c\lastrowstart.north west) -- 
+                        ([yshift=0.4cm]c\bracketend.north east);
+                \fi
+            }{%
+                % No label provided
+                \StrBefore{\bracketspec}{-}[\bracketstart]
+                \StrBehind{\bracketspec}{-}[\bracketend]
+                
+                % Calculate rows for start and end
+                \pgfmathtruncatemacro{\startrow}{int(\bracketstart/\cellsperline)}
+                \pgfmathtruncatemacro{\endrow}{int(\bracketend/\cellsperline)}
+                
+                % If on same row, draw a single bracket
+                \ifnum\startrow=\endrow
+                    \draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+                        ([yshift=0.4cm]c\bracketstart.north west) -- 
+                        ([yshift=0.4cm]c\bracketend.north east);
+                \else
+                    % Multiple rows - draw separate brackets
+                    % (Same logic as above but without labels)
+                    \pgfmathtruncatemacro{\firstrowend}{min((\startrow+1)*\cellsperline-1, \stringlength-1)}
+                    \draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+                        ([yshift=0.4cm]c\bracketstart.north west) -- 
+                        ([yshift=0.4cm]c\firstrowend.north east);
+                    
+                    \foreach \r in {\startrow,...,\endrow} {
+                        \ifnum\r>\startrow
+                            \ifnum\r<\endrow
+                                \pgfmathtruncatemacro{\rowstart}{\r*\cellsperline}
+                                \pgfmathtruncatemacro{\rowend}{min((\r+1)*\cellsperline-1, \stringlength-1)}
+                                \draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+                                    ([yshift=0.4cm]c\rowstart.north west) -- 
+                                    ([yshift=0.4cm]c\rowend.north east);
+                            \fi
+                        \fi
+                    }
+                    
+                    \pgfmathtruncatemacro{\lastrowstart}{\endrow*\cellsperline}
+                    \draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+                        ([yshift=0.4cm]c\lastrowstart.north west) -- 
+                        ([yshift=0.4cm]c\bracketend.north east);
+                \fi
+            }
+        }
+    \end{tikzpicture}
+}

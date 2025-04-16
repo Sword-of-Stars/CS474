@@ -2,8 +2,8 @@ digraph {
 	nodesep=1.0 ranksep=1.5
 	node [fixedsize=false fontsize=14 shape=circle width=0.5]
 	edge [fontsize=12 penwidth=1.2]
-	q0
-	q0 -> q_accept [label="  0→1,N"]
-	q0 -> q0 [label="  1→0,R"]
-	q0 -> q_accept [label="  _→1,N"]
+	q_0
+	q_0 -> q_a [label="  0→1,N"]
+	q_0 -> q_0 [label="  1→0,R"]
+	q_0 -> q_a [label="  _→1,N"]
 }

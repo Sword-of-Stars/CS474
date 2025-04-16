@@ -1,5 +1,0 @@
-digraph {
-	q0 [shape=circle]
-	q1 [shape=circle]
-	q0 -> q1 [label=1]
-}
