@@ -101,64 +101,100 @@ The DFA's transition function, $\delta$, is defined as follows:
 \begin{align*}\delta(1,\,a) &= 2\\[0.5em]\delta(1,\,b) &= 4\\[1em]\delta(2,\,a) &= 4\\[0.5em]\delta(2,\,b) &= 3\\[1em]\delta(3,\,a) &= 3\\[0.5em]\delta(3,\,b) &= 3\\[1em]\delta(4,\,a) &= 2\\[0.5em]\delta(4,\,b) &= 5\\[1em]\delta(5,\,a) &= 6\\[0.5em]\delta(5,\,b) &= 5\\[1em]\delta(6,\,a) &= 4\\[0.5em]\delta(6,\,b) &= Z\\[1em]\delta(Z,\,a) &= Z\\[0.5em]\delta(Z,\,b) &= Z
 \end{align*}
 
-\section{DFA Minimization Visualizations}
+\section{Partition‐Refinement Minimization}
 
-The following sequence of minimization steps was performed on the DFA. In each step, the current partition of the DFA's states is visualized. States grouped in the same block are considered equivalent with respect to their transitions. The process starts with the initial partition (separating final and non-final states) and iteratively refines until no further changes occur.
-\subsection*{Minimization Step 1}
+The DFA is first minimized by iterative partition refinement.  States in the same block are equivalent up to that step’s transitions.
+\subsection*{Partition Step 1}
 \textbf{Explanation:}
-\newline Initially, the DFA's states are partitioned into final and non-final states. The partition is as follows:
+\newline Initially, the states are split into final and non‐final blocks:
 \begin{itemize}
-    \item \textbf{Final States:} \textbf{ ['3'] }
-    \item \textbf{Non-Final States:} \textbf{ ['1', '2', '4', '5', '6', 'Z'] }
+    \item \textbf{Final States:} ['3']
+    \item \textbf{Non‐Final States:} ['1', '2', '4', '5', '6', 'Z']
 \end{itemize}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot1.png}
-    \caption{Partition configuration at minimization step 1}
+    \includegraphics[width=0.8\linewidth]{plots/partition_step0.png}
+    \caption{Partition‐refinement at step 1}
 \end{figure}
-\subsection*{Minimization Step 2}
+\subsection*{Partition Step 2}
 \textbf{Explanation:}
-\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
-\newline \textbf{Current Partition:} \textbf{ [['3'], ['1', '4', '5', '6', 'Z'], ['2']] }\\[1ex]
-\textbf{Description:} Step 2: Partitioned into 3 block(s) -- 3; 1, 4, 5, 6, Z; 2
+\newline This refinement produces Step 2: 3 block(s) — 3; 1,4,5,6,Z; 2.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot2.png}
-    \caption{Partition configuration at minimization step 2}
+    \includegraphics[width=0.8\linewidth]{plots/partition_step1.png}
+    \caption{Partition‐refinement at step 2}
 \end{figure}
-\subsection*{Minimization Step 3}
+\subsection*{Partition Step 3}
 \textbf{Explanation:}
-\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
-\newline \textbf{Current Partition:} \textbf{ [['3'], ['1', '4'], ['5', '6', 'Z'], ['2']] }\\[1ex]
-\textbf{Description:} Step 3: Partitioned into 4 block(s) -- 3; 1, 4; 5, 6, Z; 2
+\newline This refinement produces Step 3: 4 block(s) — 3; 5,6,Z; 1,4; 2.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot3.png}
-    \caption{Partition configuration at minimization step 3}
+    \includegraphics[width=0.8\linewidth]{plots/partition_step2.png}
+    \caption{Partition‐refinement at step 3}
 \end{figure}
-\subsection*{Minimization Step 4}
+\subsection*{Partition Step 4}
 \textbf{Explanation:}
-\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
-\newline \textbf{Current Partition:} \textbf{ [['3'], ['1'], ['4'], ['5', 'Z'], ['6'], ['2']] }\\[1ex]
-\textbf{Description:} Step 4: Partitioned into 6 block(s) -- 3; 1; 4; 5, Z; 6; 2
+\newline This refinement produces Step 4: 6 block(s) — 3; 5,Z; 6; 1; 4; 2.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot4.png}
-    \caption{Partition configuration at minimization step 4}
+    \includegraphics[width=0.8\linewidth]{plots/partition_step3.png}
+    \caption{Partition‐refinement at step 4}
 \end{figure}
-\subsection*{Minimization Step 5}
+\subsection*{Partition Step 5}
 \textbf{Explanation:}
-\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
-\newline \textbf{Current Partition:} \textbf{ [['3'], ['1'], ['4'], ['Z'], ['5'], ['6'], ['2']] }\\[1ex]
-\textbf{Description:} Step 5: Partitioned into 7 block(s) -- 3; 1; 4; Z; 5; 6; 2
+\newline This refinement produces Step 5: 7 block(s) — 3; 5; Z; 6; 1; 4; 2.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot5.png}
-    \caption{Partition configuration at minimization step 5}
+    \includegraphics[width=0.8\linewidth]{plots/partition_step4.png}
+    \caption{Partition‐refinement at step 5}
+\end{figure}
+
+\section{Indistinguishability Table}
+
+Next, we apply the table‐filling (indistinguishability) algorithm.  Marked pairs ($X$) in each triangular table step show which state‐pairs have been determined distinguishable.
+\subsection*{Table Step 1}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{plots/indis_step0.png}
+    \caption{Indistinguishability table at iteration 1}
+\end{figure}
+\subsection*{Table Step 2}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{plots/indis_step1.png}
+    \caption{Indistinguishability table at iteration 2}
+\end{figure}
+\subsection*{Table Step 3}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{plots/indis_step2.png}
+    \caption{Indistinguishability table at iteration 3}
+\end{figure}
+\subsection*{Table Step 4}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{plots/indis_step3.png}
+    \caption{Indistinguishability table at iteration 4}
+\end{figure}
+\subsection*{Table Step 5}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{plots/indis_step4.png}
+    \caption{Indistinguishability table at iteration 5}
+\end{figure}
+
+\section{Minimized DFA}
+
+Finally, states that remain unmarked and in the same block are merged.  The resulting minimized DFA is:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{minimized_dfa.png}
+    \caption{Diagram of the minimized DFA}
 \end{figure}
 \end{document}
