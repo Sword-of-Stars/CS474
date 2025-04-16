@@ -146,6 +146,7 @@ def plot_all_minimization_steps(steps):
     for i, partition in enumerate(steps):
         fig = plot_minimization_configuration(partition, i)
         plots.append(fig)
+        fig.savefig(f"out/plots/plot{i}.png")
     return plots
 
 dfa = DFA(

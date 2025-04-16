@@ -103,6 +103,8 @@ def plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, bl
     display(fig)
     plt.close(fig)
 
+    return fig
+
 plots = []
 
 def plot_all_configurations_individually_fixed(configs, fixed_left, fixed_right, blank_symbol='$\\sqcup$'):
@@ -120,6 +122,8 @@ def plot_all_configurations_individually_fixed(configs, fixed_left, fixed_right,
         print(f"Transition {idx}:")
         fig = plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, blank_symbol)
         plots.append(fig)
+
+        fig.savefig(f"out/plots/plot{idx}.png")
 
 # def record_configurations(tm, max_steps=50):
 #     configurations = []

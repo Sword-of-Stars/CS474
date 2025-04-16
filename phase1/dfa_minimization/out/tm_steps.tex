@@ -19,7 +19,7 @@
 % Define Header/Footer
 \fancyhf{}
 \fancyhead[L]{\textbf{Advanced Topics in Computer Science}} % Left header
-\fancyhead[R]{Chomsky Normal Form Converter} % Right header
+\fancyhead[R]{DFA Minimization} % Right header
 \cfoot{\thepage} % Page number at center bottom
 
 % Define colors for section and subsection titles
@@ -60,151 +60,105 @@
 }
 \begin{document}
 
-\title{\textbf{Turing Machine Converter}}
+\title{\textbf{DFA Minimizer}}
 \author{Doodlebob}
 \date{}
 \maketitle
 \thispagestyle{fancy}
 
-The following is an auto-explainer for Turing Machines (TM) as represented by a series of figures depicting the tape as it is moving. \\
+The following is an auto-explainer for DFA Minimization as represented by a series of figures depicting the evolving partitions of the DFAâ€™s state set. \\
 
-A computation of $T = (Q, \Sigma, \Gamma, \delta, q_0, h_a, h_r)$ on input string w is a sequence of configu-
-rations, where:
-\begin{itemize}
-\item The first configuration is $q_0w$.
-\item Each configuration yields the next via a single transition. To observe what character to read,
-the TM looks at the cell to the right of where the state name is.
-\item $T$ is in state $q$ observing symbol $y_1$.
-\end{itemize}
-If the transition moves L in the leftmost cell on the tape, the TM automatically stops and rejects.
-
-\section{Turing Machine Definition}
-
-A Turing Machine is defined as a 7-tuple 
+A Deterministic Finite Automaton (DFA) is denoted by the quintuple
 \[
-(Q, \Sigma, \Gamma, \delta, q_0, h_a, h_r)
+M = (Q, \Sigma, \delta, q_0, F)
+\]
+and the minimization process works by iteratively refining partitions of the state set until all equivalent states are grouped together. In the minimization process:
+\begin{itemize}
+    \item The initial partition divides $Q$ into two blocks: the final states $F$ and the non-final states $Q \setminus F$.
+    \item At each subsequent step, the partition is refined by examining the transitions for every input symbol and grouping together states that behave equivalently.
+    \item This iterative refinement continues until no further splitting is possible, thus yielding a minimal DFA.
+\end{itemize}
+
+\section{DFA Definition and Minimization Overview}
+
+A Deterministic Finite Automaton is defined as a 5-tuple 
+\[
+(Q, \Sigma, \delta, q_0, F)
 \]
 where:
 \begin{itemize}
     \item $Q$ is a finite set of states,
     \item $\Sigma$ is a finite input alphabet,
-    \item $\Gamma$ is a finite tape alphabet with $\Sigma \subset \Gamma$, and $\sqcup \in \Gamma \setminus \Sigma$ is the blank symbol,
-    \item $q_0 \in Q$ is the start state,
-    \item $h_a, h_r \in Q$ are the accept and reject states respectively (with $h_a \neq h_r$),
-    \item $\delta$ is the transition function.
+    \item $\delta : Q \times \Sigma \rightarrow Q$ is the transition function,
+    \item $q_0 \in Q$ is the start state, and
+    \item $F \subseteq Q$ is the set of final (accepting) states.
 \end{itemize}
-\section{Transition Function}
 
-The transition function $\delta$ is defined as follows:
-\begin{align*}\delta(q0,\,0) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,1) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,⊔) &= (⊔,\,R,\,q2)\\[0.5em]\delta(q1,\,0) &= (0,\,R,\,q0)\\[0.5em]\delta(q1,\,1) &= (1,\,R,\,q0)\\[0.5em]\delta(q1,\,⊔) &= (⊔,\,R,\,q2)
+The minimization of a DFA entails computing an equivalent DFA with the fewest possible states. The process begins by partitioning the state set into final and non-final states and then repeatedly refining these partitions by identifying states that are indistinguishable with respect to the input symbols. The resulting minimized DFA retains the same language as the original.
+\section{DFA Transition Function}
+
+The DFA's transition function, $\delta$, is defined as follows:
+\begin{align*}\delta(1,\,a) &= 2\\[0.5em]\delta(1,\,b) &= 4\\[1em]\delta(2,\,a) &= 4\\[0.5em]\delta(2,\,b) &= 3\\[1em]\delta(3,\,a) &= 3\\[0.5em]\delta(3,\,b) &= 3\\[1em]\delta(4,\,a) &= 2\\[0.5em]\delta(4,\,b) &= 5\\[1em]\delta(5,\,a) &= 6\\[0.5em]\delta(5,\,b) &= 5\\[1em]\delta(6,\,a) &= 4\\[0.5em]\delta(6,\,b) &= Z\\[1em]\delta(Z,\,a) &= Z\\[0.5em]\delta(Z,\,b) &= Z
 \end{align*}
 
-\section{Turing Machine Simulation Visualizations}
+\section{DFA Minimization Visualizations}
 
-The simulation produced the following sequence of transitions. For each transition, the tape is displayed in a fixed window (so the tape does not shift), and the head (with its state label) moves along the tape. In each transition, we detail:
-\begin{itemize}
-    \item \textbf{Head Position:} The index of the cell where the head is located.
-    \item \textbf{Read Symbol:} The symbol at that cell that is being processed.
-    \item \textbf{Rewritten Symbol:} The symbol that is written on the tape (if it is changed).
-    \item \textbf{New State:} The Turing machine's state after applying the transition.
-\end{itemize}
-\subsection*{Transition 1}
+The following sequence of minimization steps was performed on the DFA. In each step, the current partition of the DFA's states is visualized. States grouped in the same block are considered equivalent with respect to their transitions. The process starts with the initial partition (separating final and non-final states) and iteratively refines until no further changes occur.
+\subsection*{Minimization Step 1}
 \textbf{Explanation:}
-\newline In the initial configuration, the Turing Machine loads the input tape. The head is positioned at the starting cell (index \textbf0), reading the symbol \textbf{`1`}. Since no transition has been performed yet, no rewriting occurs.
+\newline Initially, the DFA's states are partitioned into final and non-final states. The partition is as follows:
+\begin{itemize}
+    \item \textbf{Final States:} \textbf{ ['3'] }
+    \item \textbf{Non-Final States:} \textbf{ ['1', '2', '4', '5', '6', 'Z'] }
+\end{itemize}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot1.png}
-    \caption{Configuration at Transition 1}
+    \caption{Partition configuration at minimization step 1}
 \end{figure}
-\subsection*{Transition 2}
+\subsection*{Minimization Step 2}
 \textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf1, reading the symbol \textbf{`1`}.
-    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq1.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
+\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
+\newline \textbf{Current Partition:} \textbf{ [['3'], ['1', '4', '5', '6', 'Z'], ['2']] }\\[1ex]
+\textbf{Description:} Step 2: Partitioned into 3 block(s) -- 3; 1, 4, 5, 6, Z; 2
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot2.png}
-    \caption{Configuration at Transition 2}
+    \caption{Partition configuration at minimization step 2}
 \end{figure}
-\subsection*{Transition 3}
+\subsection*{Minimization Step 3}
 \textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf2, reading the symbol \textbf{`0`}.
-    \item The machine rewrites this cell with \textbf{`0`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq0.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
+\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
+\newline \textbf{Current Partition:} \textbf{ [['3'], ['1', '4'], ['5', '6', 'Z'], ['2']] }\\[1ex]
+\textbf{Description:} Step 3: Partitioned into 4 block(s) -- 3; 1, 4; 5, 6, Z; 2
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot3.png}
-    \caption{Configuration at Transition 3}
+    \caption{Partition configuration at minimization step 3}
 \end{figure}
-\subsection*{Transition 4}
+\subsection*{Minimization Step 4}
 \textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf3, reading the symbol \textbf{`1`}.
-    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq1.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
+\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
+\newline \textbf{Current Partition:} \textbf{ [['3'], ['1'], ['4'], ['5', 'Z'], ['6'], ['2']] }\\[1ex]
+\textbf{Description:} Step 4: Partitioned into 6 block(s) -- 3; 1; 4; 5, Z; 6; 2
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot4.png}
-    \caption{Configuration at Transition 4}
+    \caption{Partition configuration at minimization step 4}
 \end{figure}
-\subsection*{Transition 5}
+\subsection*{Minimization Step 5}
 \textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf4, reading the symbol \textbf{`0`}.
-    \item The machine rewrites this cell with \textbf{`0`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq0.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
+\newline In this minimization step, the partition is refined based on the transitions for each input symbol.
+\newline \textbf{Current Partition:} \textbf{ [['3'], ['1'], ['4'], ['Z'], ['5'], ['6'], ['2']] }\\[1ex]
+\textbf{Description:} Step 5: Partitioned into 7 block(s) -- 3; 1; 4; Z; 5; 6; 2
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot5.png}
-    \caption{Configuration at Transition 5}
-\end{figure}
-\subsection*{Transition 6}
-\textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf5, reading the symbol \textbf{`1`}.
-    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq1.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot6.png}
-    \caption{Configuration at Transition 6}
-\end{figure}
-\subsection*{Transition 7}
-\textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf6, reading the symbol \textbf{`⊔`}.
-    \item The machine rewrites this cell with \textbf{`⊔`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq2.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot7.png}
-    \caption{Configuration at Transition 7}
+    \caption{Partition configuration at minimization step 5}
 \end{figure}
 \end{document}

@@ -43,4 +43,4 @@ class Solution():
         
         subprocess.run(["pdflatex",
                  "-output-directory=" + self.OUTPUT_PATH,
-                 self.OUT_FILE])
+                 self.OUT_FILE,  "-interaction=nonstopmode"])

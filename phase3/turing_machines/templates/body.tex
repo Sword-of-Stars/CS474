@@ -25,8 +25,8 @@ The simulation produced the following sequence of transitions. For each transiti
 {%- else %}
 \newline In this transition:
 \begin{itemize}
-    \item The head is positioned at cell index \textbf{{ details[idx].head_position }}, reading the symbol \textbf{`{{ details[idx].read_symbol }}`}.
-    \item The machine rewrites this cell with \textbf{`{{ details[idx].written_symbol }}`} (if different from the original symbol).
+    \item The head is positioned at cell index \textbf{{ details[idx].head_position }}, reading the symbol \textbf{`{{ details[idx].read_symbol }}'}.
+    \item The machine rewrites this cell with \textbf{`{{ details[idx].written_symbol }}'} (if different from the original symbol).
     \item The machine then moves the head and changes its state to \textbf{{ details[idx].new_state }}.
 \end{itemize}
 This step-by-step process is illustrated in the figure below.
