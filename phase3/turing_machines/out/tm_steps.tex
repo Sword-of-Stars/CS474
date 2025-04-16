@@ -96,7 +96,7 @@ where:
 \section{Transition Function}
 
 The transition function $\delta$ is defined as follows:
-\begin{align*}\delta(q0,\,0) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,1) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,⊔) &= (⊔,\,R,\,q2)\\[0.5em]\delta(q1,\,0) &= (0,\,R,\,q0)\\[0.5em]\delta(q1,\,1) &= (1,\,R,\,q0)\\[0.5em]\delta(q1,\,⊔) &= (⊔,\,R,\,q2)
+\begin{align*}\delta(q0,\,0) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,1) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,$\sqcup$) &= ($\sqcup$,\,R,\,q2)\\[0.5em]\delta(q1,\,0) &= (0,\,R,\,q0)\\[0.5em]\delta(q1,\,1) &= (1,\,R,\,q0)\\[0.5em]\delta(q1,\,$\sqcup$) &= ($\sqcup$,\,R,\,q2)
 \end{align*}
 
 \section{Turing Machine Simulation Visualizations}
@@ -196,8 +196,8 @@ This step-by-step process is illustrated in the figure below.
 \textbf{Explanation:}
 \newline In this transition:
 \begin{itemize}
-    \item The head is positioned at cell index \textbf6, reading the symbol \textbf{`⊔`}.
-    \item The machine rewrites this cell with \textbf{`⊔`} (if different from the original symbol).
+    \item The head is positioned at cell index \textbf6, reading the symbol \textbf{`$\sqcup$`}.
+    \item The machine rewrites this cell with \textbf{`$\sqcup$`} (if different from the original symbol).
     \item The machine then moves the head and changes its state to \textbfq2.
 \end{itemize}
 This step-by-step process is illustrated in the figure below.

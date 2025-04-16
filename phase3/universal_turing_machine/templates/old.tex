@@ -1,0 +1,103 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows}
+\usepackage{xcolor}
+\usepackage{geometry}
+
+% Define colors for tapes
+\definecolor{statecolor}{RGB}{50,50,200}
+\definecolor{redtape}{RGB}{220,50,50}
+\definecolor{greentape}{RGB}{50,180,50}
+\definecolor{purpletape}{RGB}{180,100,200}
+\definecolor{highlightcolor}{RGB}{255,240,200}
+
+\geometry{margin=1.5cm}
+
+\begin{document}
+\title{ {{title}} }
+\author{UTM Visualization}
+\maketitle
+
+\section{Step-by-Step UTM Execution}
+
+{% for step in steps %}
+\subsection*{Step {{ step.step_number }}: {{ step.transition_description }}}
+
+\begin{center}
+\begin{tikzpicture}[
+    state/.style={circle, draw=statecolor, thick, minimum size=1.2cm, fill=blue!10}
+]
+
+{% set total_y_offset = 0 %}
+{% for tape in step.tapes %}
+% Process tape symbols into individual characters
+{% set all_chars = [] %}
+{% set pointer_pos = -1 %}
+{% set char_count = 0 %}
+{% for pos, symbol in tape.symbols %}
+    {% for char in symbol %}
+        {% if pos == tape.pointer and loop.index0 == 0 %}
+            {% set pointer_pos = char_count %}
+        {% endif %}
+        {% if all_chars.append(char) %}{% endif %}
+        {% set char_count = char_count + 1 %}
+    {% endfor %}
+{% endfor %}
+
+% Parameters
+{% set cell_width = 0.8 %}
+{% set cell_height = 1.2 %}
+{% set cells_per_row = 12 %}
+{% set num_rows = ((all_chars|length / cells_per_row)|int) + 1 if all_chars|length > 0 else 1 %}
+{% set tape_height = num_rows * cell_height %}
+
+% Tape header
+\node[anchor=west] at (-5, {{ -total_y_offset + 0.5 }}) {\textbf{\color{ {{tape.color-}} }{{ tape.name }}}};
+
+% Draw tape rows
+{% for row in range(num_rows) %}
+    {% set row_y = -total_y_offset - row * cell_height - 1 %}
+    
+    % Draw row outline
+    \draw[thick, {{tape.color}}] (-5, {{ row_y }}) -- ({{ -5 + cells_per_row * cell_width }}, {{ row_y }});
+    \draw[thick, {{tape.color}}] (-5, {{ row_y + cell_height }}) -- ({{ -5 + cells_per_row * cell_width }}, {{ row_y + cell_height }});
+    \draw[thick, {{tape.color}}] (-5, {{ row_y }}) -- (-5, {{ row_y + cell_height }});
+    \draw[thick, {{tape.color}}] ({{ -5 + cells_per_row * cell_width }}, {{ row_y }}) -- ({{ -5 + cells_per_row * cell_width }}, {{ row_y + cell_height }});
+    
+    % Draw cells for this row
+    {% for col in range(cells_per_row) %}
+        {% set char_idx = row * cells_per_row + col %}
+        {% set cell_x = -5 + col * cell_width %}
+        
+        % Draw vertical line (cell border)
+        \draw[thin, {{tape.color}}] ({{ cell_x }}, {{ row_y }}) -- ({{ cell_x }}, {{ row_y + cell_height }});
+        
+        % If we have a character for this cell
+        {% if char_idx < all_chars|length %}
+            % Highlight if this is the pointer position
+            {% if char_idx == pointer_pos %}
+                \fill[highlightcolor] ({{ cell_x }}, {{ row_y }}) rectangle ({{ cell_x + cell_width }}, {{ row_y + cell_height }});
+            {% endif %}
+            
+            % Draw the character
+            \node at ({{ cell_x + cell_width/2 }}, {{ row_y + cell_height/2 }}) {\color{ {{tape.color-}} }{{ all_chars[char_idx] }}};
+        {% else %}
+            % Empty cell
+            \node at ({{ cell_x + cell_width/2 }}, {{ row_y + cell_height/2 }}) {\color{ {{tape.color-}} }$\sqcup$};
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+{% set total_y_offset = total_y_offset + tape_height + 100 %}
+{% endfor %}
+
+% Current state node
+\node[state, xshift=0cm, yshift=-{{ total_y_offset + 1 }}cm] (qcurrent) {${{ step.current_state }}$};
+
+\end{tikzpicture}
+\end{center}
+
+\vspace{1cm}
+{% endfor %}
+
+\end{document}

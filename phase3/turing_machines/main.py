@@ -65,7 +65,7 @@ class TuringMachine:
         """
         return self.current_state == self.accept_state or self.current_state == self.reject_state
 
-def plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, blank_symbol='⊔'):
+def plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, blank_symbol='$\\sqcup$'):
     """
     Plots a single Turing Machine configuration with a fixed tape range.
     The tape cells remain in a fixed position and only the state pointer (arrow & label) moves.
@@ -105,7 +105,7 @@ def plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, bl
 
 plots = []
 
-def plot_all_configurations_individually_fixed(configs, fixed_left, fixed_right, blank_symbol='⊔'):
+def plot_all_configurations_individually_fixed(configs, fixed_left, fixed_right, blank_symbol='$\\sqcup$'):
     """
     Iterates through a list of configurations and plots each one as its own figure,
     using a fixed tape range for every configuration.
@@ -169,16 +169,16 @@ def record_detailed_configurations(tm, max_steps=50):
 transition_function = {
     ('q0', '0'): ('x', 'R', 'q1'),
     ('q0', '1'): ('x', 'R', 'q1'),
-    ('q0', '⊔'): ('⊔', 'R', 'q2'),
+    ('q0', '$\\sqcup$'): ('$\\sqcup$', 'R', 'q2'),
 
     ('q1', '0'): ('0', 'R', 'q0'),
     ('q1', '1'): ('1', 'R', 'q0'),
-    ('q1', '⊔'): ('⊔', 'R', 'q2')
+    ('q1', '$\\sqcup$'): ('$\\sqcup$', 'R', 'q2')
 }
 
 tm = TuringMachine(
     tape_string="10101",    
-    blank_symbol='⊔',
+    blank_symbol='$\\sqcup$',
     initial_state='q0',
     accept_state='q2',    
     reject_state='qr',    
@@ -186,7 +186,7 @@ tm = TuringMachine(
 )
 
 configs_dets = record_detailed_configurations(tm, max_steps=10)
-plot_all_configurations_individually_fixed(configs_dets[0], fixed_left=-5, fixed_right=15, blank_symbol='⊔')
+plot_all_configurations_individually_fixed(configs_dets[0], fixed_left=-5, fixed_right=15, blank_symbol='$\\sqcup$')
 
 data = {
     "plots": plots,
