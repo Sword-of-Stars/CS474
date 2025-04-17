@@ -98,7 +98,7 @@ The minimization of a DFA entails computing an equivalent DFA with the fewest po
 \section{DFA Transition Function}
 
 The DFA’s transition function, \(\delta\), is defined as follows:
-\begin{align*}\delta(1,\,a) &= 2\\[0.5em]\delta(1,\,b) &= 4\\[1em]\delta(2,\,a) &= 4\\[0.5em]\delta(2,\,b) &= 3\\[1em]\delta(3,\,a) &= 3\\[0.5em]\delta(3,\,b) &= 3\\[1em]\delta(4,\,a) &= 2\\[0.5em]\delta(4,\,b) &= 5\\[1em]\delta(5,\,a) &= 6\\[0.5em]\delta(5,\,b) &= 5\\[1em]\delta(6,\,a) &= 4\\[0.5em]\delta(6,\,b) &= Z\\[1em]\delta(Z,\,a) &= Z\\[0.5em]\delta(Z,\,b) &= Z
+\begin{align*}\delta(1,\,a) &= 2\\[0.5em]\delta(1,\,b) &= 4\\[1em]\delta(2,\,a) &= 4\\[0.5em]\delta(2,\,b) &= 3\\[1em]\delta(3,\,a) &= 3\\[0.5em]\delta(3,\,b) &= 3\\[1em]\delta(4,\,a) &= 4\\[0.5em]\delta(4,\,b) &= 5\\[1em]\delta(5,\,a) &= 5\\[0.5em]\delta(5,\,b) &= 5\\[1em]\delta(6,\,a) &= 4\\[0.5em]\delta(6,\,b) &= 6
 \end{align*}
 
 \section{Indistinguishability Table Steps}
@@ -106,7 +106,7 @@ The DFA’s transition function, \(\delta\), is defined as follows:
 We apply the table‑filling (indistinguishability) algorithm iteratively.  For each iteration, we show the triangular table and provide a short explanation of which pairs were marked.
 \subsection*{Table Step 1}
 
-\textbf{Explanation:} Initially marked pairs where one state is final and the other non‑final: 1,3, 1,5, 2,3, 2,5, 3,4, 3,6, 3,Z, 4,5, 5,6, 5,Z
+\textbf{Explanation:} Initially marked pairs where one state is final and the other non‑final: 1,3, 1,5, 2,3, 2,5, 3,4, 3,6, 4,5, 5,6
 
 \begin{center}
     \includegraphics[width=0.6\linewidth]{plots/indis_step1.png}
@@ -114,7 +114,7 @@ We apply the table‑filling (indistinguishability) algorithm iteratively.  For 
 \vspace{1em}
 \subsection*{Table Step 2}
 
-\textbf{Explanation:} Newly marked pairs: 1,2, 1,4, 2,6, 2,Z, 3,5, 4,6, 4,Z
+\textbf{Explanation:} Newly marked pairs: 1,2, 1,4, 2,6, 4,6
 
 \begin{center}
     \includegraphics[width=0.6\linewidth]{plots/indis_step2.png}
@@ -122,7 +122,7 @@ We apply the table‑filling (indistinguishability) algorithm iteratively.  For 
 \vspace{1em}
 \subsection*{Table Step 3}
 
-\textbf{Explanation:} Newly marked pairs: 1,6, 1,Z, 2,4, 6,Z
+\textbf{Explanation:} Newly marked pairs: 1,6
 
 \begin{center}
     \includegraphics[width=0.6\linewidth]{plots/indis_step3.png}
