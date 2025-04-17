@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 22:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 22:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -794,24 +794,29 @@ File: plots/indis_step3.png Graphic file (type png)
 <use plots/indis_step3.png>
 Package pdftex.def Info: plots/indis_step3.png  used on input line 128.
 (pdftex.def)             Requested size: 271.7835pt x 217.43935pt.
-<plots/indis_step4.png, id=24, 433.62pt x 346.896pt>
-File: plots/indis_step4.png Graphic file (type png)
-<use plots/indis_step4.png>
-Package pdftex.def Info: plots/indis_step4.png  used on input line 136.
-(pdftex.def)             Requested size: 271.7835pt x 217.43935pt.
- [3 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phas
-e1/dfa_minimization/out/plots/indis_step2.png> <C:/Users/william.gregory/OneDri
-ve - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/indis_
-step3.png>]
-<minimized_dfa.png, id=30, 292.09125pt x 195.73125pt>
+<minimized_dfa.png, id=24, 304.13625pt x 168.63pt>
 File: minimized_dfa.png Graphic file (type png)
 <use minimized_dfa.png>
-Package pdftex.def Info: minimized_dfa.png  used on input line 145.
-(pdftex.def)             Requested size: 317.07614pt x 212.49164pt.
- [4 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phas
-e1/dfa_minimization/out/plots/indis_step4.png> <C:/Users/william.gregory/OneDri
-ve - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/minimized_df
-a.png>]
+Package pdftex.def Info: minimized_dfa.png  used on input line 137.
+(pdftex.def)             Requested size: 317.07614pt x 175.80847pt.
+
+
+! LaTeX Error: \caption outside float.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.138     \caption
+                  {Minimized DFA}
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[3 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
+1/dfa_minimization/out/plots/indis_step2.png> <C:/Users/william.gregory/OneDriv
+e - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/indis_s
+tep3.png>] [4 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/
+CS474/phase1/dfa_minimization/out/minimized_dfa.png>]
 (C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase1\d
 fa_minimization\out\dfa_minimization.aux)
  ***********
@@ -820,10 +825,10 @@ L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 19241 strings out of 474486
- 401289 string characters out of 5739035
+ 19234 strings out of 474486
+ 401094 string characters out of 5739035
  1936542 words of memory out of 5000000
- 41236 multiletter control sequences out of 15000+600000
+ 41229 multiletter control sequences out of 15000+600000
  565969 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  102i,12n,107p,424b,381s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -838,10 +843,10 @@ e1/public/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/AppData/Local/Program
 s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/william.gregory/AppD
 ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 Output written on "C:\Users\william.gregory\OneDrive - West Point\Documents\Git
-Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (4 pages, 189208 by
+Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (4 pages, 166277 by
 tes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
+ 69 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -98,7 +98,7 @@ The minimization of a DFA entails computing an equivalent DFA with the fewest po
 \section{DFA Transition Function}
 
 The DFA’s transition function, \(\delta\), is defined as follows:
-\begin{align*}\delta(1,\,a) &= 2\\[0.5em]\delta(1,\,b) &= 4\\[1em]\delta(2,\,a) &= 4\\[0.5em]\delta(2,\,b) &= 3\\[1em]\delta(3,\,a) &= 3\\[0.5em]\delta(3,\,b) &= 3\\[1em]\delta(4,\,a) &= 4\\[0.5em]\delta(4,\,b) &= 5\\[1em]\delta(5,\,a) &= 5\\[0.5em]\delta(5,\,b) &= 5\\[1em]\delta(6,\,a) &= 4\\[0.5em]\delta(6,\,b) &= 6
+\begin{align*}\delta(1,\,a) &= 2\\[0.5em]\delta(1,\,b) &= 4\\[1em]\delta(2,\,a) &= 4\\[0.5em]\delta(2,\,b) &= 3\\[1em]\delta(3,\,a) &= 3\\[0.5em]\delta(3,\,b) &= 3\\[1em]\delta(4,\,a) &= 4\\[0.5em]\delta(4,\,b) &= 5\\[1em]\delta(5,\,a) &= 5\\[0.5em]\delta(5,\,b) &= 5\\[1em]\delta(6,\,a) &= 6\\[0.5em]\delta(6,\,b) &= 5
 \end{align*}
 
 \section{Indistinguishability Table Steps}
@@ -114,7 +114,7 @@ We apply the table‑filling (indistinguishability) algorithm iteratively.  For 
 \vspace{1em}
 \subsection*{Table Step 2}
 
-\textbf{Explanation:} Newly marked pairs: 1,2, 1,4, 2,6, 4,6
+\textbf{Explanation:} Newly marked pairs: 1,2, 1,4, 1,6
 
 \begin{center}
     \includegraphics[width=0.6\linewidth]{plots/indis_step2.png}
@@ -122,18 +122,10 @@ We apply the table‑filling (indistinguishability) algorithm iteratively.  For 
 \vspace{1em}
 \subsection*{Table Step 3}
 
-\textbf{Explanation:} Newly marked pairs: 1,6
-
-\begin{center}
-    \includegraphics[width=0.6\linewidth]{plots/indis_step3.png}
-\end{center}
-\vspace{1em}
-\subsection*{Table Step 4}
-
 \textbf{Explanation:} No new pairs marked; table is now stable.
 
 \begin{center}
-    \includegraphics[width=0.6\linewidth]{plots/indis_step4.png}
+    \includegraphics[width=0.6\linewidth]{plots/indis_step3.png}
 \end{center}
 \vspace{1em}
 
@@ -143,5 +135,6 @@ After no further distinguishable pairs can be marked, the remaining unmarked sta
 
 \begin{center}
     \includegraphics[width=0.7\linewidth]{minimized_dfa.png}
+    \caption{Minimized DFA}
 \end{center}
 \end{document}
