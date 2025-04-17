@@ -1,4 +1,64 @@
 \documentclass{article}
+\usepackage[a4paper, margin=1in]{geometry} % Adjust margins
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usetikzlibrary{automata, positioning}
+\usepackage{helvet} % Match font to reference
+\pagestyle{fancy}
+\usepackage{enumitem,xcolor}
+
+
+% Ensure proper header spacing
+\setlength{\headheight}{15pt} % Adjust height of the header
+\setlength{\headsep}{10pt} 
+
+% Define Header/Footer
+\fancyhf{}
+\fancyhead[L]{\textbf{Advanced Topics in Computer Science}} % Left header
+\fancyhead[R]{Universal Turing Machine Explainer} % Right header
+\cfoot{\thepage} % Page number at center bottom
+
+% Define colors for section and subsection titles
+\usepackage{titlesec}
+\definecolor{sectioncolor}{rgb}{0.1, 0.3, 0.7} % Dark blue
+\titleformat{\section}{\large\bfseries\color{sectioncolor}}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries\color{sectioncolor}}{\thesubsection}{1em}{}
+
+% Define custom colors for different text types
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\newcommand{\important}[1]{\textcolor{red}{#1}}
+\newtcbtheorem
+  []% init options
+  {definition}% name
+  {Definition}% title
+  {%
+    colback=blue!5,
+    colframe=blue!35!black,
+    fonttitle=\bfseries,
+  }% options
+  {def}% prefix
+\newcommand{\note}[1]{\textcolor{green!50!black}{#1}}
+
+% Theorem environment setup
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\definecolor{codegray}{gray}{0.9}
+\lstdefinestyle{customc}{
+  backgroundcolor=\color{codegray},
+  language=C,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red}
+}
+
 \usepackage{tikz}
 \usetikzlibrary{automata, positioning, arrows, matrix, fit, calc, decorations}
 \usetikzlibrary{decorations.pathreplacing}
@@ -73,7 +133,8 @@
             % Check if this is the head position
             \pgfmathparse{int(\zeroindex==#3)}
             \ifnum\pgfmathresult=1
-                \node[cell, marked] (c\zeroindex) at (\col*0.8cm, -\row*\verticalspace) {\currentchar};
+                %\node[cell, marked] (c\zeroindex) at (\col*0.8cm, -\row*\verticalspace) {\currentchar};
+                \node[cell] (c\zeroindex) at (\col*0.8cm, -\row*\verticalspace) {\currentchar};
             \else
                 \node[cell] (c\zeroindex) at (\col*0.8cm, -\row*\verticalspace) {\currentchar};
             \fi
@@ -192,9 +253,11 @@
     \end{tikzpicture}
 }
 \begin{document}
-\title{UTM Visualization}
-\author{Batman}
+\title{Universal Turing Machine Visualization}
+\author{The Dark Knight}
 \maketitle
+\thispagestyle{fancy}
+
 
 In this example, we'll be explaining the design of a Universal Turing Machine (UTM), which can take in any input Turing Machine $T$ and string $w$, and fully simulate the behavior of $M$ on $w$.
 
@@ -225,8 +288,8 @@ Using this schema, the following table encodes $T$:
     \begin{tabular}{|ccc|ccc|ccc|}
         \hline
         \multicolumn{3}{|c|}{$Q = \{h_{\mathtt{a}}, h_{\mathtt{r}}, q_0, q_1, \cdots , q_m\}$} & 
-        \multicolumn{3}{c|}{$\Gamma = \{\sqcup, \$, \sigma_1, \cdots , \sigma_n\}$} & 
-        \multicolumn{3}{c|}{Direction = $\{\mathrm{R}, \mathrm{L}, \mathrm{S}\}$} \\
+        \multicolumn{3}{c|}{$\Gamma = \{\sqcup, \sigma_1, \cdots , \sigma_n\}$} & 
+        \multicolumn{3}{c|}{Direction = $\{\mathrm{R}, \mathrm{L}, \mathrm{N}\}$} \\
         \multicolumn{1}{|c}{\textcolor{gray}{state}} & 
         \multicolumn{1}{c}{\textcolor{gray}{\textsc{Ord}($\cdot$)}} & 
         \multicolumn{1}{c|}{\textcolor{gray}{\textsc{Encode}($\cdot$)}} & 
@@ -237,12 +300,27 @@ Using this schema, the following table encodes $T$:
         \multicolumn{1}{c}{\textcolor{gray}{\textsc{Ord}($\cdot$)}} & 
         \multicolumn{1}{c|}{\textcolor{gray}{\textsc{Encode}($\cdot$)}} \\
         \hline
-        $h_{\mathtt{a}}$ & 1 & \textcolor{red}{1} & $\sqcup$ & 1 & \textcolor{red}{1} & R & 1 & \textcolor{red}{1} \\
-        $h_{\mathtt{r}}$ & 2 & \textcolor{red}{11} & \$ & 2 & \textcolor{red}{11} & L & 2 & \textcolor{red}{11} \\
-        $q_0$ & 3 & \textcolor{red}{111} & $\sigma_1$ & 3 & \textcolor{red}{111} & S & 3 & \textcolor{red}{111} \\
-        $q_1$ & 4 & \textcolor{red}{1111} & $\sigma_2$ & 4 & \textcolor{red}{1111} & & & \\
-        $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & & & \\
-        $q_m$ & $m+3$ & \textcolor{red}{$1^{m+3}$} & $\sigma_n$ & $n+2$ & \textcolor{red}{$1^{n+2}$} & & & \\
+        % dynamic portion
+        % $h_{\mathtt{a}}$ & 1 & \textcolor{red}{1} & $\sqcup$ & 1 & \textcolor{red}{1} & R & 1 & \textcolor{red}{1} \\
+        % $h_{\mathtt{r}}$ & 2 & \textcolor{red}{11} & \$ & 2 & \textcolor{red}{11} & L & 2 & \textcolor{red}{11} \\
+        % $q_0$ & 3 & \textcolor{red}{111} & $\sigma_1$ & 3 & \textcolor{red}{111} & S & 3 & \textcolor{red}{111} \\
+        % $q_1$ & 4 & \textcolor{red}{1111} & $\sigma_2$ & 4 & \textcolor{red}{1111} & & & \\
+        % $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & & & \\
+        % $q_m$ & $m+3$ & \textcolor{red}{$1^{m+3}$} & $\sigma_n$ & $n+2$ & \textcolor{red}{$1^{n+2}$} & & & \\
+        \hline
+        
+            $q_r$ & 1 & \textcolor{red}{1} & 
+            $\sqcup$ & 1 & \textcolor{red}{1} & 
+            R & 1 & \textcolor{red}{1} \\
+        
+            $q_a$ & 2 & \textcolor{red}{11} & 
+            0 & 2 & \textcolor{red}{11} & 
+            L & 2 & \textcolor{red}{11} \\
+        
+            $q_0$ & 3 & \textcolor{red}{111} & 
+            1 & 3 & \textcolor{red}{111} & 
+            N & 3 & \textcolor{red}{111} \\
+        
         \hline
     \end{tabular}
 \end{table}
@@ -258,14 +336,11 @@ ENCODE(w)&=01^{ORD(w_1)}01^{ORD(w_2)}...01^{ORD(w_n)}
 as above) looks like:
 
 \begin{align}
-ENCODE(1101)&=01101101011\end{align}
+ENCODE(1101)&=11101110110111\end{align}
 
 \subsection*{Transition Encoding}
 
-Suppose that we have the transition $\delta(p, a) = (q, b, D)$ that looks like this:
-
-
-The transition is encoded by separating the encodings of the individual parts of the transition with 0s. Our convention is to order the parts of the transition in the same order they appear in the functional representation $\delta(p, a) = (q, b, D)$. Thus, the generic transition shown above becomes:
+Suppose that we have the transition $\delta(p, a) = (q, b, D)$. This transition is encoded by separating the encodings of the individual parts of the transition with 0s. Our convention is to order the parts of the transition in the same order they appear in the functional representation $\delta(p, a) = (q, b, D)$. Thus, the generic transition shown above becomes:
 
 \begin{align}
 ENCODE(1101)&=1^{ORD(p)}01^{ORD(a)}01^{ORD(q)}01^{ORD(b)}01^{ORD(D)}\end{align}
@@ -313,11 +388,178 @@ Note that at the end of the initialization phase, all tapes have their pointers 
 
 \vspace{0.5cm}
 
-%\dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{18}{01011010894238392014893210841010110}{21:pointer}{1-5:window}
-\dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{18}{01101101011}{0:pointer}{}
+%\dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{01011010894238392014893210841010110}{21:pointer}{1-5:window}
+\dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{11101110110111}{0:head}{}
 
-\dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{1}{18}{11101010110111001110110111010100111011101011011100}{0:pointer}{}
+\dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{0:head}{}
 
-\dynamicTapeAdvanced{Tape 3: Current State $q$ \hspace{2cm}}{2}{18}{1}{}{}
+\dynamicTapeAdvanced{Tape 3: Current State $q$ \hspace{2cm}}{0}{15}{11}{0:head}{}
 
-\section*{Step-by-Step UTM Execution}\end{document}
+\vspace{1cm}
+Note that for the sake of brevity, additional blank entries at the end of each tape are not considered. Each tape is assumed to be proceeded by an infinite string of blank characters.
+
+\newpage
+
+\section*{Step-by-Step UTM Execution}
+
+\begin{enumerate}
+
+    
+    \item  Attempting to execute a transition
+        
+        \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{2:head}{0-2:$q_0$}
+
+        \dynamicTapeAdvanced{Tape 3: Current State $q_0$ \hspace{2cm}}{0}{15}{111}{2:head}{0-2:$q_0$}
+        \vspace{1cm}
+
+        % if the state matched, 
+        
+          The state $q_0$ matched, now we check the character.
+          \vspace{1cm}
+
+          \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{11101110110111}{2:head}{0-2:1}
+
+          \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{5:head}{4-5:0}
+        \vspace{1cm}
+        
+          \vspace{1cm}
+          The transition character 0 did not match the current character 1, so this transition is invalid.
+          \vspace{1cm}
+        
+
+
+        
+
+        
+        \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{21:head}{19-21:$q_0$}
+
+        \dynamicTapeAdvanced{Tape 3: Current State $q_0$ \hspace{2cm}}{0}{15}{111}{2:head}{0-2:$q_0$}
+        \vspace{1cm}
+
+        % if the state matched, 
+        
+          The state $q_0$ matched, now we check the character.
+          \vspace{1cm}
+
+          \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{11101110110111}{2:head}{0-2:1}
+
+          \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{25:head}{23-25:1}
+        \vspace{1cm}
+        
+
+
+        
+
+        
+        
+            We have successfully matched our states and character, and thus can execute the transition.
+            First, we update the current state:\\\\
+            \vspace{1cm}
+            \dynamicTapeAdvanced{Tape 3: Current State $q_0$ \hspace{2cm}}{0}{15}{111}{0:head}{0-2:$q_0$}
+
+            Next, we replace the current character on Tape 1. We also move the tape head in the appropriate direction, R.\\
+            \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{1101110110111}{3:head}{0-1:0}
+
+            
+        
+
+    
+    \item  Attempting to execute a transition
+        
+        \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{2:head}{0-2:$q_0$}
+
+        \dynamicTapeAdvanced{Tape 3: Current State $q_0$ \hspace{2cm}}{0}{15}{111}{2:head}{0-2:$q_0$}
+        \vspace{1cm}
+
+        % if the state matched, 
+        
+          The state $q_0$ matched, now we check the character.
+          \vspace{1cm}
+
+          \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{1101110110111}{5:head}{3-5:1}
+
+          \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{5:head}{4-5:0}
+        \vspace{1cm}
+        
+          \vspace{1cm}
+          The transition character 0 did not match the current character 1, so this transition is invalid.
+          \vspace{1cm}
+        
+
+
+        
+
+        
+        \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{21:head}{19-21:$q_0$}
+
+        \dynamicTapeAdvanced{Tape 3: Current State $q_0$ \hspace{2cm}}{0}{15}{111}{2:head}{0-2:$q_0$}
+        \vspace{1cm}
+
+        % if the state matched, 
+        
+          The state $q_0$ matched, now we check the character.
+          \vspace{1cm}
+
+          \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{1101110110111}{5:head}{3-5:1}
+
+          \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{25:head}{23-25:1}
+        \vspace{1cm}
+        
+
+
+        
+
+        
+        
+            We have successfully matched our states and character, and thus can execute the transition.
+            First, we update the current state:\\\\
+            \vspace{1cm}
+            \dynamicTapeAdvanced{Tape 3: Current State $q_0$ \hspace{2cm}}{0}{15}{111}{0:head}{0-2:$q_0$}
+
+            Next, we replace the current character on Tape 1. We also move the tape head in the appropriate direction, R.\\
+            \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{110110110111}{6:head}{3-4:0}
+
+            
+        
+
+    
+    \item  Attempting to execute a transition
+        
+        \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{2:head}{0-2:$q_0$}
+
+        \dynamicTapeAdvanced{Tape 3: Current State $q_0$ \hspace{2cm}}{0}{15}{111}{2:head}{0-2:$q_0$}
+        \vspace{1cm}
+
+        % if the state matched, 
+        
+          The state $q_0$ matched, now we check the character.
+          \vspace{1cm}
+
+          \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{110110110111}{7:head}{6-7:0}
+
+          \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{1110110110111011100111011101110110100111010110111011100}{5:head}{4-5:0}
+        \vspace{1cm}
+        
+
+
+        
+
+        
+        
+            We have successfully matched our states and character, and thus can execute the transition.
+            First, we update the current state:\\\\
+            \vspace{1cm}
+            \dynamicTapeAdvanced{Tape 3: Current State $q_a$ \hspace{2cm}}{0}{15}{11}{0:head}{0-1:$q_a$}
+
+            Next, we replace the current character on Tape 1. We also move the tape head in the appropriate direction, N.\\
+            \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{1101101110111}{6:head}{6-8:1}
+
+            
+        
+
+\end{enumerate}
+
+
+  The Turing Machine accepted the string! Thus, we change the current state to $q_a$:\\
+  \dynamicTapeAdvanced{Tape 3: Current State $q_a$ \hspace{2cm}}{0}{15}{11}{0:head}{0-1:$q_a$}
+\end{document}
