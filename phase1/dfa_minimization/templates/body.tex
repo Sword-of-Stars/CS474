@@ -16,11 +16,15 @@ Next, we apply the table‑filling (indistinguishability) algorithm.  Marked pai
 
 {%- for idx in range(indis_plots|length) %}
 \subsection*{Table Step {{ idx+1 }}}
+
+\textbf{Explanation:} {{ indis_details[idx].description }}
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{plots/indis_step{{ idx }}.png}
     \caption{Indistinguishability table at iteration {{ idx+1 }}}
 \end{figure}
+
 {%- endfor %}
 
 \section{Minimized DFA}

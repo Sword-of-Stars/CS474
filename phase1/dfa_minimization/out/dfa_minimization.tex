@@ -105,34 +105,58 @@ The DFA’s transition function, \(\delta\), is defined as follows:
 
 Next, we apply the table‑filling (indistinguishability) algorithm.  Marked pairs (\(X\)) in each triangular table show which state‑pairs are distinguishable at each iteration.
 \subsection*{Table Step 1}
+
+\textbf{Explanation:} Initially marked pairs where one state is final and the other non‑final: 1,3, 2,3, 3,4, 3,5, 3,6, 3,Z
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{plots/indis_step0.png}
     \caption{Indistinguishability table at iteration 1}
 \end{figure}
 \subsection*{Table Step 2}
+
+\textbf{Explanation:} Newly marked pairs: 1,2, 2,4, 2,5, 2,6, 2,Z
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{plots/indis_step1.png}
     \caption{Indistinguishability table at iteration 2}
 \end{figure}
 \subsection*{Table Step 3}
+
+\textbf{Explanation:} Newly marked pairs: 1,5, 1,6, 1,Z, 4,5, 4,6, 4,Z
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{plots/indis_step2.png}
     \caption{Indistinguishability table at iteration 3}
 \end{figure}
 \subsection*{Table Step 4}
+
+\textbf{Explanation:} Newly marked pairs: 1,4, 5,6, 6,Z
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{plots/indis_step3.png}
     \caption{Indistinguishability table at iteration 4}
 \end{figure}
 \subsection*{Table Step 5}
+
+\textbf{Explanation:} Newly marked pairs: 5,Z
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{plots/indis_step4.png}
     \caption{Indistinguishability table at iteration 5}
+\end{figure}
+\subsection*{Table Step 6}
+
+\textbf{Explanation:} No new pairs marked; table is now stable.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{plots/indis_step5.png}
+    \caption{Indistinguishability table at iteration 6}
 \end{figure}
 
 \section{Minimized DFA}

@@ -13,8 +13,8 @@ os.makedirs("out/plots", exist_ok=True)
 # --- 1. Build the Original DFA ---
 
 dfa = DFA(
-    states={"1","2","3","4","5","6","Z"},
-    input_symbols={"a","b"},
+    states={"1", "2", "3", "4", "5", "6", "Z"},
+    input_symbols={"a", "b"},
     transitions={
         "1": {"a": "2", "b": "4"},
         "2": {"a": "4", "b": "3"},
@@ -28,30 +28,38 @@ dfa = DFA(
     final_states={"3"}
 )
 
-# --- 2. Table‑Filling (Indistinguishability) Steps ---
+# --- 2. Table‑Filling (Indistinguishability) Steps + Details ---
 
-def generate_indis_steps(dfa):
+def record_indis_details(dfa):
     """
-    Table‑filling algorithm:
-      - Step 0: mark all (p,q) where one is final and the other is not.
-      - Step k>0: mark (p,q) if for some symbol a, (delta(p,a),delta(q,a)) was marked in step k-1.
-    Returns:
+    Runs table‑filling algorithm and returns:
       states: sorted list of states
-      steps: list of dicts mapping (p,q) pairs to bool (True=marked)
+      tables: list of dicts mapping (p,q)->bool (True=marked)
+      details: list of dicts with 'step' and 'description'
     """
     states = sorted(dfa.states)
     pairs = list(combinations(states, 2))
-    table = {pair: False for pair in pairs}
     finals = set(dfa.final_states)
-    # Step 0
+
+    # Step 0
+    table = {pair: False for pair in pairs}
     for p, q in pairs:
         if (p in finals) ^ (q in finals):
             table[(p, q)] = True
-    steps = [table.copy()]
+    tables = [table.copy()]
+    details = [{
+        "step": 0,
+        "description": (
+            "Initially marked pairs where one state is final and the other non‑final: "
+            + ", ".join(f"{p},{q}" for (p, q), marked in table.items() if marked)
+        )
+    }]
+
     # Refinement
     while True:
-        prev = steps[-1]
+        prev = tables[-1]
         curr = prev.copy()
+        newly = []
         for p, q in pairs:
             if not curr[(p, q)]:
                 for a in dfa.input_symbols:
@@ -60,11 +68,22 @@ def generate_indis_steps(dfa):
                     key = tuple(sorted((tp, tq)))
                     if prev.get(key, False):
                         curr[(p, q)] = True
+                        newly.append((p, q))
                         break
-        if curr == prev:
+        tables.append(curr.copy())
+        if not newly:
+            details.append({
+                "step": len(tables)-1,
+                "description": "No new pairs marked; table is now stable."
+            })
             break
-        steps.append(curr.copy())
-    return states, steps
+        else:
+            details.append({
+                "step": len(tables)-1,
+                "description": "Newly marked pairs: " + ", ".join(f"{p},{q}" for p,q in newly)
+            })
+
+    return states, tables, details
 
 # --- 3. Improved Indistinguishability‑Table Plot ---
 
@@ -80,12 +99,10 @@ def plot_indis_step(states, table, step_idx):
     ax.set_xlim(0, n-1)
     ax.set_ylim(0, n-1)
 
-    # Draw cells and X marks
     for i in range(1, n):
         for j in range(i):
             x, y = j, n - 1 - i
-            rect = plt.Rectangle((x, y), 1, 1,
-                                 fill=False, edgecolor='black', linewidth=1.5)
+            rect = plt.Rectangle((x, y), 1, 1, fill=False, edgecolor='black', linewidth=1.5)
             ax.add_patch(rect)
             if table[(states[j], states[i])]:
                 ax.text(x + 0.5, y + 0.5, 'X',
@@ -102,8 +119,7 @@ def plot_indis_step(states, table, step_idx):
     ax.set_yticklabels(states[1:], fontsize=12)
     ax.yaxis.tick_left()
 
-    ax.set_title(f"Indistinguishability Table – Step {step_idx+1}",
-                 fontsize=18, pad=15)
+    ax.set_title(f"Indistinguishability Table – Step {step_idx+1}", fontsize=18, pad=15)
     ax.invert_yaxis()
     ax.tick_params(length=0)
     plt.tight_layout()
@@ -115,17 +131,45 @@ def plot_indis_step(states, table, step_idx):
 def plot_all_indis_steps(states, tables):
     return [plot_indis_step(states, tbl, idx) for idx, tbl in enumerate(tables)]
 
-# Run indistinguishability algorithm and plot each step
-indis_states, indis_tables = generate_indis_steps(dfa)
+# Run indistinguishability algorithm
+indis_states, indis_tables, indis_details = record_indis_details(dfa)
 indis_plots = plot_all_indis_steps(indis_states, indis_tables)
 
-# --- 4. Build the Minimized DFA ---
+# --- 4. Build the Minimized DFA from the final indistinguishability table ---
 
-def build_minimized_dfa(dfa, final_partition):
+def get_equivalence_partition(states, final_table):
     """
-    Constructs the minimized DFA from the last partition (list of sets).
+    From the final indistinguishability table, returns a list of equivalence classes.
+    Unmarked pairs are equivalent; we build connected components.
     """
-    block_names = {frozenset(b): "".join(sorted(b)) for b in final_partition}
+    parent = {s: s for s in states}
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+
+    # Union all unmarked pairs
+    for (p, q), marked in final_table.items():
+        if not marked:
+            union(p, q)
+
+    # Collect classes
+    classes = {}
+    for s in states:
+        r = find(s)
+        classes.setdefault(r, set()).add(s)
+    return list(classes.values())
+
+def build_minimized_dfa(dfa, partition):
+    """
+    Constructs a minimized DFA given the equivalence partition (list of sets).
+    """
+    block_names = {frozenset(b): "".join(sorted(b)) for b in partition}
     state_to_block = {s: name for blk, name in block_names.items() for s in blk}
     new_states = set(block_names.values())
     new_initial = state_to_block[dfa.initial_state]
@@ -145,15 +189,8 @@ def build_minimized_dfa(dfa, final_partition):
         final_states=new_finals
     )
 
-# Build minimized DFA using the final partition from generate_indis_steps
-# Note: generate_indis_steps gives only marked table; use partition-refinement
-# or extract unmarked pairs to form equivalence classes.
-# Here for simplicity, assume you have final_partition from a separate routine.
-# For example:
-# final_partition = [set(c) for c in part_steps[-1]]
-# min_dfa = build_minimized_dfa(dfa, final_partition)
-
-# (If you have partition-refinement code removed, supply final_partition manually.)
+final_partition = get_equivalence_partition(indis_states, indis_tables[-1])
+min_dfa = build_minimized_dfa(dfa, final_partition)
 
 # --- 5. Render the Minimized DFA with Graphviz ---
 
@@ -175,14 +212,14 @@ def show_minimized_dfa_graphviz(dfa, filename=None):
     else:
         display(dot)
 
-# If you have min_dfa, uncomment to render:
-# show_minimized_dfa_graphviz(min_dfa, filename="out/minimized_dfa")
+show_minimized_dfa_graphviz(min_dfa, filename="out/minimized_dfa")
 
 # --- 6. Package for LaTeX ---
 
 data = {
     "indis_plots": indis_plots,
-    "tf": dfa.transitions
+    "tf": dfa.transitions,
+    "indis_details": indis_details
 }
 
 my_Solution = Solution("templates", "out/dfa_minimization.tex")
