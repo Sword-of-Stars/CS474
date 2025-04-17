@@ -1,0 +1,223 @@
+\documentclass{article}
+\usepackage[a4paper, margin=1in]{geometry} % Adjust margins
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usetikzlibrary{automata, positioning}
+\usepackage{helvet} % Match font to reference
+\pagestyle{fancy}
+\usepackage{enumitem,xcolor}
+
+
+% Ensure proper header spacing
+\setlength{\headheight}{15pt} % Adjust height of the header
+\setlength{\headsep}{10pt} 
+
+% Define Header/Footer
+\fancyhf{}
+\fancyhead[L]{\textbf{Advanced Topics in Computer Science}} % Left header
+\fancyhead[R]{Turing Machine Explainer} % Right header
+\cfoot{\thepage} % Page number at center bottom
+
+% Define colors for section and subsection titles
+\usepackage{titlesec}
+\definecolor{sectioncolor}{rgb}{0.1, 0.3, 0.7} % Dark blue
+\titleformat{\section}{\large\bfseries\color{sectioncolor}}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries\color{sectioncolor}}{\thesubsection}{1em}{}
+
+% Define custom colors for different text types
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\newcommand{\important}[1]{\textcolor{red}{#1}}
+\newtcbtheorem
+  []% init options
+  {definition}% name
+  {Definition}% title
+  {%
+    colback=blue!5,
+    colframe=blue!35!black,
+    fonttitle=\bfseries,
+  }% options
+  {def}% prefix
+\newcommand{\note}[1]{\textcolor{green!50!black}{#1}}
+
+% Theorem environment setup
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\definecolor{codegray}{gray}{0.9}
+\lstdefinestyle{customc}{
+  backgroundcolor=\color{codegray},
+  language=C,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red}
+}
+\begin{document}
+
+\title{\textbf{Turing Machine Converter}}
+\author{Doodlebob}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+
+The following is an auto-explainer for Turing Machines (TM) as represented by a series of figures depicting the tape as it is moving. \\
+
+A computation of $T = (Q, \Sigma, \Gamma, \delta, q_0, h_a, h_r)$ on input string w is a sequence of configu-
+rations, where:
+\begin{itemize}
+\item The first configuration is $q_0w$.
+\item Each configuration yields the next via a single transition. To observe what character to read,
+the TM looks at the cell to the right of where the state name is.
+\item $T$ is in state $q$ observing symbol $y_1$.
+\end{itemize}
+If the transition moves L in the leftmost cell on the tape, the TM automatically stops and rejects.
+
+\section{Turing Machine Definition}
+
+A Turing Machine is defined as a 7-tuple 
+\[
+(Q, \Sigma, \Gamma, \delta, q_0, h_a, h_r)
+\]
+where:
+\begin{itemize}
+    \item $Q$ is a finite set of states,
+    \item $\Sigma$ is a finite input alphabet,
+    \item $\Gamma$ is a finite tape alphabet with $\Sigma \subset \Gamma$, and $\sqcup \in \Gamma \setminus \Sigma$ is the blank symbol,
+    \item $q_0 \in Q$ is the start state,
+    \item $h_a, h_r \in Q$ are the accept and reject states respectively (with $h_a \neq h_r$),
+    \item $\delta$ is the transition function.
+\end{itemize}
+\section{Transition Function}
+
+The transition function $\delta$ is defined as follows:
+\begin{align*}\delta(q0,\,0) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,1) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,⊔) &= (⊔,\,S,\,q2)\\[0.5em]\delta(q1,\,0) &= (0,\,R,\,q0)\\[0.5em]\delta(q1,\,1) &= (1,\,R,\,q0)\\[0.5em]\delta(q1,\,⊔) &= (⊔,\,S,\,q2)
+\end{align*}
+
+\section{Turing Machine Simulation Visualizations}
+
+The simulation produced the following sequence of transitions. For each transition, the tape is displayed in a fixed window (so the tape does not shift), and the head (with its state label) moves along the tape. In each transition, we detail:
+\begin{itemize}
+    \item \textbf{Head Position:} The index of the cell where the head is located.
+    \item \textbf{Read Symbol:} The symbol at that cell that is being processed.
+    \item \textbf{Rewritten Symbol:} The symbol that is written on the tape (if it is changed).
+    \item \textbf{New State:} The Turing machine's state after applying the transition.
+\end{itemize}
+\subsection*{Transition 1}
+\textbf{Explanation:}
+\newline In the initial configuration, the Turing Machine loads the input tape. The head is positioned at the starting cell (index \textbf0), reading the symbol \textbf{`1`}. Since no transition has been performed yet, no rewriting occurs.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot1.png}
+    \caption{Configuration at Transition 1}
+\end{figure}
+\subsection*{Transition 2}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf0, reading the symbol \textbf{`1`}.
+    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq1.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot2.png}
+    \caption{Configuration at Transition 2}
+\end{figure}
+\subsection*{Transition 3}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf1, reading the symbol \textbf{`0`}.
+    \item The machine rewrites this cell with \textbf{`0`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq0.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot3.png}
+    \caption{Configuration at Transition 3}
+\end{figure}
+\subsection*{Transition 4}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf2, reading the symbol \textbf{`1`}.
+    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq1.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot4.png}
+    \caption{Configuration at Transition 4}
+\end{figure}
+\subsection*{Transition 5}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf3, reading the symbol \textbf{`0`}.
+    \item The machine rewrites this cell with \textbf{`0`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq0.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot5.png}
+    \caption{Configuration at Transition 5}
+\end{figure}
+\subsection*{Transition 6}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf4, reading the symbol \textbf{`1`}.
+    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq1.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot6.png}
+    \caption{Configuration at Transition 6}
+\end{figure}
+\subsection*{Transition 7}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf5, reading the symbol \textbf{`⊔`}.
+    \item The machine rewrites this cell with \textbf{`⊔`} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq2.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot7.png}
+    \caption{Configuration at Transition 7}
+\end{figure}
+
+\section{Halt and Final Tape}
+
+At transition \(\mathbf{ 7 }\), the machine enters its halting state 
+\(\mathbf{ q2 }\) and stops.
+
+The final tape configuration is shown below:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot7.png}
+    \caption{Final tape contents at halting state \(\mathbf{ q2 }\).}
+\end{figure}
+\end{document}

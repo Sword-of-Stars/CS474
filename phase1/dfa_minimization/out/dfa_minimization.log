@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 22:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 22:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./out/tm_steps.tex
-(out/tm_steps.tex
+**./out/dfa_minimization.tex
+(out/dfa_minimization.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 
@@ -675,9 +675,9 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count315
 \l__pdf_internal_box=\box97
 )
-(C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase3\t
-uring_machines\out\tm_steps.aux)
-\openout1 = `tm_steps.aux'.
+(C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase1\d
+fa_minimization\out\dfa_minimization.aux)
+\openout1 = `dfa_minimization.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
 LaTeX Font Info:    ... okay on input line 61.
@@ -773,283 +773,80 @@ Underfull \hbox (badness 10000) in paragraph at lines 69--70
 
  []
 
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
 [1{C:/Users/william.gregory/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 ]
-<plots/plot1.png, id=17, 578.16pt x 144.54pt>
-File: plots/plot1.png Graphic file (type png)
-<use plots/plot1.png>
-Package pdftex.def Info: plots/plot1.png  used on input line 117.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-
-! Undefined control sequence.
-l.126 ...he head and changes its state to \textbfq
-                                                  1.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-<plots/plot2.png, id=19, 578.16pt x 144.54pt>
-File: plots/plot2.png Graphic file (type png)
-<use plots/plot2.png>
-Package pdftex.def Info: plots/plot2.png  used on input line 132.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-! Undefined control sequence.
-l.141 ...he head and changes its state to \textbfq
-                                                  0.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+<plots/indis_step1.png, id=16, 433.62pt x 346.896pt>
+File: plots/indis_step1.png Graphic file (type png)
+<use plots/indis_step1.png>
+Package pdftex.def Info: plots/indis_step1.png  used on input line 112.
+(pdftex.def)             Requested size: 271.7835pt x 217.43935pt.
+<plots/indis_step2.png, id=18, 433.62pt x 346.896pt>
+File: plots/indis_step2.png Graphic file (type png)
+<use plots/indis_step2.png>
+Package pdftex.def Info: plots/indis_step2.png  used on input line 120.
+(pdftex.def)             Requested size: 271.7835pt x 217.43935pt.
 
 [2 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-3/turing_machines/out/plots/plot1.png> <C:/Users/william.gregory/OneDrive - Wes
-t Point/Documents/GitHub/CS474/phase3/turing_machines/out/plots/plot2.png>]
-<plots/plot3.png, id=25, 578.16pt x 144.54pt>
-File: plots/plot3.png Graphic file (type png)
-<use plots/plot3.png>
-Package pdftex.def Info: plots/plot3.png  used on input line 147.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
+1/dfa_minimization/out/plots/indis_step1.png>]
+<plots/indis_step3.png, id=23, 433.62pt x 346.896pt>
+File: plots/indis_step3.png Graphic file (type png)
+<use plots/indis_step3.png>
+Package pdftex.def Info: plots/indis_step3.png  used on input line 128.
+(pdftex.def)             Requested size: 271.7835pt x 217.43935pt.
+<minimized_dfa.png, id=24, 304.13625pt x 168.63pt>
+File: minimized_dfa.png Graphic file (type png)
+<use minimized_dfa.png>
+Package pdftex.def Info: minimized_dfa.png  used on input line 137.
+(pdftex.def)             Requested size: 317.07614pt x 175.80847pt.
 
-! Undefined control sequence.
-l.156 ...he head and changes its state to \textbfq
-                                                  1.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 
-<plots/plot4.png, id=26, 578.16pt x 144.54pt>
-File: plots/plot4.png Graphic file (type png)
-<use plots/plot4.png>
-Package pdftex.def Info: plots/plot4.png  used on input line 162.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-! Undefined control sequence.
-l.171 ...he head and changes its state to \textbfq
-                                                  0.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+! LaTeX Error: \caption outside float.
 
-<plots/plot5.png, id=27, 578.16pt x 144.54pt>
-File: plots/plot5.png Graphic file (type png)
-<use plots/plot5.png>
-Package pdftex.def Info: plots/plot5.png  used on input line 177.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.138     \caption
+                  {Minimized DFA}
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
 [3 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-3/turing_machines/out/plots/plot3.png> <C:/Users/william.gregory/OneDrive - Wes
-t Point/Documents/GitHub/CS474/phase3/turing_machines/out/plots/plot4.png>]
-! Undefined control sequence.
-l.186 ...he head and changes its state to \textbfq
-                                                  1.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-<plots/plot6.png, id=33, 578.16pt x 144.54pt>
-File: plots/plot6.png Graphic file (type png)
-<use plots/plot6.png>
-Package pdftex.def Info: plots/plot6.png  used on input line 192.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.199 ...extbf5, reading the symbol \textbf{`⊔`}
-                                                  .
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.200 ...ne rewrites this cell with \textbf{`⊔`}
-                                                   (if different from the or...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-! Undefined control sequence.
-l.201 ...he head and changes its state to \textbfq
-                                                  2.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-<plots/plot7.png, id=34, 578.16pt x 144.54pt>
-File: plots/plot7.png Graphic file (type png)
-<use plots/plot7.png>
-Package pdftex.def Info: plots/plot7.png  used on input line 207.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-File: plots/plot7.png Graphic file (type png)
-<use plots/plot7.png>
-Package pdftex.def Info: plots/plot7.png  used on input line 220.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[4 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-3/turing_machines/out/plots/plot5.png> <C:/Users/william.gregory/OneDrive - Wes
-t Point/Documents/GitHub/CS474/phase3/turing_machines/out/plots/plot6.png> <C:/
-Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase3/turin
-g_machines/out/plots/plot7.png>] [5]
-(C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase3\t
-uring_machines\out\tm_steps.aux)
+1/dfa_minimization/out/plots/indis_step2.png> <C:/Users/william.gregory/OneDriv
+e - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/indis_s
+tep3.png>] [4 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/
+CS474/phase1/dfa_minimization/out/minimized_dfa.png>]
+(C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase1\d
+fa_minimization\out\dfa_minimization.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 19259 strings out of 474486
- 401364 string characters out of 5739035
- 1937542 words of memory out of 5000000
- 41252 multiletter control sequences out of 15000+600000
- 566588 words of font info for 69 fonts, out of 8000000 for 9000
+ 19234 strings out of 474486
+ 401094 string characters out of 5739035
+ 1936542 words of memory out of 5000000
+ 41229 multiletter control sequences out of 15000+600000
+ 565969 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,11n,107p,414b,428s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,12n,107p,424b,381s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\william.gregory\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\tcrm1000.pk><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/william.gregory/AppData/Local/Pr
 ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/william.grego
 ry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/
 Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmmi7.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmr10.pfb><C:/Users/william.gregory/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/wi
-lliam.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb>
+/cm/cmr10.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/william.gregory/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 Output written on "C:\Users\william.gregory\OneDrive - West Point\Documents\Git
-Hub\CS474\phase3\turing_machines\out\tm_steps.pdf" (5 pages, 148373 bytes).
+Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (4 pages, 166277 by
+tes).
 PDF statistics:
- 81 PDF objects out of 1000 (max. 8388607)
+ 69 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

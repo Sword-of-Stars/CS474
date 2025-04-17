@@ -22,7 +22,7 @@ class Solution():
 
 
     def add_dynamic_content(self, template, data):
-        template_str = open(f"{self.FORMAT_PATH}/{template}", "r").read()
+        template_str = open(f"{self.FORMAT_PATH}/{template}", "r", encoding="utf-8").read()
         template = Template(template_str)
         template.environment = Environment(trim_blocks=True)
         self.dynamic_content += template.render(data)

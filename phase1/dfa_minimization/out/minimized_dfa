@@ -1,0 +1,12 @@
+digraph {
+	rankdir=LR size="8,5"
+	1 [shape=circle style=bold]
+	246 [shape=circle]
+	35 [fillcolor=lightgrey shape=doublecircle style=filled]
+	1 -> 246 [label=b]
+	1 -> 246 [label=a]
+	246 -> 35 [label=b]
+	246 -> 246 [label=a]
+	35 -> 35 [label=b]
+	35 -> 35 [label=a]
+}
