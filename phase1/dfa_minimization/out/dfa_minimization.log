@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 19:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 20:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -27,13 +27,6 @@ File: size10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
 \belowcaptionskip=\skip49
 \bibindent=\dimen140
 )
-! Interruption.
-<argument> \__file_size:n {geometry.sty}
-                                        
-l.3 \usepackage
-               {amsmath, amssymb, amsthm}
-? 
-
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geom
 etry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
@@ -682,7 +675,8 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count315
 \l__pdf_internal_box=\box97
 )
-No file dfa_minimization.aux.
+(C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase1\d
+fa_minimization\out\dfa_minimization.aux)
 \openout1 = `dfa_minimization.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
@@ -699,6 +693,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
 LaTeX Font Info:    ... okay on input line 61.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
 LaTeX Font Info:    ... okay on input line 61.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -781,101 +776,57 @@ Underfull \hbox (badness 10000) in paragraph at lines 69--70
 [1{C:/Users/william.gregory/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 ]
-<plots/partition_step0.png, id=16, 722.7pt x 216.81pt>
-File: plots/partition_step0.png Graphic file (type png)
-<use plots/partition_step0.png>
-Package pdftex.def Info: plots/partition_step0.png  used on input line 117.
-(pdftex.def)             Requested size: 362.37569pt x 108.71239pt.
-<plots/partition_step1.png, id=18, 722.7pt x 216.81pt>
-File: plots/partition_step1.png Graphic file (type png)
-<use plots/partition_step1.png>
-Package pdftex.def Info: plots/partition_step1.png  used on input line 126.
-(pdftex.def)             Requested size: 362.37569pt x 108.71239pt.
+<plots/indis_step0.png, id=16, 505.89pt x 404.712pt>
+File: plots/indis_step0.png Graphic file (type png)
+<use plots/indis_step0.png>
+Package pdftex.def Info: plots/indis_step0.png  used on input line 110.
+(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
 
 [2 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-1/dfa_minimization/out/plots/partition_step0.png>]
-<plots/partition_step2.png, id=23, 722.7pt x 216.81pt>
-File: plots/partition_step2.png Graphic file (type png)
-<use plots/partition_step2.png>
-Package pdftex.def Info: plots/partition_step2.png  used on input line 135.
-(pdftex.def)             Requested size: 362.37569pt x 108.71239pt.
-<plots/partition_step3.png, id=24, 722.7pt x 216.81pt>
-File: plots/partition_step3.png Graphic file (type png)
-<use plots/partition_step3.png>
-Package pdftex.def Info: plots/partition_step3.png  used on input line 144.
-(pdftex.def)             Requested size: 362.37569pt x 108.71239pt.
-<plots/partition_step4.png, id=25, 722.7pt x 216.81pt>
-File: plots/partition_step4.png Graphic file (type png)
-<use plots/partition_step4.png>
-Package pdftex.def Info: plots/partition_step4.png  used on input line 153.
-(pdftex.def)             Requested size: 362.37569pt x 108.71239pt.
+1/dfa_minimization/out/plots/indis_step0.png>]
+<plots/indis_step1.png, id=22, 505.89pt x 404.712pt>
+File: plots/indis_step1.png Graphic file (type png)
+<use plots/indis_step1.png>
+Package pdftex.def Info: plots/indis_step1.png  used on input line 116.
+(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
+<plots/indis_step2.png, id=23, 505.89pt x 404.712pt>
+File: plots/indis_step2.png Graphic file (type png)
+<use plots/indis_step2.png>
+Package pdftex.def Info: plots/indis_step2.png  used on input line 122.
+(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
+<plots/indis_step3.png, id=24, 505.89pt x 404.712pt>
+File: plots/indis_step3.png Graphic file (type png)
+<use plots/indis_step3.png>
+Package pdftex.def Info: plots/indis_step3.png  used on input line 128.
+(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<plots/indis_step4.png, id=25, 505.89pt x 404.712pt>
+File: plots/indis_step4.png Graphic file (type png)
+<use plots/indis_step4.png>
+Package pdftex.def Info: plots/indis_step4.png  used on input line 134.
+(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<minimized_dfa.png, id=26, 594.22pt x 286.06876pt>
+File: minimized_dfa.png Graphic file (type png)
+<use minimized_dfa.png>
+Package pdftex.def Info: minimized_dfa.png  used on input line 144.
+(pdftex.def)             Requested size: 317.07614pt x 152.65022pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [3 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-1/dfa_minimization/out/plots/partition_step1.png> <C:/Users/william.gregory/One
-Drive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/par
-tition_step2.png> <C:/Users/william.gregory/OneDrive - West Point/Documents/Git
-Hub/CS474/phase1/dfa_minimization/out/plots/partition_step3.png>]
-<plots/indis_step0.png, id=32, 505.89pt x 404.712pt>
-File: plots/indis_step0.png Graphic file (type png)
-<use plots/indis_step0.png>
-Package pdftex.def Info: plots/indis_step0.png  used on input line 163.
-(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
-<plots/indis_step1.png, id=33, 505.89pt x 404.712pt>
-File: plots/indis_step1.png Graphic file (type png)
-<use plots/indis_step1.png>
-Package pdftex.def Info: plots/indis_step1.png  used on input line 169.
-(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<plots/indis_step2.png, id=34, 505.89pt x 404.712pt>
-File: plots/indis_step2.png Graphic file (type png)
-<use plots/indis_step2.png>
-Package pdftex.def Info: plots/indis_step2.png  used on input line 175.
-(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<plots/indis_step3.png, id=35, 505.89pt x 404.712pt>
-File: plots/indis_step3.png Graphic file (type png)
-<use plots/indis_step3.png>
-Package pdftex.def Info: plots/indis_step3.png  used on input line 181.
-(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<plots/indis_step4.png, id=36, 505.89pt x 404.712pt>
-File: plots/indis_step4.png Graphic file (type png)
-<use plots/indis_step4.png>
-Package pdftex.def Info: plots/indis_step4.png  used on input line 187.
-(pdftex.def)             Requested size: 271.7835pt x 217.42966pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<minimized_dfa.png, id=37, 488.82625pt x 328.22626pt>
-File: minimized_dfa.png Graphic file (type png)
-<use minimized_dfa.png>
-Package pdftex.def Info: minimized_dfa.png  used on input line 197.
-(pdftex.def)             Requested size: 317.07614pt x 212.9038pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[4 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-1/dfa_minimization/out/plots/partition_step4.png> <C:/Users/william.gregory/One
-Drive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/ind
-is_step0.png>] [5 <C:/Users/william.gregory/OneDrive - West Point/Documents/Git
-Hub/CS474/phase1/dfa_minimization/out/plots/indis_step1.png> <C:/Users/william.
-gregory/OneDrive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/ou
-t/plots/indis_step2.png>] [6 <C:/Users/william.gregory/OneDrive - West Point/Do
-cuments/GitHub/CS474/phase1/dfa_minimization/out/plots/indis_step3.png> <C:/Use
-rs/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase1/dfa_mini
-mization/out/plots/indis_step4.png>] [7 <C:/Users/william.gregory/OneDrive - We
-st Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/minimized_dfa.png>]
-
+1/dfa_minimization/out/plots/indis_step1.png> <C:/Users/william.gregory/OneDriv
+e - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/indis_s
+tep2.png>] [4 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/
+CS474/phase1/dfa_minimization/out/plots/indis_step3.png> <C:/Users/william.greg
+ory/OneDrive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/pl
+ots/indis_step4.png> <C:/Users/william.gregory/OneDrive - West Point/Documents/
+GitHub/CS474/phase1/dfa_minimization/out/minimized_dfa.png>]
 (C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase1\d
 fa_minimization\out\dfa_minimization.aux)
  ***********
@@ -884,13 +835,13 @@ L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 19282 strings out of 474486
- 402386 string characters out of 5739035
+ 19250 strings out of 474486
+ 401540 string characters out of 5739035
  1936542 words of memory out of 5000000
- 41279 multiletter control sequences out of 15000+600000
+ 41245 multiletter control sequences out of 15000+600000
  565969 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,12n,107p,425b,360s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,12n,107p,425b,402s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\william.gregory\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\tcrm1000.pk><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/william.gregory/AppData/Local/Pr
@@ -902,10 +853,10 @@ e1/public/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/AppData/Local/Program
 s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/william.gregory/AppD
 ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 Output written on "C:\Users\william.gregory\OneDrive - West Point\Documents\Git
-Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (7 pages, 220223 by
+Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (4 pages, 236619 by
 tes).
 PDF statistics:
- 94 PDF objects out of 1000 (max. 8388607)
+ 72 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 68 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 43 words of extra memory for PDF output out of 10000 (max. 10000000)
 

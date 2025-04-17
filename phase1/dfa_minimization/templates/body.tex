@@ -1,6 +1,6 @@
 \section{DFA Transition Function}
 
-The DFA's transition function, $\delta$, is defined as follows:
+The DFA’s transition function, \(\delta\), is defined as follows:
 \begin{align*}
 {%- for state, transitions in tf.items() -%}
     {%- for symbol, target in transitions.items() -%}
@@ -10,37 +10,9 @@ The DFA's transition function, $\delta$, is defined as follows:
 {%- endfor %}
 \end{align*}
 
-\section{Partition‐Refinement Minimization}
-
-The DFA is first minimized by iterative partition refinement.  States in the same block are equivalent up to that step’s transitions.
-
-{%- for idx in range(plots|length) %}
-\subsection*{Partition Step {{ idx+1 }}}
-\textbf{Explanation:}
-{%- if idx == 0 %}
-\newline Initially, the states are split into final and non‐final blocks:
-\begin{itemize}
-    {%- if details[idx].partition|length == 2 %}
-    \item \textbf{Final States:} {{ details[idx].partition[0] }}
-    \item \textbf{Non‐Final States:} {{ details[idx].partition[1] }}
-    {%- else %}
-    \item \textbf{Partition:} {{ details[idx].partition }}
-    {%- endif %}
-\end{itemize}
-{%- else %}
-\newline This refinement produces {{ details[idx].description }}.
-{%- endif %}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/partition_step{{ idx }}.png}
-    \caption{Partition‐refinement at step {{ idx+1 }}}
-\end{figure}
-{%- endfor %}
-
 \section{Indistinguishability Table}
 
-Next, we apply the table‐filling (indistinguishability) algorithm.  Marked pairs ($X$) in each triangular table step show which state‐pairs have been determined distinguishable.
+Next, we apply the table‑filling (indistinguishability) algorithm.  Marked pairs (\(X\)) in each triangular table show which state‑pairs are distinguishable at each iteration.
 
 {%- for idx in range(indis_plots|length) %}
 \subsection*{Table Step {{ idx+1 }}}
@@ -53,7 +25,7 @@ Next, we apply the table‐filling (indistinguishability) algorithm.  Marked pai
 
 \section{Minimized DFA}
 
-Finally, states that remain unmarked and in the same block are merged.  The resulting minimized DFA is:
+Finally, states that remain unmarked and thus equivalent are merged.  The resulting minimized DFA is pictured below:
 
 \begin{figure}[h]
     \centering
