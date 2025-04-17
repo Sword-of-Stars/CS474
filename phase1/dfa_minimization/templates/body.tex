@@ -10,30 +10,25 @@ The DFA’s transition function, \(\delta\), is defined as follows:
 {%- endfor %}
 \end{align*}
 
-\section{Indistinguishability Table}
+\section{Indistinguishability Table Steps}
 
-Next, we apply the table‑filling (indistinguishability) algorithm.  Marked pairs (\(X\)) in each triangular table show which state‑pairs are distinguishable at each iteration.
+We apply the table‑filling (indistinguishability) algorithm iteratively.  For each iteration, we show the triangular table and provide a short explanation of which pairs were marked.
 
 {%- for idx in range(indis_plots|length) %}
 \subsection*{Table Step {{ idx+1 }}}
 
 \textbf{Explanation:} {{ indis_details[idx].description }}
 
-\begin{figure}[h]
-    \centering
-    % **Now referencing the 1‑based filenames**:
+\begin{center}
     \includegraphics[width=0.6\linewidth]{plots/indis_step{{ idx+1 }}.png}
-    \caption{Indistinguishability table at iteration {{ idx+1 }}}
-\end{figure}
-
+\end{center}
+\vspace{1em}
 {%- endfor %}
 
 \section{Minimized DFA}
 
-Finally, states that remain unmarked and thus equivalent are merged.  The resulting minimized DFA is pictured below:
+After no further distinguishable pairs can be marked, the remaining unmarked state‑pairs are equivalent and are merged.  The resulting minimized DFA is:
 
-\begin{figure}[h]
-    \centering
+\begin{center}
     \includegraphics[width=0.7\linewidth]{minimized_dfa.png}
-    \caption{Diagram of the minimized DFA}
-\end{figure}
+\end{center}
