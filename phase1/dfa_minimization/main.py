@@ -25,7 +25,7 @@ dfa = DFA(
         "Z": {"a": "Z", "b": "Z"},
     },
     initial_state="1",
-    final_states={"3", }
+    final_states={"3", "5"}
 )
 
 # --- 2. Table‑Filling (Indistinguishability) Steps + Details ---
