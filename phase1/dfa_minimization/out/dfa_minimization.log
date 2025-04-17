@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 21:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 22:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -817,11 +817,11 @@ Package pdftex.def Info: plots/indis_step6.png  used on input line 152.
 e1/dfa_minimization/out/plots/indis_step4.png> <C:/Users/william.gregory/OneDri
 ve - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/indis_
 step5.png>]
-<minimized_dfa.png, id=37, 488.82625pt x 328.22626pt>
+<minimized_dfa.png, id=37, 385.44pt x 343.2825pt>
 File: minimized_dfa.png Graphic file (type png)
 <use minimized_dfa.png>
 Package pdftex.def Info: minimized_dfa.png  used on input line 161.
-(pdftex.def)             Requested size: 317.07614pt x 212.9038pt.
+(pdftex.def)             Requested size: 317.07614pt x 282.39441pt.
  [5 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phas
 e1/dfa_minimization/out/plots/indis_step6.png> <C:/Users/william.gregory/OneDri
 ve - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/minimized_df
@@ -852,10 +852,10 @@ e1/public/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/AppData/Local/Program
 s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/william.gregory/AppD
 ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 Output written on "C:\Users\william.gregory\OneDrive - West Point\Documents\Git
-Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (5 pages, 264574 by
+Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (5 pages, 264671 by
 tes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
+ 77 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  48 words of extra memory for PDF output out of 10000 (max. 10000000)
 
