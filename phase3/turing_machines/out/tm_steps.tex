@@ -122,7 +122,7 @@ The simulation produced the following sequence of transitions. For each transiti
 \newline In this transition:
 \begin{itemize}
     \item The head is positioned at cell index \textbf1, reading the symbol \textbf{`1'}.
-    \item The machine rewrites this cell with \textbf{`x'} (if different from the original symbol).
+    \item The machine rewrites this cell with \textbf{`0'} (if different from the original symbol).
     \item The machine then moves the head and changes its state to \textbfq1.
 \end{itemize}
 This step-by-step process is illustrated in the figure below.
@@ -137,7 +137,7 @@ This step-by-step process is illustrated in the figure below.
 \newline In this transition:
 \begin{itemize}
     \item The head is positioned at cell index \textbf2, reading the symbol \textbf{`0'}.
-    \item The machine rewrites this cell with \textbf{`0'} (if different from the original symbol).
+    \item The machine rewrites this cell with \textbf{`1'} (if different from the original symbol).
     \item The machine then moves the head and changes its state to \textbfq0.
 \end{itemize}
 This step-by-step process is illustrated in the figure below.
@@ -152,7 +152,7 @@ This step-by-step process is illustrated in the figure below.
 \newline In this transition:
 \begin{itemize}
     \item The head is positioned at cell index \textbf3, reading the symbol \textbf{`1'}.
-    \item The machine rewrites this cell with \textbf{`x'} (if different from the original symbol).
+    \item The machine rewrites this cell with \textbf{`0'} (if different from the original symbol).
     \item The machine then moves the head and changes its state to \textbfq1.
 \end{itemize}
 This step-by-step process is illustrated in the figure below.
@@ -167,7 +167,7 @@ This step-by-step process is illustrated in the figure below.
 \newline In this transition:
 \begin{itemize}
     \item The head is positioned at cell index \textbf4, reading the symbol \textbf{`0'}.
-    \item The machine rewrites this cell with \textbf{`0'} (if different from the original symbol).
+    \item The machine rewrites this cell with \textbf{`1'} (if different from the original symbol).
     \item The machine then moves the head and changes its state to \textbfq0.
 \end{itemize}
 This step-by-step process is illustrated in the figure below.
@@ -182,7 +182,7 @@ This step-by-step process is illustrated in the figure below.
 \newline In this transition:
 \begin{itemize}
     \item The head is positioned at cell index \textbf5, reading the symbol \textbf{`1'}.
-    \item The machine rewrites this cell with \textbf{`x'} (if different from the original symbol).
+    \item The machine rewrites this cell with \textbf{`$\sqcup$'} (if different from the original symbol).
     \item The machine then moves the head and changes its state to \textbfq1.
 \end{itemize}
 This step-by-step process is illustrated in the figure below.
@@ -206,5 +206,20 @@ This step-by-step process is illustrated in the figure below.
     \centering
     \includegraphics[width=0.8\linewidth]{plots/plot7.png}
     \caption{Configuration at Transition 7}
+\end{figure}
+\subsection*{Transition 8}
+\textbf{Explanation:}
+\newline In this transition:
+\begin{itemize}
+    \item The head is positioned at cell index \textbf6, reading the symbol \textbf{`$\sqcup$'}.
+    \item The machine rewrites this cell with \textbf{`None'} (if different from the original symbol).
+    \item The machine then moves the head and changes its state to \textbfq2.
+\end{itemize}
+This step-by-step process is illustrated in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{plots/plot8.png}
+    \caption{Configuration at Transition 8}
 \end{figure}
 \end{document}

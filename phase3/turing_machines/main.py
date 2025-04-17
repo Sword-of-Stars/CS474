@@ -105,101 +105,197 @@ def plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, bl
 
     return fig
 
-plots = []
+# plots = []
 
-def plot_all_configurations_individually_fixed(configs, fixed_left, fixed_right, blank_symbol='$\\sqcup$'):
-    """
-    Iterates through a list of configurations and plots each one as its own figure,
-    using a fixed tape range for every configuration.
+# def plot_all_configurations_individually_fixed(configs, fixed_left, fixed_right, blank_symbol='$\\sqcup$'):
+#     """
+#     Iterates through a list of configurations and plots each one as its own figure,
+#     using a fixed tape range for every configuration.
     
-    Parameters:
-      configs (list): List of tuples (tape_dict, head, state).
-      fixed_left (int): The leftmost tape cell index to display.
-      fixed_right (int): The rightmost tape cell index to display.
-      blank_symbol (str): Symbol for blank cells.
-    """
-    for idx, (tape_dict, head, state) in enumerate(configs):
-        print(f"Transition {idx}:")
-        fig = plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, blank_symbol)
-        plots.append(fig)
+#     Parameters:
+#       configs (list): List of tuples (tape_dict, head, state).
+#       fixed_left (int): The leftmost tape cell index to display.
+#       fixed_right (int): The rightmost tape cell index to display.
+#       blank_symbol (str): Symbol for blank cells.
+#     """
+#     for idx, (tape_dict, head, state) in enumerate(configs):
+#         print(f"Transition {idx}:")
+#         fig = plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, blank_symbol)
+#         plots.append(fig)
 
-        fig.savefig(f"out/plots/plot{idx}.png")
+#         fig.savefig(f"out/plots/plot{idx}.png")
 
-# def record_configurations(tm, max_steps=50):
-#     configurations = []
-#     configurations.append((dict(tm.tape), tm.head, tm.current_state))
+# # def record_configurations(tm, max_steps=50):
+# #     configurations = []
+# #     configurations.append((dict(tm.tape), tm.head, tm.current_state))
+    
+# #     for _ in range(max_steps):
+# #         if tm.is_halted():
+# #             break
+# #         if not tm.step():
+# #             break
+# #         configurations.append((dict(tm.tape), tm.head, tm.current_state))
+    
+# #     return configurations
+
+# def record_detailed_configurations(tm, max_steps=50):
+#     configs = []
+#     details = [] 
+    
+#     initial_config = (dict(tm.tape), tm.head, tm.current_state)
+#     configs.append(initial_config)
+#     details.append({
+#         "head_position": tm.head,
+#         "read_symbol": tm.tape.get(tm.head, tm.blank_symbol),
+#         "written_symbol": None,   
+#         "new_state": tm.current_state,
+#     })
     
 #     for _ in range(max_steps):
 #         if tm.is_halted():
 #             break
+#         read_symbol = tm.tape.get(tm.head, tm.blank_symbol)
 #         if not tm.step():
 #             break
-#         configurations.append((dict(tm.tape), tm.head, tm.current_state))
+
+#         written_symbol = tm.tape.get(tm.head - 1, tm.blank_symbol)  
+        
+#         configs.append((dict(tm.tape), tm.head, tm.current_state))
+#         details.append({
+#             "head_position": tm.head,
+#             "read_symbol": read_symbol,
+#             "written_symbol": written_symbol,
+#             "new_state": tm.current_state,
+#         })
     
-#     return configurations
+#     return configs, details
+
+# transition_function = {
+#     ('q0', '0'): ('x', 'R', 'q1'),
+#     ('q0', '1'): ('x', 'R', 'q1'),
+#     ('q0', '$\\sqcup$'): ('$\\sqcup$', 'R', 'q2'),
+
+#     ('q1', '0'): ('0', 'R', 'q0'),
+#     ('q1', '1'): ('1', 'R', 'q0'),
+#     ('q1', '$\\sqcup$'): ('$\\sqcup$', 'R', 'q2')
+# }
+
+# tm = TuringMachine(
+#     tape_string="10101",    
+#     blank_symbol='$\\sqcup$',
+#     initial_state='q0',
+#     accept_state='q2',    
+#     reject_state='qr',    
+#     transition_function=transition_function
+# )
+
+# configs_dets = record_detailed_configurations(tm, max_steps=10)
+# plot_all_configurations_individually_fixed(configs_dets[0], fixed_left=-5, fixed_right=15, blank_symbol='$\\sqcup$')
+
+# data = {
+#     "plots": plots,
+#     "tf":transition_function,
+#     "details": configs_dets[1]
+# }
+
+# my_Solution = Solution("templates", "out/tm_steps.tex")
+# my_Solution.add_dynamic_content("body.tex", data)
+# my_Solution.generate_latex()
+# my_Solution.generate_pdf()
+
+# import os
+# import sys
+# import matplotlib.pyplot as plt
+# from IPython.display import display
+# from solution import Solution
+
+# (… your TuringMachine class and plot_configuration_fixed remain unchanged …)
+
+plots = []
 
 def record_detailed_configurations(tm, max_steps=50):
     configs = []
-    details = [] 
+    details = []
     
-    initial_config = (dict(tm.tape), tm.head, tm.current_state)
-    configs.append(initial_config)
+    # Record initial configuration
+    configs.append((dict(tm.tape), tm.head, tm.current_state))
     details.append({
         "head_position": tm.head,
         "read_symbol": tm.tape.get(tm.head, tm.blank_symbol),
-        "written_symbol": None,   
+        "written_symbol": None,
         "new_state": tm.current_state,
+        "note": "Initial configuration"
     })
     
-    for _ in range(max_steps):
-        if tm.is_halted():
-            break
+    for step in range(1, max_steps+1):
         read_symbol = tm.tape.get(tm.head, tm.blank_symbol)
-        if not tm.step():
-            break
-
-        written_symbol = tm.tape.get(tm.head - 1, tm.blank_symbol)  
-        
+        transitioned = tm.step()
+        # Always record the configuration after attempting a step
         configs.append((dict(tm.tape), tm.head, tm.current_state))
-        details.append({
-            "head_position": tm.head,
-            "read_symbol": read_symbol,
-            "written_symbol": written_symbol,
-            "new_state": tm.current_state,
-        })
+        
+        if transitioned:
+            # We can infer what was written by looking at tape[old head]
+            # but here we stored it in tm.step(), so just record post‑step
+            written_symbol = tm.tape.get(tm.head, tm.blank_symbol)
+            details.append({
+                "head_position": tm.head,
+                "read_symbol": read_symbol,
+                "written_symbol": written_symbol,
+                "new_state": tm.current_state,
+                "note": f"Transitioned on '{read_symbol}'"
+            })
+        else:
+            # No transition available → machine halted
+            details.append({
+                "head_position": tm.head,
+                "read_symbol": read_symbol,
+                "written_symbol": None,
+                "new_state": tm.current_state,
+                "note": "Machine halted—no transition"
+            })
+            break
     
     return configs, details
+
+def plot_all_configurations_individually_fixed(configs, fixed_left, fixed_right, blank_symbol='$\\sqcup$'):
+    for idx, (tape_dict, head, state) in enumerate(configs):
+        print(f"Transition {idx}: {details[idx]['note']}")
+        fig = plot_configuration_fixed(tape_dict, head, state, fixed_left, fixed_right, blank_symbol)
+        plots.append(fig)
+        fig.savefig(f"out/plots/plot{idx}.png")
+
+# --- Build and run your TM as before ---
 
 transition_function = {
     ('q0', '0'): ('x', 'R', 'q1'),
     ('q0', '1'): ('x', 'R', 'q1'),
     ('q0', '$\\sqcup$'): ('$\\sqcup$', 'R', 'q2'),
-
     ('q1', '0'): ('0', 'R', 'q0'),
     ('q1', '1'): ('1', 'R', 'q0'),
-    ('q1', '$\\sqcup$'): ('$\\sqcup$', 'R', 'q2')
+    ('q1', '$\\sqcup$'): ('$\\sqcup$', 'R', 'q2'),
 }
 
 tm = TuringMachine(
-    tape_string="10101",    
+    tape_string="10101",
     blank_symbol='$\\sqcup$',
     initial_state='q0',
-    accept_state='q2',    
-    reject_state='qr',    
+    accept_state='q2',
+    reject_state='qr',
     transition_function=transition_function
 )
 
-configs_dets = record_detailed_configurations(tm, max_steps=10)
-plot_all_configurations_individually_fixed(configs_dets[0], fixed_left=-5, fixed_right=15, blank_symbol='$\\sqcup$')
+configs, details = record_detailed_configurations(tm, max_steps=10)
+plot_all_configurations_individually_fixed(configs, fixed_left=-5, fixed_right=15, blank_symbol='$\\sqcup$')
 
 data = {
     "plots": plots,
-    "tf":transition_function,
-    "details": configs_dets[1]
+    "tf": transition_function,
+    "details": details
 }
 
 my_Solution = Solution("templates", "out/tm_steps.tex")
 my_Solution.add_dynamic_content("body.tex", data)
 my_Solution.generate_latex()
 my_Solution.generate_pdf()
+
 
