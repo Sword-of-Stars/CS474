@@ -87,53 +87,68 @@ def record_indis_details(dfa):
 
 # --- 3. Improved Indistinguishability‑Table Plot ---
 
+# --- 3. Improved Indistinguishability‑Table Plot (1‑based filenames) ---
+
 def plot_indis_step(states, table, step_idx):
     """
-    Draws the upper‑triangular indistinguishability table:
-      - Columns labeled by states[0..n-2] at bottom
-      - Rows labeled by states[1..n-1] on the left
-      - Marked pairs shown as red 'X'
+    Draws the upper‑triangular indistinguishability table,
+    then saves to out/plots/indis_step{step_idx+1}.png
     """
     n = len(states)
     fig, ax = plt.subplots(figsize=(n, n * 0.8))
     ax.set_xlim(0, n-1)
     ax.set_ylim(0, n-1)
 
+    # Draw cells and X marks
     for i in range(1, n):
         for j in range(i):
             x, y = j, n - 1 - i
-            rect = plt.Rectangle((x, y), 1, 1, fill=False, edgecolor='black', linewidth=1.5)
-            ax.add_patch(rect)
+            ax.add_patch(plt.Rectangle((x, y), 1, 1,
+                                       fill=False, edgecolor='black', linewidth=1.5))
             if table[(states[j], states[i])]:
                 ax.text(x + 0.5, y + 0.5, 'X',
                         ha='center', va='center',
                         fontsize=16, color='red', fontweight='bold')
 
-    # Column labels (bottom)
+    # Column labels on bottom
     ax.set_xticks([j + 0.5 for j in range(n-1)])
     ax.set_xticklabels(states[:-1], fontsize=12)
     ax.xaxis.tick_bottom()
 
-    # Row labels (left)
+    # Row labels on left
     ax.set_yticks([n - 1 - i + 0.5 for i in range(1, n)])
     ax.set_yticklabels(states[1:], fontsize=12)
     ax.yaxis.tick_left()
 
-    ax.set_title(f"Indistinguishability Table – Step {step_idx+1}", fontsize=18, pad=15)
+    ax.set_title(f"Indistinguishability Table – Step {step_idx+1}",
+                 fontsize=18, pad=15)
     ax.invert_yaxis()
     ax.tick_params(length=0)
     plt.tight_layout()
 
-    fn = f"out/plots/indis_step{step_idx}.png"
-    fig.savefig(fn, dpi=150)
+    # **Use 1‑based filename** here:
+    filename = f"out/plots/indis_step{step_idx+1}.png"
+    fig.savefig(filename, dpi=150)
     return fig
 
 def plot_all_indis_steps(states, tables):
-    return [plot_indis_step(states, tbl, idx) for idx, tbl in enumerate(tables)]
+    """
+    Calls plot_indis_step for each table in 'tables'
+    Returns list of Figure objects.
+    """
+    figs = []
+    for idx, tbl in enumerate(tables):
+        figs.append(plot_indis_step(states, tbl, idx))
+    return figs
 
-# Run indistinguishability algorithm
+# --- Then later in your main.py ---
+
+# 1) Generate tables + details:
 indis_states, indis_tables, indis_details = record_indis_details(dfa)
+
+# 2) Plot each step (now saves indis_step1.png … indis_stepN.png)
 indis_plots = plot_all_indis_steps(indis_states, indis_tables)
+
 
 # --- 4. Build the Minimized DFA from the final indistinguishability table ---
 
