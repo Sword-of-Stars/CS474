@@ -1,6 +1,5 @@
 from jinja2 import Template, Environment
 import subprocess
-
 import os
 
 class Solution():
@@ -13,16 +12,19 @@ class Solution():
         self.has_generated_latex = False
 
         #=== Static Files ===#
-        self.format = open(f"{self.FORMAT_PATH}/format.tex", "r").read()
-        self.introduction = open(f"{self.FORMAT_PATH}/introduction.tex", "r").read()
-        self.conclusion = open(f"{self.FORMAT_PATH}/conclusion.tex", "r").read()
+        with open(f"{self.FORMAT_PATH}/format.tex", "r", encoding="utf-8") as f:
+            self.format = f.read()
+        with open(f"{self.FORMAT_PATH}/introduction.tex", "r", encoding="utf-8") as f:
+            self.introduction = f.read()
+        with open(f"{self.FORMAT_PATH}/conclusion.tex", "r", encoding="utf-8") as f:
+            self.conclusion = f.read()
 
         #=== Dynamic Content ===#
         self.dynamic_content = ""
 
-
     def add_dynamic_content(self, template, data):
-        template_str = open(f"{self.FORMAT_PATH}/{template}", "r").read()
+        with open(f"{self.FORMAT_PATH}/{template}", "r", encoding="utf-8") as f:
+            template_str = f.read()
         template = Template(template_str)
         template.environment = Environment(trim_blocks=True)
         self.dynamic_content += template.render(data)

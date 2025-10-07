@@ -6,6 +6,8 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{fancyhdr}
+\usepackage{colortbl}
+\usepackage{caption}
 \usetikzlibrary{automata, positioning}
 \usepackage{helvet} % Match font to reference
 \pagestyle{fancy}
@@ -93,131 +95,1727 @@ where:
     \item $h_a, h_r \in Q$ are the accept and reject states respectively (with $h_a \neq h_r$),
     \item $\delta$ is the transition function.
 \end{itemize}
-\section{Transition Function}
+\definecolor{BrickRed}{RGB}{203, 65, 84}
+\definecolor{LightGreen}{RGB}{144, 238, 144}
+\def\Sym#1{\texttt{\color{BrickRed}#1}}
 
-The transition function $\delta$ is defined as follows:
-\begin{align*}\delta(q0,\,0) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,1) &= (x,\,R,\,q1)\\[0.5em]\delta(q0,\,⊔) &= (⊔,\,S,\,q2)\\[0.5em]\delta(q1,\,0) &= (0,\,R,\,q0)\\[0.5em]\delta(q1,\,1) &= (1,\,R,\,q0)\\[0.5em]\delta(q1,\,⊔) &= (⊔,\,S,\,q2)
-\end{align*}
+\section{Transition Function Table}
+
+The transition function $\delta$ is defined in the following table. Each cell shows the output $(write, direction, new\_state)$ for a given current state and input symbol:
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline
+$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline
+$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\caption{Complete Transition Function for the Turing Machine}
+\end{table}
 
 \section{Turing Machine Simulation Visualizations}
 
-The simulation produced the following sequence of transitions. For each transition, the tape is displayed in a fixed window (so the tape does not shift), and the head (with its state label) moves along the tape. In each transition, we detail:
-\begin{itemize}
-    \item \textbf{Head Position:} The index of the cell where the head is located.
-    \item \textbf{Read Symbol:} The symbol at that cell that is being processed.
-    \item \textbf{Rewritten Symbol:} The symbol that is written on the tape (if it is changed).
-    \item \textbf{New State:} The Turing machine's state after applying the transition.
-\end{itemize}
+The simulation produced the following sequence of transitions. For each transition, a table shows the current transition being executed (highlighted row in yellow, active cell in green), followed by the explanation and before/after visualization showing the tape changes.
 \subsection*{Transition 1}
-\textbf{Explanation:}
-\newline In the initial configuration, the Turing Machine loads the input tape. The head is positioned at the starting cell (index \textbf0), reading the symbol \textbf{`1`}. Since no transition has been performed yet, no rewriting occurs.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot1.png}
-    \caption{Configuration at Transition 1}
-\end{figure}
+\textbf{Explanation:}
+In the initial configuration, the Turing Machine loads the input tape. The head is positioned at the starting cell (index \textbf{ 0 }), reading the symbol \Sym{0}. Since no transition has been performed yet, no rewriting occurs. The tape indices are shown above each cell.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot1.png}
+    \captionof{figure}{ Initial configuration }
+\end{center}
 \subsection*{Transition 2}
-\textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf0, reading the symbol \textbf{`1`}.
-    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq1.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot2.png}
-    \caption{Configuration at Transition 2}
-\end{figure}
+\textbf{Current Transition:} $\delta(q_{1}, \Sym{0}) = (\Sym{x}, R, q_{2})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline
+\rowcolor{yellow}
+$q_{1}$ & $(\#, R, q_{4})$ & \cellcolor{LightGreen} $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{1}$ at cell index \textbf{ 0 }, reading the symbol \Sym{0}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{2}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot2.png}
+    \captionof{figure}{ Before and after Transition 2 }
+\end{center}
+\clearpage
 \subsection*{Transition 3}
-\textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf1, reading the symbol \textbf{`0`}.
-    \item The machine rewrites this cell with \textbf{`0`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq0.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot3.png}
-    \caption{Configuration at Transition 3}
-\end{figure}
+\textbf{Current Transition:} $\delta(q_{2}, \Sym{1}) = (\Sym{1}, R, q_{2})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & \cellcolor{LightGreen} $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{2}$ at cell index \textbf{ 1 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{1}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{2}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot3.png}
+    \captionof{figure}{ Before and after Transition 3 }
+\end{center}
 \subsection*{Transition 4}
-\textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf2, reading the symbol \textbf{`1`}.
-    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq1.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot4.png}
-    \caption{Configuration at Transition 4}
-\end{figure}
+\textbf{Current Transition:} $\delta(q_{2}, \Sym{0}) = (\Sym{0}, R, q_{2})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{2}$ & $(\#, R, q_{4})$ & \cellcolor{LightGreen} $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{2}$ at cell index \textbf{ 2 }, reading the symbol \Sym{0}.
+    \item The machine rewrites this cell with \Sym{0}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{2}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot4.png}
+    \captionof{figure}{ Before and after Transition 4 }
+\end{center}
+\clearpage
 \subsection*{Transition 5}
-\textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf3, reading the symbol \textbf{`0`}.
-    \item The machine rewrites this cell with \textbf{`0`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq0.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot5.png}
-    \caption{Configuration at Transition 5}
-\end{figure}
+\textbf{Current Transition:} $\delta(q_{2}, \Sym{1}) = (\Sym{1}, R, q_{2})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & \cellcolor{LightGreen} $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{2}$ at cell index \textbf{ 3 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{1}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{2}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot5.png}
+    \captionof{figure}{ Before and after Transition 5 }
+\end{center}
 \subsection*{Transition 6}
-\textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf4, reading the symbol \textbf{`1`}.
-    \item The machine rewrites this cell with \textbf{`x`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq1.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot6.png}
-    \caption{Configuration at Transition 6}
-\end{figure}
+\textbf{Current Transition:} $\delta(q_{2}, \Sym{\#}) = (\Sym{\#}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{2}$ & \cellcolor{LightGreen} $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{2}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot6.png}
+    \captionof{figure}{ Before and after Transition 6 }
+\end{center}
+\clearpage
 \subsection*{Transition 7}
-\textbf{Explanation:}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf5, reading the symbol \textbf{`⊔`}.
-    \item The machine rewrites this cell with \textbf{`⊔`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbfq2.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot7.png}
-    \caption{Configuration at Transition 7}
-\end{figure}
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{0}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 5 }, reading the symbol \Sym{0}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot7.png}
+    \captionof{figure}{ Before and after Transition 7 }
+\end{center}
+\subsection*{Transition 8}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{\#}) = (\Sym{\#}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & \cellcolor{LightGreen} $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot8.png}
+    \captionof{figure}{ Before and after Transition 8 }
+\end{center}
+\clearpage
+\subsection*{Transition 9}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{1}) = (\Sym{1}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & \cellcolor{LightGreen} $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 3 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{1}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot9.png}
+    \captionof{figure}{ Before and after Transition 9 }
+\end{center}
+\subsection*{Transition 10}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{0}) = (\Sym{0}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & \cellcolor{LightGreen} $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 2 }, reading the symbol \Sym{0}.
+    \item The machine rewrites this cell with \Sym{0}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot10.png}
+    \captionof{figure}{ Before and after Transition 10 }
+\end{center}
+\clearpage
+\subsection*{Transition 11}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{1}) = (\Sym{1}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & \cellcolor{LightGreen} $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 1 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{1}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot11.png}
+    \captionof{figure}{ Before and after Transition 11 }
+\end{center}
+\subsection*{Transition 12}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{x}) = (\Sym{x}, R, q_{1})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & \cellcolor{LightGreen} $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 0 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{1}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot12.png}
+    \captionof{figure}{ Before and after Transition 12 }
+\end{center}
+\clearpage
+\subsection*{Transition 13}
+
+\textbf{Current Transition:} $\delta(q_{1}, \Sym{1}) = (\Sym{x}, R, q_{8})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline
+\rowcolor{yellow}
+$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & \cellcolor{LightGreen} $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{1}$ at cell index \textbf{ 1 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{8}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot13.png}
+    \captionof{figure}{ Before and after Transition 13 }
+\end{center}
+\subsection*{Transition 14}
+
+\textbf{Current Transition:} $\delta(q_{8}, \Sym{0}) = (\Sym{0}, R, q_{8})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{8}$ & $(\#, R, q_{3})$ & \cellcolor{LightGreen} $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{8}$ at cell index \textbf{ 2 }, reading the symbol \Sym{0}.
+    \item The machine rewrites this cell with \Sym{0}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{8}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot14.png}
+    \captionof{figure}{ Before and after Transition 14 }
+\end{center}
+\clearpage
+\subsection*{Transition 15}
+
+\textbf{Current Transition:} $\delta(q_{8}, \Sym{1}) = (\Sym{1}, R, q_{8})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & \cellcolor{LightGreen} $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{8}$ at cell index \textbf{ 3 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{1}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{8}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot15.png}
+    \captionof{figure}{ Before and after Transition 15 }
+\end{center}
+\subsection*{Transition 16}
+
+\textbf{Current Transition:} $\delta(q_{8}, \Sym{\#}) = (\Sym{\#}, R, q_{3})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{8}$ & \cellcolor{LightGreen} $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{8}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{3}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot16.png}
+    \captionof{figure}{ Before and after Transition 16 }
+\end{center}
+\clearpage
+\subsection*{Transition 17}
+
+\textbf{Current Transition:} $\delta(q_{3}, \Sym{x}) = (\Sym{x}, R, q_{3})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & \cellcolor{LightGreen} $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{3}$ at cell index \textbf{ 5 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{3}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot17.png}
+    \captionof{figure}{ Before and after Transition 17 }
+\end{center}
+\subsection*{Transition 18}
+
+\textbf{Current Transition:} $\delta(q_{3}, \Sym{1}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{3}$ at cell index \textbf{ 6 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot18.png}
+    \captionof{figure}{ Before and after Transition 18 }
+\end{center}
+\clearpage
+\subsection*{Transition 19}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{x}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 5 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot19.png}
+    \captionof{figure}{ Before and after Transition 19 }
+\end{center}
+\subsection*{Transition 20}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{\#}) = (\Sym{\#}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & \cellcolor{LightGreen} $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot20.png}
+    \captionof{figure}{ Before and after Transition 20 }
+\end{center}
+\clearpage
+\subsection*{Transition 21}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{1}) = (\Sym{1}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & \cellcolor{LightGreen} $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 3 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{1}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot21.png}
+    \captionof{figure}{ Before and after Transition 21 }
+\end{center}
+\subsection*{Transition 22}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{0}) = (\Sym{0}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & \cellcolor{LightGreen} $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 2 }, reading the symbol \Sym{0}.
+    \item The machine rewrites this cell with \Sym{0}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot22.png}
+    \captionof{figure}{ Before and after Transition 22 }
+\end{center}
+\clearpage
+\subsection*{Transition 23}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{x}) = (\Sym{x}, R, q_{1})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & \cellcolor{LightGreen} $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 1 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{1}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot23.png}
+    \captionof{figure}{ Before and after Transition 23 }
+\end{center}
+\subsection*{Transition 24}
+
+\textbf{Current Transition:} $\delta(q_{1}, \Sym{0}) = (\Sym{x}, R, q_{2})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline
+\rowcolor{yellow}
+$q_{1}$ & $(\#, R, q_{4})$ & \cellcolor{LightGreen} $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{1}$ at cell index \textbf{ 2 }, reading the symbol \Sym{0}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{2}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot24.png}
+    \captionof{figure}{ Before and after Transition 24 }
+\end{center}
+\clearpage
+\subsection*{Transition 25}
+
+\textbf{Current Transition:} $\delta(q_{2}, \Sym{1}) = (\Sym{1}, R, q_{2})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & \cellcolor{LightGreen} $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{2}$ at cell index \textbf{ 3 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{1}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{2}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot25.png}
+    \captionof{figure}{ Before and after Transition 25 }
+\end{center}
+\subsection*{Transition 26}
+
+\textbf{Current Transition:} $\delta(q_{2}, \Sym{\#}) = (\Sym{\#}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{2}$ & \cellcolor{LightGreen} $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{2}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot26.png}
+    \captionof{figure}{ Before and after Transition 26 }
+\end{center}
+\clearpage
+\subsection*{Transition 27}
+
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{x}) = (\Sym{x}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & \cellcolor{LightGreen} $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 5 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot27.png}
+    \captionof{figure}{ Before and after Transition 27 }
+\end{center}
+\subsection*{Transition 28}
+
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{x}) = (\Sym{x}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & \cellcolor{LightGreen} $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 6 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot28.png}
+    \captionof{figure}{ Before and after Transition 28 }
+\end{center}
+\clearpage
+\subsection*{Transition 29}
+
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{0}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 7 }, reading the symbol \Sym{0}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot29.png}
+    \captionof{figure}{ Before and after Transition 29 }
+\end{center}
+\subsection*{Transition 30}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{x}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 6 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot30.png}
+    \captionof{figure}{ Before and after Transition 30 }
+\end{center}
+\clearpage
+\subsection*{Transition 31}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{x}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 5 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot31.png}
+    \captionof{figure}{ Before and after Transition 31 }
+\end{center}
+\subsection*{Transition 32}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{\#}) = (\Sym{\#}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & \cellcolor{LightGreen} $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot32.png}
+    \captionof{figure}{ Before and after Transition 32 }
+\end{center}
+\clearpage
+\subsection*{Transition 33}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{1}) = (\Sym{1}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & \cellcolor{LightGreen} $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 3 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{1}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot33.png}
+    \captionof{figure}{ Before and after Transition 33 }
+\end{center}
+\subsection*{Transition 34}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{x}) = (\Sym{x}, R, q_{1})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & \cellcolor{LightGreen} $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 2 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{1}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot34.png}
+    \captionof{figure}{ Before and after Transition 34 }
+\end{center}
+\clearpage
+\subsection*{Transition 35}
+
+\textbf{Current Transition:} $\delta(q_{1}, \Sym{1}) = (\Sym{x}, R, q_{8})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline
+\rowcolor{yellow}
+$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & \cellcolor{LightGreen} $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{1}$ at cell index \textbf{ 3 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{8}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot35.png}
+    \captionof{figure}{ Before and after Transition 35 }
+\end{center}
+\subsection*{Transition 36}
+
+\textbf{Current Transition:} $\delta(q_{8}, \Sym{\#}) = (\Sym{\#}, R, q_{3})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{8}$ & \cellcolor{LightGreen} $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{8}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{3}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot36.png}
+    \captionof{figure}{ Before and after Transition 36 }
+\end{center}
+\clearpage
+\subsection*{Transition 37}
+
+\textbf{Current Transition:} $\delta(q_{3}, \Sym{x}) = (\Sym{x}, R, q_{3})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & \cellcolor{LightGreen} $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{3}$ at cell index \textbf{ 5 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{3}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot37.png}
+    \captionof{figure}{ Before and after Transition 37 }
+\end{center}
+\subsection*{Transition 38}
+
+\textbf{Current Transition:} $\delta(q_{3}, \Sym{x}) = (\Sym{x}, R, q_{3})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & \cellcolor{LightGreen} $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{3}$ at cell index \textbf{ 6 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{3}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot38.png}
+    \captionof{figure}{ Before and after Transition 38 }
+\end{center}
+\clearpage
+\subsection*{Transition 39}
+
+\textbf{Current Transition:} $\delta(q_{3}, \Sym{x}) = (\Sym{x}, R, q_{3})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & \cellcolor{LightGreen} $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{3}$ at cell index \textbf{ 7 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{3}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot39.png}
+    \captionof{figure}{ Before and after Transition 39 }
+\end{center}
+\subsection*{Transition 40}
+
+\textbf{Current Transition:} $\delta(q_{3}, \Sym{1}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{3}$ at cell index \textbf{ 8 }, reading the symbol \Sym{1}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot40.png}
+    \captionof{figure}{ Before and after Transition 40 }
+\end{center}
+\clearpage
+\subsection*{Transition 41}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{x}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 7 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot41.png}
+    \captionof{figure}{ Before and after Transition 41 }
+\end{center}
+\subsection*{Transition 42}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{x}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 6 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot42.png}
+    \captionof{figure}{ Before and after Transition 42 }
+\end{center}
+\clearpage
+\subsection*{Transition 43}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{x}) = (\Sym{x}, L, q_{6})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & \cellcolor{LightGreen} $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 5 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{6}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot43.png}
+    \captionof{figure}{ Before and after Transition 43 }
+\end{center}
+\subsection*{Transition 44}
+
+\textbf{Current Transition:} $\delta(q_{6}, \Sym{\#}) = (\Sym{\#}, L, q_{7})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{6}$ & \cellcolor{LightGreen} $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{6}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ L } and changes its state to $q_{7}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot44.png}
+    \captionof{figure}{ Before and after Transition 44 }
+\end{center}
+\clearpage
+\subsection*{Transition 45}
+
+\textbf{Current Transition:} $\delta(q_{7}, \Sym{x}) = (\Sym{x}, R, q_{1})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline
+\rowcolor{yellow}
+$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & \cellcolor{LightGreen} $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{7}$ at cell index \textbf{ 3 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{1}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot45.png}
+    \captionof{figure}{ Before and after Transition 45 }
+\end{center}
+\subsection*{Transition 46}
+
+\textbf{Current Transition:} $\delta(q_{1}, \Sym{\#}) = (\Sym{\#}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline
+\rowcolor{yellow}
+$q_{1}$ & \cellcolor{LightGreen} $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{1}$ at cell index \textbf{ 4 }, reading the symbol \Sym{\#}.
+    \item The machine rewrites this cell with \Sym{\#}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot46.png}
+    \captionof{figure}{ Before and after Transition 46 }
+\end{center}
+\clearpage
+\subsection*{Transition 47}
+
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{x}) = (\Sym{x}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & \cellcolor{LightGreen} $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 5 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot47.png}
+    \captionof{figure}{ Before and after Transition 47 }
+\end{center}
+\subsection*{Transition 48}
+
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{x}) = (\Sym{x}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & \cellcolor{LightGreen} $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 6 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot48.png}
+    \captionof{figure}{ Before and after Transition 48 }
+\end{center}
+\clearpage
+\subsection*{Transition 49}
+
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{x}) = (\Sym{x}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & \cellcolor{LightGreen} $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 7 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot49.png}
+    \captionof{figure}{ Before and after Transition 49 }
+\end{center}
+\subsection*{Transition 50}
+
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{x}) = (\Sym{x}, R, q_{4})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & \cellcolor{LightGreen} $(x, R, q_{4})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 8 }, reading the symbol \Sym{x}.
+    \item The machine rewrites this cell with \Sym{x}.
+    \item The machine moves the head \textbf{ R } and changes its state to $q_{4}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot50.png}
+    \captionof{figure}{ Before and after Transition 50 }
+\end{center}
+\clearpage
+\subsection*{Transition 51}
+
+\textbf{Current Transition:} $\delta(q_{4}, \Sym{\ensuremath{\sqcup}}) = (\Sym{\ensuremath{\sqcup}}, S, q_{\text{accept}})$
+
+\vspace{0.5em}\begin{center}
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{State} & \textbf{ $\#$ } & \textbf{ $0$ } & \textbf{ $1$ } & \textbf{ $x$ } & \textbf{ $\sqcup$ } \\ \hline$q_{1}$ & $(\#, R, q_{4})$ & $(x, R, q_{2})$ & $(x, R, q_{8})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{2}$ & $(\#, R, q_{4})$ & $(0, R, q_{2})$ & $(1, R, q_{2})$ & $---$ & $---$ \\ \hline$q_{3}$ & $---$ & $(0, R, q_{\text{reject}})$ & $(x, L, q_{6})$ & $(x, R, q_{3})$ & $(\sqcup, S, q_{\text{accept}})$ \\ \hline
+\rowcolor{yellow}
+$q_{4}$ & $---$ & $(x, L, q_{6})$ & $---$ & $(x, R, q_{4})$ & \cellcolor{LightGreen} $(\sqcup, S, q_{\text{accept}})$ \\ \hline$q_{5}$ & $---$ & $(0, R, q_{5})$ & $(1, R, q_{5})$ & $(x, R, q_{5})$ & $---$ \\ \hline$q_{6}$ & $(\#, L, q_{7})$ & $(0, L, q_{6})$ & $(1, L, q_{6})$ & $(x, L, q_{6})$ & $---$ \\ \hline$q_{7}$ & $---$ & $(0, L, q_{7})$ & $(1, L, q_{7})$ & $(x, R, q_{1})$ & $---$ \\ \hline$q_{8}$ & $(\#, R, q_{3})$ & $(0, R, q_{8})$ & $(1, R, q_{8})$ & $---$ & $---$ \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+
+\textbf{Explanation:}
+In this transition:
+\begin{itemize}
+    \item The machine is in state $q_{4}$ at cell index \textbf{ 9 }, reading the symbol \Sym{\ensuremath{\sqcup}}.
+    \item The machine rewrites this cell with \Sym{\ensuremath{\sqcup}}.
+    \item The machine moves the head \textbf{ S } and changes its state to $q_{\text{accept}}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+
+\vspace{0.5em}
+
+\begin{center}
+    
+    \includegraphics[width=0.9\linewidth]{out/plots/plot51.png}
+    \captionof{figure}{ Before and after Transition 51 }
+\end{center}
 
 \section{Halt and Final Tape}
 
-At transition \(\mathbf{ 7 }\), the machine enters its halting state 
-\(\mathbf{ q2 }\) and stops.
+At transition \(\mathbf{ 51 }\), the machine enters its halting state 
+$q_{\text{accept}}$ and stops.
 
-The final tape configuration is shown below:
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot7.png}
-    \caption{Final tape contents at halting state \(\mathbf{ q2 }\).}
-\end{figure}
+The final tape configuration is shown above in Transition 51.
 \end{document}

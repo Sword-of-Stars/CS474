@@ -13,9 +13,9 @@ class Solution():
         self.has_generated_latex = False
 
         #=== Static Files ===#
-        self.format = open(f"{self.FORMAT_PATH}/format.tex", "r").read()
-        self.introduction = open(f"{self.FORMAT_PATH}/introduction.tex", "r").read()
-        self.conclusion = open(f"{self.FORMAT_PATH}/conclusion.tex", "r").read()
+        self.format = open(f"{self.FORMAT_PATH}/format.tex", "r", encoding="utf-8").read()
+        self.introduction = open(f"{self.FORMAT_PATH}/introduction.tex", "r", encoding="utf-8").read()
+        self.conclusion = open(f"{self.FORMAT_PATH}/conclusion.tex", "r", encoding="utf-8").read()
 
         #=== Dynamic Content ===#
         self.dynamic_content = ""
@@ -28,7 +28,7 @@ class Solution():
         self.dynamic_content += template.render(data)
 
     def generate_latex(self):
-        with open(self.OUT_FILE, "w") as f:
+        with open(self.OUT_FILE, "w", encoding="utf-8") as f:
             f.write(self.format)
             f.write(self.introduction)
             f.write(self.dynamic_content)

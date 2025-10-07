@@ -76,10 +76,9 @@ This conversion has five steps:
 \item RHS is either one terminal or just variables
 \item Ensure RHS has at most two variables
 \end{enumerate}
-
 Right-hand side will be abbreviated to RHS and left-hand side will be abbreviated to LHS.
 
-Consider the following grammar:
+\section*{Original Grammar}
 \begin{align*}
     S &\to AaB  | b  | S \\
     A &\to S  | \varepsilon  | AB \\
@@ -88,129 +87,481 @@ Consider the following grammar:
 
 \section{Ensure the start variable is not on the RHS}
 
+The grammar contains productions with \(S\) on the RHS. To avoid circularity and ensure CNF prerequisites, we add a fresh start variable:
+\[
+S_0 \to S
+\]
+This guarantees that the start variable does not appear on any RHS.
 
 
+\section{Eliminate \(\varepsilon\)-rules}
 
+\subsection*{Step 1: Identify Nullable Variables}
+A variable is \emph{nullable} if it can derive \(\varepsilon\).
+We identify nullable variables iteratively:
+\begin{itemize}
   
-    
-    
+  \item \textbfDirect: Found
+  \(\{A\}\). Variables that have an explicit ε-production.
   
-    
-    
+  \item \textbfIndirect: Found
+  \(\{B, S\}\). Variables that derive strings of only nullable variables.
   
-    
-      
-    
-    
+  \item \textbfIndirect: Found
+  \(\{S0\}\). Variables that derive strings of only nullable variables.
   
+\end{itemize}
+Thus,
+\[
+V_{\varepsilon}=\{A, B, S, S0\}.
+\]
 
-  
-    
-      
-    
-    
-  
-    
-    
-  
-    
-    
-  
-
-  
-    
-    
-  
-    
-      
-    
-    
-  
+\subsection*{Step 2: Add Productions Erasing Nullable Variables}
+For each \(X\in V_{\varepsilon}\), we add rules where \(X\) is removed from contexts in which it appears (keeping language equivalence).
+We record all additions step-by-step:
 
 
-
-
-  The grammar contains productions with S on the right-hand side. To eliminate these productions, simply add a new state as follows:
-  \begin{align*}
-    S_0 \to S
-  \end{align*}
-
-
-\section{Eliminate $\epsilon$-rules}
-First, we need to find nullable variables in the grammar, which are any variables that can produce $\epsilon$. In this grammar,
-the following variables are nullable:
+\paragraph{Processing nullable variable \(\mathbf{ A }\).}
+\begin{itemize}
+  
+  \item For \( S \):
+    \[
+      \text{Original: } \{AaB, b, S\}
+    \]
+    \[
+      \text{Added: } \{AaB, aB\}
+    \]
+  
+  \item For \( A \):
+    \[
+      \text{Original: } \{S, \varepsilon, AB\}
+    \]
+    \[
+      \text{Added: } \{AB, B\}
+    \]
+  
+  \item For \( B \):
+    \[
+      \text{Original: } \{bbb, ASA\}
+    \]
+    \[
+      \text{Added: } \{AS, ASA, S, SA\}
+    \]
+  
+\end{itemize}
+After processing \( A \), snapshot:
 \begin{align*}
-    V_{\epsilon}=\{ A\}
-\end{align*}
-
-For each appearance of the nullable variable in the grammar, add a rule where that variable is replaced by $\epsilon$. This 
-results in the following grammar:
-\begin{align*}
-    S &\to b  | AaB  | aB  | S \\
-    A &\to AB  | \varepsilon  | B  | S \\
-    B &\to SA  | bbb  | S  | AS  | ASA \\
+    S &\to AaB  | S  | aB  | b \\
+    A &\to AB  | B  | S  | \varepsilon \\
+    B &\to AS  | ASA  | S  | SA  | bbb \\
     S0 &\to S \\
     \end{align*}
 
-Finally, remove all $\epsilon$-rules to yield
+\paragraph{Processing nullable variable \(\mathbf{ B }\).}
+\begin{itemize}
+  
+  \item For \( S \):
+    \[
+      \text{Original: } \{AaB, S, aB, b\}
+    \]
+    \[
+      \text{Added: } \{Aa, AaB, a, aB\}
+    \]
+  
+  \item For \( A \):
+    \[
+      \text{Original: } \{AB, B, S, \varepsilon\}
+    \]
+    \[
+      \text{Added: } \{\varepsilon, A, AB, B\}
+    \]
+  
+\end{itemize}
+After processing \( B \), snapshot:
 \begin{align*}
-    S &\to b  | AaB  | aB  | S \\
-    A &\to AB  | B  | S \\
-    B &\to SA  | bbb  | S  | AS  | ASA \\
+    S &\to Aa  | AaB  | S  | a  | aB  | b \\
+    A &\to \varepsilon  | A  | AB  | B  | S  | \varepsilon \\
+    B &\to AS  | ASA  | S  | SA  | bbb \\
     S0 &\to S \\
+    \end{align*}
+
+\paragraph{Processing nullable variable \(\mathbf{ S }\).}
+\begin{itemize}
+  
+  \item For \( S \):
+    \[
+      \text{Original: } \{Aa, AaB, S, a, aB, b\}
+    \]
+    \[
+      \text{Added: } \{\varepsilon, S\}
+    \]
+  
+  \item For \( A \):
+    \[
+      \text{Original: } \{, A, AB, B, S, \varepsilon\}
+    \]
+    \[
+      \text{Added: } \{\varepsilon, S\}
+    \]
+  
+  \item For \( B \):
+    \[
+      \text{Original: } \{AS, ASA, S, SA, bbb\}
+    \]
+    \[
+      \text{Added: } \{\varepsilon, A, AA, AS, ASA, S, SA\}
+    \]
+  
+  \item For \( S0 \):
+    \[
+      \text{Original: } \{S\}
+    \]
+    \[
+      \text{Added: } \{\varepsilon, S\}
+    \]
+  
+\end{itemize}
+After processing \( S \), snapshot:
+\begin{align*}
+    S &\to \varepsilon  | Aa  | AaB  | S  | a  | aB  | b \\
+    A &\to \varepsilon  | A  | AB  | B  | S  | \varepsilon \\
+    B &\to \varepsilon  | A  | AA  | AS  | ASA  | S  | SA  | bbb \\
+    S0 &\to \varepsilon  | S \\
+    \end{align*}
+
+
+\subsection*{Step 3: Remove Explicit \(\varepsilon\)-Productions}
+We now delete all explicit \(\varepsilon\)-rules:
+
+Removed from \(\{A\}\).
+
+
+\paragraph{Grammar after \(\varepsilon\)-elimination (post-additions, pre-removal).}
+\begin{align*}
+    S &\to \varepsilon  | Aa  | AaB  | S  | a  | aB  | b \\
+    A &\to \varepsilon  | A  | AB  | B  | S  | \varepsilon \\
+    B &\to \varepsilon  | A  | AA  | AS  | ASA  | S  | SA  | bbb \\
+    S0 &\to \varepsilon  | S \\
+    \end{align*}
+
+\paragraph{Grammar after removing explicit \(\varepsilon\)-rules.}
+\begin{align*}
+    S &\to \varepsilon  | Aa  | AaB  | S  | a  | aB  | b \\
+    A &\to \varepsilon  | A  | AB  | B  | S \\
+    B &\to \varepsilon  | A  | AA  | AS  | ASA  | S  | SA  | bbb \\
+    S0 &\to \varepsilon  | S \\
     \end{align*}
 
 \section{Eliminate unit rules}
 
+A \emph{unit rule} has the form \(A \to B\), where \(A,B\) are variables. We substitute along reachability so that unit rules become unnecessary.
 
-The grammar contains unit rules. Recall that unit rules are rules of the form:
-\begin{align*}
-    A \to B \\
-    B \to C | D\\
-\end{align*}
-Notice that $B$ can be eliminated via $A \to C | D$. 
-Essentially, we substitute all of the rules of $B$ into $A$. 
-One way to visualize this is through a directed graph.
-
+\subsection*{Step 1: Visualize unit-rule reachability}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\linewidth]{phase2/chomsky_converter/out/directed_graph.png}
-    \caption{A visual representation of which variables can be reached via a series of applications of unit rules.}
-    \label{fig:dir_graph}
+    \includegraphics[width=0.55\linewidth]{ phase2/chomsky_converter/out\unit_graph.png }
+    \caption{Unit-rule reachability graph (\(A\to B\) edges).}
+    \label{fig:unit_graph}
 \end{figure}
 
-We will perform this operation for all unit rules
-in the provided grammar, which yields:
+\subsection*{Step 2: Substitute productions along unit paths}
+For each variable \(A\), we add all non-unit productions from variables reachable from \(A\):
+\begin{itemize}
+  
+  \item For \( A \), reachable: \(\{A, B, S\}\).
+        Added: \(\{, AA, AB, AS, ASA, Aa, AaB, SA, a, aB, b, bbb\}\).
+  
+  \item For \( B \), reachable: \(\{A, B, S\}\).
+        Added: \(\{, AA, AB, AS, ASA, Aa, AaB, SA, a, aB, b, bbb\}\).
+  
+  \item For \( S \), reachable: \(\{S\}\).
+        Added: \(\{, Aa, AaB, a, aB, b\}\).
+  
+  \item For \( S0 \), reachable: \(\{S\}\).
+        Added: \(\{, Aa, AaB, a, aB, b\}\).
+  
+</itemize}
+
+\subsection*{Step 3: Remove unit rules}
+
+Removed unit rules:
+\begin{itemize}
+  
+  \item \(S	o S\)
+  
+  \item \(A	o A\)
+  
+  \item \(A	o B\)
+  
+  \item \(A	o S\)
+  
+  \item \(B	o A\)
+  
+  \item \(B	o S\)
+  
+  \item \(S0	o S\)
+  
+\end{itemize}
+
+
+\paragraph{Grammar after unit-rule elimination.}
 \begin{align*}
-    S &\to b  | AaB  | aB \\
-    A &\to AB  | AaB  | SA  | bbb  | b  | aB  | AS  | ASA \\
-    B &\to SA  | AaB  | bbb  | b  | aB  | AS  | ASA \\
-    S0 &\to b  | AaB  | aB \\
+    S &\to   | Aa  | AaB  | a  | aB  | b \\
+    A &\to   | AA  | AB  | AS  | ASA  | Aa  | AaB  | SA  | a  | aB  | b  | bbb \\
+    B &\to   | AA  | AB  | AS  | ASA  | Aa  | AaB  | SA  | a  | aB  | b  | bbb \\
+    S0 &\to   | Aa  | AaB  | a  | aB  | b \\
     \end{align*}
 
-
-
 \section{Ensure RHS is either one terminal or just variables}
-If any rule contains a combination of terminals and variables, then simply replace that terminal with a variable. 
-For example, the terminal $a$ would be replaced by $U_a$. This yields the following grammar:
+If a rule mixes terminals with variables on the RHS (length \(>1\) and contains a terminal), we replace each terminal \(a\) with a variable \(U_a\) (shown as \([Ua]\) internally), adding \(U_a \to a\).
+
+\subsection*{Replacements performed}
+
+\begin{itemize}
+  
+  \item For \( S \):
+    
+    \[
+      S \to Aa
+      \quad\Rightarrow\quad
+      S \to A[Ua]
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      S \to AaB
+      \quad\Rightarrow\quad
+      S \to A[Ua]B
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      S \to aB
+      \quad\Rightarrow\quad
+      S \to [Ua]B
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+  
+  \item For \( A \):
+    
+    \[
+      A \to Aa
+      \quad\Rightarrow\quad
+      A \to A[Ua]
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      A \to AaB
+      \quad\Rightarrow\quad
+      A \to A[Ua]B
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      A \to aB
+      \quad\Rightarrow\quad
+      A \to [Ua]B
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      A \to bbb
+      \quad\Rightarrow\quad
+      A \to [Ub][Ub][Ub]
+      \quad\text{(replaced: }b→[Ub], b→[Ub], b→[Ub]\text{)}
+    \]
+    
+  
+  \item For \( B \):
+    
+    \[
+      B \to Aa
+      \quad\Rightarrow\quad
+      B \to A[Ua]
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      B \to AaB
+      \quad\Rightarrow\quad
+      B \to A[Ua]B
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      B \to aB
+      \quad\Rightarrow\quad
+      B \to [Ua]B
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      B \to bbb
+      \quad\Rightarrow\quad
+      B \to [Ub][Ub][Ub]
+      \quad\text{(replaced: }b→[Ub], b→[Ub], b→[Ub]\text{)}
+    \]
+    
+  
+  \item For \( S0 \):
+    
+    \[
+      S0 \to Aa
+      \quad\Rightarrow\quad
+      S0 \to A[Ua]
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      S0 \to AaB
+      \quad\Rightarrow\quad
+      S0 \to A[Ua]B
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+    \[
+      S0 \to aB
+      \quad\Rightarrow\quad
+      S0 \to [Ua]B
+      \quad\text{(replaced: }a→[Ua]\text{)}
+    \]
+    
+  
+\end{itemize}
+
+\paragraph{New terminal variables created}
+\begin{itemize}
+  
+  \item \( U_a \to a \)
+  
+  \item \( U_b \to b \)
+  
+\end{itemize}
+
+
+\paragraph{Grammar after terminal replacements.}
 \begin{align*}
-    S &\to b  | AU_aB  | U_aB \\
-    A &\to AB  | SA  | b  | AS  | ASA  | AU_aB  | U_bU_bU_b  | U_aB \\
-    B &\to SA  | b  | AS  | ASA  | AU_aB  | U_bU_bU_b  | U_aB \\
-    S0 &\to b  | AU_aB  | U_aB \\
+    S &\to   | a  | b  | AU_a  | AU_aB  | U_aB \\
+    A &\to   | AA  | AB  | AS  | ASA  | SA  | a  | b  | AU_a  | AU_aB  | U_aB  | U_bU_bU_b \\
+    B &\to   | AA  | AB  | AS  | ASA  | SA  | a  | b  | AU_a  | AU_aB  | U_aB  | U_bU_bU_b \\
+    S0 &\to   | a  | b  | AU_a  | AU_aB  | U_aB \\
     [Ua] &\to a \\
     [Ub] &\to b \\
     \end{align*}
 
 \section{Break up long RHS rules}
-Finally, we need to break up rules that are longer than two variables. The simplest approach for this is to 
-go through the rules that are too long and combine variables until they are exactly two variables long. Once
-complete, this yields the following grammar:
+If a production has more than two variables on the RHS (by tokens), we systematically break it into binary rules with fresh variables, reusing existing ones when possible.
+
+
+\subsection*{Binary factoring steps}
+
+\paragraph{For \( S \)}
+
+\[
+\text{Original: } S \to A[Ua]B
+\]
+\[
+\text{Sequence: }\big( A[Ua] \to C (new) \big)\]
+\[
+\text{Final: } S \to CB
+\]
+
+
+\paragraph{For \( A \)}
+
+\[
+\text{Original: } A \to ASA
+\]
+\[
+\text{Sequence: }\big( AS \to D (new) \big)\]
+\[
+\text{Final: } A \to DA
+\]
+
+\[
+\text{Original: } A \to A[Ua]B
+\]
+\[
+\text{Sequence: }\big( A[Ua] \to C (reused) \big)\]
+\[
+\text{Final: } A \to CB
+\]
+
+\[
+\text{Original: } A \to [Ub][Ub][Ub]
+\]
+\[
+\text{Sequence: }\big( [Ub][Ub] \to E (new) \big)\]
+\[
+\text{Final: } A \to E[Ub]
+\]
+
+
+\paragraph{For \( B \)}
+
+\[
+\text{Original: } B \to ASA
+\]
+\[
+\text{Sequence: }\big( AS \to D (reused) \big)\]
+\[
+\text{Final: } B \to DA
+\]
+
+\[
+\text{Original: } B \to A[Ua]B
+\]
+\[
+\text{Sequence: }\big( A[Ua] \to C (reused) \big)\]
+\[
+\text{Final: } B \to CB
+\]
+
+\[
+\text{Original: } B \to [Ub][Ub][Ub]
+\]
+\[
+\text{Sequence: }\big( [Ub][Ub] \to E (reused) \big)\]
+\[
+\text{Final: } B \to E[Ub]
+\]
+
+
+\paragraph{For \( S0 \)}
+
+\[
+\text{Original: } S0 \to A[Ua]B
+\]
+\[
+\text{Sequence: }\big( A[Ua] \to C (reused) \big)\]
+\[
+\text{Final: } S0 \to CB
+\]
+
+
+
+\subsection*{New variables created}
+
+\begin{itemize}
+  
+  \item \( C \to A[Ua] \)
+  
+  \item \( D \to AS \)
+  
+  \item \( E \to [Ub][Ub] \)
+  
+\end{itemize}
+
+
+
+\section*{Final Grammar (CNF)}
 \begin{align*}
-    S &\to b  | U_aB  | CB \\
-    A &\to AB  | SA  | b  | AS  | U_aB  | DA  | CB  | EU_b \\
-    B &\to SA  | b  | AS  | U_aB  | DA  | CB  | EU_b \\
-    S0 &\to b  | U_aB  | CB \\
+    S &\to   | a  | b  | AU_a  | U_aB  | CB \\
+    A &\to   | AA  | AB  | AS  | SA  | a  | b  | AU_a  | U_aB  | DA  | CB  | EU_b \\
+    B &\to   | AA  | AB  | AS  | SA  | a  | b  | AU_a  | U_aB  | DA  | CB  | EU_b \\
+    S0 &\to   | a  | b  | AU_a  | U_aB  | CB \\
     [Ua] &\to a \\
     [Ub] &\to b \\
     C &\to AU_a \\
@@ -218,5 +569,5 @@ complete, this yields the following grammar:
     E &\to U_bU_b \\
     \end{align*}
 
-Now, notice that all rules point to either a single terminal or exactly two variables. This grammar is now in Chomsky Normal Form.
+\noindent All productions now have either a single terminal on the RHS or exactly two variables on the RHS; thus the grammar is in Chomsky Normal Form.
 \end{document}

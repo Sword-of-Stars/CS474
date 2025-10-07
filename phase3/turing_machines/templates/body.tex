@@ -1,54 +1,125 @@
-\section{Transition Function}
+{%- macro format_state(state) -%}
+{%- if state == 'qaccept' -%}
+q_{\text{accept}}
+{%- elif state == 'qreject' -%}
+q_{\text{reject}}
+{%- elif state and state|string|length > 1 and state[0] == 'q' -%}
+q_{ {{- state[1:] -}} }
+{%- else -%}
+{{ state }}
+{%- endif -%}
+{%- endmacro -%}
 
-The transition function $\delta$ is defined as follows:
-\begin{align*}
-{%- for key, value in tf.items() -%}
-    \delta({{ key[0] }},\,{{ key[1] }}) &= ({{ value[0] }},\,{{ value[1] }},\,{{ value[2] }}) {%- if not loop.last %}\\[0.5em]{%- endif %}
+{%- macro format_symbol(sym, blank) -%}
+{%- if sym == '#' -%}
+\Sym{\#}
+{%- elif sym == blank -%}
+\Sym{\ensuremath{\sqcup}}
+{%- elif sym == '0' -%}
+\Sym{0}
+{%- elif sym == '1' -%}
+\Sym{1}
+{%- elif sym == 'x' -%}
+\Sym{x}
+{%- else -%}
+\Sym{ {{- sym -}} }
+{%- endif -%}
+{%- endmacro -%}
+
+\definecolor{BrickRed}{RGB}{203, 65, 84}
+\definecolor{LightGreen}{RGB}{144, 238, 144}
+\def\Sym#1{\texttt{\color{BrickRed}#1}}
+
+\section{Transition Function Table}
+
+The transition function $\delta$ is defined in the following table. Each cell shows the output $(write, direction, new\_state)$ for a given current state and input symbol:
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{|c|{% for col in transition_table.columns[1:] %}c|{% endfor %}}
+\hline
+\textbf{State} {% for col in transition_table.columns[1:] %}& \textbf{ ${{ col }}$ } {% endfor %}\\ \hline
+{%- for idx, row in transition_table.iterrows() %}
+${{ row['State'] }}$ {% for col in transition_table.columns[1:] %}& ${{ row[col] }}$ {% endfor %}\\ \hline
 {%- endfor %}
-\end{align*}
+\end{tabular}
+\caption{Complete Transition Function for the Turing Machine}
+\end{table}
 
 \section{Turing Machine Simulation Visualizations}
 
-The simulation produced the following sequence of transitions. For each transition, the tape is displayed in a fixed window (so the tape does not shift), and the head (with its state label) moves along the tape. In each transition, we detail:
-\begin{itemize}
-    \item \textbf{Head Position:} The index of the cell where the head is located.
-    \item \textbf{Read Symbol:} The symbol at that cell that is being processed.
-    \item \textbf{Rewritten Symbol:} The symbol that is written on the tape (if it is changed).
-    \item \textbf{New State:} The Turing machine's state after applying the transition.
-\end{itemize}
+The simulation produced the following sequence of transitions. For each transition, a table shows the current transition being executed (highlighted row in yellow, active cell in green), followed by the explanation and before/after visualization showing the tape changes.
 
 {%- for idx in range(plots|length) %}
 \subsection*{Transition {{ idx+1 }}}
-\textbf{Explanation:}
-{%- if idx == 0 %}
-\newline In the initial configuration, the Turing Machine loads the input tape. The head is positioned at the starting cell (index \textbf{{ details[idx].head_position }}), reading the symbol \textbf{`{{ details[idx].read_symbol }}`}. Since no transition has been performed yet, no rewriting occurs.
-{%- else %}
-\newline In this transition:
-\begin{itemize}
-    \item The head is positioned at cell index \textbf{{ details[idx].head_position }}, reading the symbol \textbf{`{{ details[idx].read_symbol }}`}.
-    \item The machine rewrites this cell with \textbf{`{{ details[idx].written_symbol }}`} (if different from the original symbol).
-    \item The machine then moves the head and changes its state to \textbf{{ details[idx].new_state }}.
-\end{itemize}
-This step-by-step process is illustrated in the figure below.
+
+{%- if details[idx].current_transition %}
+
+\textbf{Current Transition:} $\delta({{ format_state(details[idx].current_transition[0]) }}, {{ format_symbol(details[idx].current_transition[1], blank) }}) = ({{ format_symbol(details[idx].current_transition[2], blank) }}, {{ details[idx].current_transition[3] }}, {{ format_state(details[idx].current_transition[4]) }})$
+
+\vspace{0.5em}
+
+{%- set current_state_formatted = format_state(details[idx].current_state_raw) -%}
+{%- set current_symbol = details[idx].current_transition[1] -%}
+{%- if current_symbol == '#' -%}
+  {%- set current_symbol_col = '\\#' -%}
+{%- elif current_symbol == blank -%}
+  {%- set current_symbol_col = '\\sqcup' -%}
+{%- else -%}
+  {%- set current_symbol_col = current_symbol -%}
+{%- endif -%}
+
+\begin{center}
+\footnotesize
+\begin{tabular}{|c|{% for col in transition_table.columns[1:] %}c|{% endfor %}}
+\hline
+\textbf{State} {% for col in transition_table.columns[1:] %}& \textbf{ ${{ col }}$ } {% endfor %}\\ \hline
+{%- for idx2, row in transition_table.iterrows() %}
+{%- if row['State'] == current_state_formatted %}
+\rowcolor{yellow}
+${{ row['State'] }}$ {% for col in transition_table.columns[1:] %}&{% if col == current_symbol_col %} \cellcolor{LightGreen}{% endif %} ${{ row[col] }}$ {% endfor %}\\ \hline
+{%- else -%}
+${{ row['State'] }}$ {% for col in transition_table.columns[1:] %}& ${{ row[col] }}$ {% endfor %}\\ \hline
+{%- endif -%}
+{%- endfor %}
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
 {%- endif %}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot{{ idx+1 }}.png}
-    \caption{Configuration at Transition {{ idx+1 }}}
-\end{figure}
+\textbf{Explanation:}
+{%- if idx == 0 %}
+In the initial configuration, the Turing Machine loads the input tape. The head is positioned at the starting cell (index \textbf{ {{ details[idx].head_position }} }), reading the symbol {{ format_symbol(details[idx].read_symbol, blank) }}. Since no transition has been performed yet, no rewriting occurs. The tape indices are shown above each cell.
+{%- else %}
+In this transition:
+\begin{itemize}
+    \item The machine is in state ${{ format_state(details[idx].current_transition[0]) }}$ at cell index \textbf{ {{ details[idx].head_position }} }, reading the symbol {{ format_symbol(details[idx].read_symbol, blank) }}.
+    \item The machine rewrites this cell with {{ format_symbol(details[idx].written_symbol, blank) }}.
+    \item The machine moves the head \textbf{ {{ details[idx].current_transition[3] }} } and changes its state to ${{ format_state(details[idx].new_state) }}$.
+\end{itemize}
+
+The \textbf{Before} tape shows the configuration prior to this transition, and the \textbf{After} tape shows the result. Changed cells are highlighted in green. Cells further from the head position are shown with reduced opacity to focus attention on the active region.
+{%- endif %}
+
+\vspace{0.5em}
+
+\begin{center}
+    {% set caption_text = "Initial configuration" if idx == 0 else "Before and after Transition " ~ (idx+1)|string %}
+    \includegraphics[width=0.9\linewidth]{out/plots/plot{{ idx+1 }}.png}
+    \captionof{figure}{ {{ caption_text }} }
+\end{center}
+
+{%- if (idx + 1) % 2 == 0 %}
+\clearpage
+{%- endif %}
 
 {%- endfor %}
 
 \section{Halt and Final Tape}
 
 At transition \(\mathbf{ {{ plots|length }} }\), the machine enters its halting state 
-\(\mathbf{ {{ details[plots|length-1].new_state }} }\) and stops.
+${{ format_state(details[plots|length-1].new_state) }}$ and stops.
 
-The final tape configuration is shown below:
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{plots/plot{{ plots|length }}.png}
-    \caption{Final tape contents at halting state \(\mathbf{ {{ details[plots|length-1].new_state }} }\).}
-\end{figure}
+The final tape configuration is shown above in Transition {{ plots|length }}.

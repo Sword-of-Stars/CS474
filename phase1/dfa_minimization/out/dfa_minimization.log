@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 22:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  22 SEP 2025 08:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./out/dfa_minimization.tex
-(out/dfa_minimization.tex
+**./phase1/dfa_minimization/out/dfa_minimization.tex
+(phase1/dfa_minimization/out/dfa_minimization.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 
@@ -559,6 +559,67 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthR=\skip69
 \@temptokenb=\toks43
 )
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\book
+tabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen270
+\lightrulewidth=\dimen271
+\cmidrulewidth=\dimen272
+\belowrulesep=\dimen273
+\belowbottomsep=\dimen274
+\aboverulesep=\dimen275
+\abovetopsep=\dimen276
+\cmidrulesep=\dimen277
+\cmidrulekern=\dimen278
+\defaultaddspace=\dimen279
+\@cmidla=\count305
+\@cmidlb=\count306
+\@aboverulesep=\dimen280
+\@belowrulesep=\dimen281
+\@thisruleclass=\count307
+\@lastruleclass=\count308
+\@thisrulewidth=\dimen282
+)
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/caption\capti
+on.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/caption\capti
+on3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen283
+\captionmargin=\dimen284
+\caption@leftmargin=\dimen285
+\caption@rightmargin=\dimen286
+\caption@width=\dimen287
+\caption@indent=\dimen288
+\caption@parindent=\dimen289
+\caption@hangindent=\dimen290
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count309
+\c@continuedfloat=\count310
+Package caption Info: listings package is loaded.
+)
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colo
+rtbl.sty
+Package: colortbl 2024/10/29 v1.0k Color table columns (DPC)
+
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.s
+ty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen291
+\ar@mcellbox=\box66
+\extrarowheight=\dimen292
+\NC@list=\toks44
+\extratabsurround=\skip70
+\backup@length=\skip71
+\ar@cellbox=\box67
+)
+\everycr=\toks45
+\minrowclearance=\skip72
+\rownum=\count311
+)
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
 dlayer/tikz/libraries\tikzlibraryautomata.code.tex
 File: tikzlibraryautomata.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -570,26 +631,26 @@ File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/librari
 es/shapes\pgflibraryshapes.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodepartlowerbox=\box66
-\pgfnodeparttwobox=\box67
-\pgfnodepartthreebox=\box68
-\pgfnodepartfourbox=\box69
-\pgfnodeparttwentybox=\box70
-\pgfnodepartnineteenbox=\box71
-\pgfnodeparteighteenbox=\box72
-\pgfnodepartseventeenbox=\box73
-\pgfnodepartsixteenbox=\box74
-\pgfnodepartfifteenbox=\box75
-\pgfnodepartfourteenbox=\box76
-\pgfnodepartthirteenbox=\box77
-\pgfnodeparttwelvebox=\box78
-\pgfnodepartelevenbox=\box79
-\pgfnodeparttenbox=\box80
-\pgfnodepartninebox=\box81
-\pgfnodeparteightbox=\box82
-\pgfnodepartsevenbox=\box83
-\pgfnodepartsixbox=\box84
-\pgfnodepartfivebox=\box85
+\pgfnodepartlowerbox=\box68
+\pgfnodeparttwobox=\box69
+\pgfnodepartthreebox=\box70
+\pgfnodepartfourbox=\box71
+\pgfnodeparttwentybox=\box72
+\pgfnodepartnineteenbox=\box73
+\pgfnodeparteighteenbox=\box74
+\pgfnodepartseventeenbox=\box75
+\pgfnodepartsixteenbox=\box76
+\pgfnodepartfifteenbox=\box77
+\pgfnodepartfourteenbox=\box78
+\pgfnodepartthirteenbox=\box79
+\pgfnodeparttwelvebox=\box80
+\pgfnodepartelevenbox=\box81
+\pgfnodeparttenbox=\box82
+\pgfnodepartninebox=\box83
+\pgfnodeparteightbox=\box84
+\pgfnodepartsevenbox=\box85
+\pgfnodepartsixbox=\box86
+\pgfnodepartfivebox=\box87
 )))
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
 dlayer/tikz/libraries\tikzlibrarypositioning.code.tex
@@ -602,25 +663,25 @@ Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS)
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enum
 item.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
-\labelindent=\skip70
-\enit@outerparindent=\dimen270
-\enit@toks=\toks44
-\enit@inbox=\box86
-\enit@count@id=\count305
-\enitdp@description=\count306
+\labelindent=\skip73
+\enit@outerparindent=\dimen293
+\enit@toks=\toks46
+\enit@inbox=\box88
+\enit@count@id=\count312
+\enitdp@description=\count313
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titl
 esec.sty
 Package: titlesec 2025/01/04 v2.17 Sectioning titles
-\ttl@box=\box87
-\beforetitleunit=\skip71
-\aftertitleunit=\skip72
-\ttl@plus=\dimen271
-\ttl@minus=\dimen272
-\ttl@toksa=\toks45
-\titlewidth=\dimen273
-\titlewidthlast=\dimen274
-\titlewidthfirst=\dimen275
+\ttl@box=\box89
+\beforetitleunit=\skip74
+\aftertitleunit=\skip75
+\ttl@plus=\dimen294
+\ttl@minus=\dimen295
+\ttl@toksa=\toks47
+\titlewidth=\dimen296
+\titlewidthlast=\dimen297
+\titlewidthfirst=\dimen298
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tcolorbox\tco
 lorbox.sty
@@ -629,8 +690,8 @@ Package: tcolorbox 2024/01/10 version 6.2.0 text color boxes
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbati
 m.sty
 Package: verbatim 2023-11-06 v1.5v LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks46
-\verbatim@line=\toks47
+\every@verbatim=\toks48
+\verbatim@line=\toks49
 \verbatim@in@stream=\read3
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/environ\envir
@@ -644,55 +705,55 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoo
 lbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count307
+\etb@tempcnta=\count314
 )
-\tcb@titlebox=\box88
-\tcb@upperbox=\box89
-\tcb@lowerbox=\box90
-\tcb@phantombox=\box91
-\c@tcbbreakpart=\count308
-\c@tcblayer=\count309
-\c@tcolorbox@number=\count310
-\l__tcobox_tmpa_box=\box92
-\l__tcobox_tmpa_dim=\dimen276
-\tcb@temp=\box93
-\tcb@temp=\box94
+\tcb@titlebox=\box90
+\tcb@upperbox=\box91
+\tcb@lowerbox=\box92
+\tcb@phantombox=\box93
+\c@tcbbreakpart=\count315
+\c@tcblayer=\count316
+\c@tcolorbox@number=\count317
+\l__tcobox_tmpa_box=\box94
+\l__tcobox_tmpa_dim=\dimen299
 \tcb@temp=\box95
 \tcb@temp=\box96
+\tcb@temp=\box97
+\tcb@temp=\box98
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tcolorbox\tcb
 theorems.code.tex
 Library (tcolorbox): 'tcbtheorems.code.tex' version '6.2.0'
 )
-\c@tcb@cnt@definition=\count311
-\c@theorem=\count312
-\c@lemma=\count313
-\c@corollary=\count314
+\c@tcb@cnt@definition=\count318
+\c@theorem=\count319
+\c@lemma=\count320
+\c@corollary=\count321
 
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3b
 ackend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count315
-\l__pdf_internal_box=\box97
+\l__color_backend_stack_int=\count322
+\l__pdf_internal_box=\box99
 )
 (C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase1\d
 fa_minimization\out\dfa_minimization.aux)
 \openout1 = `dfa_minimization.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -732,17 +793,17 @@ LaTeX Font Info:    ... okay on input line 61.
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\s
 upp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count316
-\scratchdimen=\dimen277
-\scratchbox=\box98
-\nofMPsegments=\count317
-\nofMParguments=\count318
-\everyMPshowfont=\toks48
-\MPscratchCnt=\count319
-\MPscratchDim=\dimen278
-\MPnumerator=\count320
-\makeMPintoPDFobject=\count321
-\everyMPtoPDFconversion=\toks49
+\scratchcounter=\count323
+\scratchdimen=\dimen300
+\scratchbox=\box100
+\nofMPsegments=\count324
+\nofMParguments=\count325
+\everyMPshowfont=\toks50
+\MPscratchCnt=\count326
+\MPscratchDim=\dimen301
+\MPnumerator=\count327
+\makeMPintoPDFobject=\count328
+\everyMPtoPDFconversion=\toks51
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\
 epstopdf-base.sty
@@ -754,84 +815,227 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 opdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-\c@lstlisting=\count322
-LaTeX Font Info:    Trying to load font information for U+msa on input line 66.
+\c@lstlisting=\count329
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 70.
 
 
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa
 .fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 66.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 70.
 
 
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb
 .fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 69--70
+Underfull \hbox (badness 10000) in paragraph at lines 73--74
 
  []
 
 [1{C:/Users/william.gregory/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 ]
-<plots/indis_step1.png, id=16, 433.62pt x 346.896pt>
-File: plots/indis_step1.png Graphic file (type png)
-<use plots/indis_step1.png>
-Package pdftex.def Info: plots/indis_step1.png  used on input line 112.
-(pdftex.def)             Requested size: 271.7835pt x 217.43935pt.
-<plots/indis_step2.png, id=18, 433.62pt x 346.896pt>
-File: plots/indis_step2.png Graphic file (type png)
-<use plots/indis_step2.png>
-Package pdftex.def Info: plots/indis_step2.png  used on input line 120.
-(pdftex.def)             Requested size: 271.7835pt x 217.43935pt.
+[2]
 
-[2 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-1/dfa_minimization/out/plots/indis_step1.png>]
-<plots/indis_step3.png, id=23, 433.62pt x 346.896pt>
-File: plots/indis_step3.png Graphic file (type png)
-<use plots/indis_step3.png>
-Package pdftex.def Info: plots/indis_step3.png  used on input line 128.
-(pdftex.def)             Requested size: 271.7835pt x 217.43935pt.
-<minimized_dfa.png, id=24, 304.13625pt x 168.63pt>
-File: minimized_dfa.png Graphic file (type png)
-<use minimized_dfa.png>
-Package pdftex.def Info: minimized_dfa.png  used on input line 137.
-(pdftex.def)             Requested size: 317.07614pt x 175.80847pt.
-
-
-! LaTeX Error: \caption outside float.
+! LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.138     \caption
-                  {Minimized DFA}
-You're in trouble here.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+l.133 \\[0.25em]
+                
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
+<plots/indis_step1.png, id=19, 570.4512pt x 425.9112pt>
+File: plots/indis_step1.png Graphic file (type png)
+<use plots/indis_step1.png>
+Package pdftex.def Info: plots/indis_step1.png  used on input line 145.
+(pdftex.def)             Requested size: 217.42265pt x 162.33534pt.
+<plots/blocks_step1.png, id=21, 689.9376pt x 711.6186pt>
+File: plots/blocks_step1.png Graphic file (type png)
+<use plots/blocks_step1.png>
+Package pdftex.def Info: plots/blocks_step1.png  used on input line 151.
+(pdftex.def)             Requested size: 217.42265pt x 224.25877pt.
 [3 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-1/dfa_minimization/out/plots/indis_step2.png> <C:/Users/william.gregory/OneDriv
-e - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/indis_s
-tep3.png>] [4 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/
-CS474/phase1/dfa_minimization/out/minimized_dfa.png>]
+1/dfa_minimization/out/plots/indis_step1.png> <C:/Users/william.gregory/OneDriv
+e - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/blocks_
+step1.png>]
+<plots/pair_steps/step2_a_probe2.png, id=27, 689.9376pt x 711.6186pt>
+File: plots/pair_steps/step2_a_probe2.png Graphic file (type png)
+<use plots/pair_steps/step2_a_probe2.png>
+Package pdftex.def Info: plots/pair_steps/step2_a_probe2.png  used on input lin
+e 195.
+(pdftex.def)             Requested size: 385.02547pt x 397.13554pt.
+ [4
+
+ <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase1/
+dfa_minimization/out/plots/pair_steps/step2_a_probe2.png>]
+<plots/pair_steps/step2_c_probe2.png, id=33, 689.9376pt x 711.6186pt>
+File: plots/pair_steps/step2_c_probe2.png Graphic file (type png)
+<use plots/pair_steps/step2_c_probe2.png>
+Package pdftex.def Info: plots/pair_steps/step2_c_probe2.png  used on input lin
+e 237.
+(pdftex.def)             Requested size: 385.02547pt x 397.13554pt.
+
+[5 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
+1/dfa_minimization/out/plots/pair_steps/step2_c_probe2.png>]
+<plots/pair_steps/step2_e_probe2.png, id=38, 689.9376pt x 711.6186pt>
+File: plots/pair_steps/step2_e_probe2.png Graphic file (type png)
+<use plots/pair_steps/step2_e_probe2.png>
+Package pdftex.def Info: plots/pair_steps/step2_e_probe2.png  used on input lin
+e 279.
+(pdftex.def)             Requested size: 385.02547pt x 397.13554pt.
+ [6 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phas
+e1/dfa_minimization/out/plots/pair_steps/step2_e_probe2.png>]
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.440 \\[0.25em]
+                
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+<plots/indis_step2.png, id=43, 570.4512pt x 425.9112pt>
+File: plots/indis_step2.png Graphic file (type png)
+<use plots/indis_step2.png>
+Package pdftex.def Info: plots/indis_step2.png  used on input line 452.
+(pdftex.def)             Requested size: 217.42265pt x 162.33534pt.
+<plots/blocks_step2.png, id=44, 689.9376pt x 711.6186pt>
+File: plots/blocks_step2.png Graphic file (type png)
+<use plots/blocks_step2.png>
+Package pdftex.def Info: plots/blocks_step2.png  used on input line 458.
+(pdftex.def)             Requested size: 217.42265pt x 224.25877pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Reference `fig:partition_step2' on page 7 undefined on input lin
+e 466.
+
+[7] [8 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/p
+hase1/dfa_minimization/out/plots/indis_step2.png> <C:/Users/william.gregory/One
+Drive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/blo
+cks_step2.png>] [9
+
+]
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.663 \\[0.25em]
+                
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+<plots/indis_step3.png, id=57, 570.4512pt x 425.9112pt>
+File: plots/indis_step3.png Graphic file (type png)
+<use plots/indis_step3.png>
+Package pdftex.def Info: plots/indis_step3.png  used on input line 675.
+(pdftex.def)             Requested size: 217.42265pt x 162.33534pt.
+<plots/blocks_step3.png, id=58, 689.9376pt x 711.6186pt>
+File: plots/blocks_step3.png Graphic file (type png)
+<use plots/blocks_step3.png>
+Package pdftex.def Info: plots/blocks_step3.png  used on input line 681.
+(pdftex.def)             Requested size: 217.42265pt x 224.25877pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Reference `fig:partition_step3' on page 10 undefined on input li
+ne 689.
+
+[10] [11 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474
+/phase1/dfa_minimization/out/plots/indis_step3.png> <C:/Users/william.gregory/O
+neDrive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/b
+locks_step3.png>]
+
+LaTeX Warning: Reference `fig:minimized_dfa' on page 12 undefined on input line
+ 698.
+
+<minimized_dfa.png, id=67, 660.5478pt x 569.9694pt>
+File: minimized_dfa.png Graphic file (type png)
+<use minimized_dfa.png>
+Package pdftex.def Info: minimized_dfa.png  used on input line 701.
+(pdftex.def)             Requested size: 362.37569pt x 312.68402pt.
+
+LaTeX Warning: Reference `fig:minimized_dfa' on page 12 undefined on input line
+ 713.
+
+
+LaTeX Warning: Reference `fig:indis_table_step2' on page 12 undefined on input 
+line 721.
+
+
+LaTeX Warning: Reference `fig:partition_step2' on page 12 undefined on input li
+ne 722.
+
+
+LaTeX Warning: Reference `fig:step2_a_probe2' on page 12 undefined on input lin
+e 723.
+
+
+LaTeX Warning: Reference `fig:step2_c_probe2' on page 12 undefined on input lin
+e 724.
+
+
+LaTeX Warning: Reference `fig:step2_e_probe2' on page 12 undefined on input lin
+e 725.
+
+[12
+
+ <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase1/
+dfa_minimization/out/minimized_dfa.png>]
+
+LaTeX Warning: Reference `fig:indis_table_step3' on page 13 undefined on input 
+line 726.
+
+
+LaTeX Warning: Reference `fig:partition_step3' on page 13 undefined on input li
+ne 727.
+
+
+LaTeX Warning: Reference `fig:minimized_dfa' on page 13 undefined on input line
+ 728.
+
+[13]
 (C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase1\d
 fa_minimization\out\dfa_minimization.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 19234 strings out of 474486
- 401094 string characters out of 5739035
- 1936542 words of memory out of 5000000
- 41229 multiletter control sequences out of 15000+600000
- 565969 words of font info for 67 fonts, out of 8000000 for 9000
+ 20861 strings out of 474486
+ 432597 string characters out of 5739035
+ 1942542 words of memory out of 5000000
+ 42839 multiletter control sequences out of 15000+600000
+ 566315 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,12n,107p,424b,381s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,12n,107p,1089b,442s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\william.gregory\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\tcrm1000.pk><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/william.gregory/AppData/Local/Pr
@@ -841,12 +1045,14 @@ Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
 /cm/cmr10.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/AppData/Local/Program
 s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/william.gregory/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/w
+illiam.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmt
+i10.pfb>
 Output written on "C:\Users\william.gregory\OneDrive - West Point\Documents\Git
-Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (4 pages, 166277 by
-tes).
+Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (13 pages, 758946 b
+ytes).
 PDF statistics:
- 69 PDF objects out of 1000 (max. 8388607)
+ 117 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 63 words of extra memory for PDF output out of 10000 (max. 10000000)
 

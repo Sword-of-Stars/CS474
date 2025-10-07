@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  16 APR 2025 22:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  7 OCT 2025 16:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./out/tm_steps.tex
-(out/tm_steps.tex
+**./phase3/turing_machines/out/tm_steps.tex
+(phase3/turing_machines/out/tm_steps.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 
@@ -559,6 +559,46 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthR=\skip69
 \@temptokenb=\toks43
 )
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colo
+rtbl.sty
+Package: colortbl 2024/10/29 v1.0k Color table columns (DPC)
+
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.s
+ty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen270
+\ar@mcellbox=\box66
+\extrarowheight=\dimen271
+\NC@list=\toks44
+\extratabsurround=\skip70
+\backup@length=\skip71
+\ar@cellbox=\box67
+)
+\everycr=\toks45
+\minrowclearance=\skip72
+\rownum=\count305
+)
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/caption\capti
+on.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/caption\capti
+on3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen272
+\captionmargin=\dimen273
+\caption@leftmargin=\dimen274
+\caption@rightmargin=\dimen275
+\caption@width=\dimen276
+\caption@indent=\dimen277
+\caption@parindent=\dimen278
+\caption@hangindent=\dimen279
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count306
+\c@continuedfloat=\count307
+Package caption Info: listings package is loaded.
+)
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
 dlayer/tikz/libraries\tikzlibraryautomata.code.tex
 File: tikzlibraryautomata.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -570,26 +610,26 @@ File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/librari
 es/shapes\pgflibraryshapes.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodepartlowerbox=\box66
-\pgfnodeparttwobox=\box67
-\pgfnodepartthreebox=\box68
-\pgfnodepartfourbox=\box69
-\pgfnodeparttwentybox=\box70
-\pgfnodepartnineteenbox=\box71
-\pgfnodeparteighteenbox=\box72
-\pgfnodepartseventeenbox=\box73
-\pgfnodepartsixteenbox=\box74
-\pgfnodepartfifteenbox=\box75
-\pgfnodepartfourteenbox=\box76
-\pgfnodepartthirteenbox=\box77
-\pgfnodeparttwelvebox=\box78
-\pgfnodepartelevenbox=\box79
-\pgfnodeparttenbox=\box80
-\pgfnodepartninebox=\box81
-\pgfnodeparteightbox=\box82
-\pgfnodepartsevenbox=\box83
-\pgfnodepartsixbox=\box84
-\pgfnodepartfivebox=\box85
+\pgfnodepartlowerbox=\box68
+\pgfnodeparttwobox=\box69
+\pgfnodepartthreebox=\box70
+\pgfnodepartfourbox=\box71
+\pgfnodeparttwentybox=\box72
+\pgfnodepartnineteenbox=\box73
+\pgfnodeparteighteenbox=\box74
+\pgfnodepartseventeenbox=\box75
+\pgfnodepartsixteenbox=\box76
+\pgfnodepartfifteenbox=\box77
+\pgfnodepartfourteenbox=\box78
+\pgfnodepartthirteenbox=\box79
+\pgfnodeparttwelvebox=\box80
+\pgfnodepartelevenbox=\box81
+\pgfnodeparttenbox=\box82
+\pgfnodepartninebox=\box83
+\pgfnodeparteightbox=\box84
+\pgfnodepartsevenbox=\box85
+\pgfnodepartsixbox=\box86
+\pgfnodepartfivebox=\box87
 )))
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
 dlayer/tikz/libraries\tikzlibrarypositioning.code.tex
@@ -602,25 +642,25 @@ Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS)
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enum
 item.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
-\labelindent=\skip70
-\enit@outerparindent=\dimen270
-\enit@toks=\toks44
-\enit@inbox=\box86
-\enit@count@id=\count305
-\enitdp@description=\count306
+\labelindent=\skip73
+\enit@outerparindent=\dimen280
+\enit@toks=\toks46
+\enit@inbox=\box88
+\enit@count@id=\count308
+\enitdp@description=\count309
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titl
 esec.sty
 Package: titlesec 2025/01/04 v2.17 Sectioning titles
-\ttl@box=\box87
-\beforetitleunit=\skip71
-\aftertitleunit=\skip72
-\ttl@plus=\dimen271
-\ttl@minus=\dimen272
-\ttl@toksa=\toks45
-\titlewidth=\dimen273
-\titlewidthlast=\dimen274
-\titlewidthfirst=\dimen275
+\ttl@box=\box89
+\beforetitleunit=\skip74
+\aftertitleunit=\skip75
+\ttl@plus=\dimen281
+\ttl@minus=\dimen282
+\ttl@toksa=\toks47
+\titlewidth=\dimen283
+\titlewidthlast=\dimen284
+\titlewidthfirst=\dimen285
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tcolorbox\tco
 lorbox.sty
@@ -629,8 +669,8 @@ Package: tcolorbox 2024/01/10 version 6.2.0 text color boxes
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbati
 m.sty
 Package: verbatim 2023-11-06 v1.5v LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks46
-\verbatim@line=\toks47
+\every@verbatim=\toks48
+\verbatim@line=\toks49
 \verbatim@in@stream=\read3
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/environ\envir
@@ -644,55 +684,55 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoo
 lbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count307
+\etb@tempcnta=\count310
 )
-\tcb@titlebox=\box88
-\tcb@upperbox=\box89
-\tcb@lowerbox=\box90
-\tcb@phantombox=\box91
-\c@tcbbreakpart=\count308
-\c@tcblayer=\count309
-\c@tcolorbox@number=\count310
-\l__tcobox_tmpa_box=\box92
-\l__tcobox_tmpa_dim=\dimen276
-\tcb@temp=\box93
-\tcb@temp=\box94
+\tcb@titlebox=\box90
+\tcb@upperbox=\box91
+\tcb@lowerbox=\box92
+\tcb@phantombox=\box93
+\c@tcbbreakpart=\count311
+\c@tcblayer=\count312
+\c@tcolorbox@number=\count313
+\l__tcobox_tmpa_box=\box94
+\l__tcobox_tmpa_dim=\dimen286
 \tcb@temp=\box95
 \tcb@temp=\box96
+\tcb@temp=\box97
+\tcb@temp=\box98
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tcolorbox\tcb
 theorems.code.tex
 Library (tcolorbox): 'tcbtheorems.code.tex' version '6.2.0'
 )
-\c@tcb@cnt@definition=\count311
-\c@theorem=\count312
-\c@lemma=\count313
-\c@corollary=\count314
+\c@tcb@cnt@definition=\count314
+\c@theorem=\count315
+\c@lemma=\count316
+\c@corollary=\count317
 
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3b
 ackend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count315
-\l__pdf_internal_box=\box97
+\l__color_backend_stack_int=\count318
+\l__pdf_internal_box=\box99
 )
 (C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase3\t
 uring_machines\out\tm_steps.aux)
 \openout1 = `tm_steps.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -732,17 +772,17 @@ LaTeX Font Info:    ... okay on input line 61.
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\s
 upp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count316
-\scratchdimen=\dimen277
-\scratchbox=\box98
-\nofMPsegments=\count317
-\nofMParguments=\count318
-\everyMPshowfont=\toks48
-\MPscratchCnt=\count319
-\MPscratchDim=\dimen278
-\MPnumerator=\count320
-\makeMPintoPDFobject=\count321
-\everyMPtoPDFconversion=\toks49
+\scratchcounter=\count319
+\scratchdimen=\dimen287
+\scratchbox=\box100
+\nofMPsegments=\count320
+\nofMParguments=\count321
+\everyMPshowfont=\toks50
+\MPscratchCnt=\count322
+\MPscratchDim=\dimen288
+\MPnumerator=\count323
+\makeMPintoPDFobject=\count324
+\everyMPtoPDFconversion=\toks51
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\
 epstopdf-base.sty
@@ -754,271 +794,372 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 opdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-\c@lstlisting=\count322
-LaTeX Font Info:    Trying to load font information for U+msa on input line 66.
+\c@lstlisting=\count325
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 68.
 
 
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa
 .fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 66.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 68.
 
 
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb
 .fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 69--70
+Underfull \hbox (badness 10000) in paragraph at lines 71--72
 
  []
 
 
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.100 \end{align*}
-                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
+Overfull \hbox (34.94977pt too wide) in paragraph at lines 104--105
+\OT1/cmr/m/n/10 The tran-si-tion func-tion $\OML/cmm/m/it/10 ^^N$ \OT1/cmr/m/n/
+10 is de-fined in the fol-low-ing ta-ble. Each cell shows the out-put $(\OML/cm
+m/m/it/10 write; direction; new[]state\OT1/cmr/m/n/10 )$
+ []
 
 [1{C:/Users/william.gregory/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 ]
-<plots/plot1.png, id=17, 578.16pt x 144.54pt>
-File: plots/plot1.png Graphic file (type png)
-<use plots/plot1.png>
-Package pdftex.def Info: plots/plot1.png  used on input line 117.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
+<out/plots/plot1.png, id=22, 722.7pt x 144.54pt>
+File: out/plots/plot1.png Graphic file (type png)
+<use out/plots/plot1.png>
+Package pdftex.def Info: out/plots/plot1.png  used on input line 136.
+(pdftex.def)             Requested size: 407.66833pt x 81.5329pt.
+<out/plots/plot2.png, id=24, 722.7pt x 289.08pt>
+File: out/plots/plot2.png Graphic file (type png)
+<use out/plots/plot2.png>
+Package pdftex.def Info: out/plots/plot2.png  used on input line 169.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
 
-! Undefined control sequence.
-l.126 ...he head and changes its state to \textbfq
-                                                  1.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+[2 <./out/plots/plot1.png> <./out/plots/plot2.png>]
+<out/plots/plot3.png, id=35, 722.7pt x 289.08pt>
+File: out/plots/plot3.png Graphic file (type png)
+<use out/plots/plot3.png>
+Package pdftex.def Info: out/plots/plot3.png  used on input line 203.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot4.png, id=36, 722.7pt x 289.08pt>
+File: out/plots/plot4.png Graphic file (type png)
+<use out/plots/plot4.png>
+Package pdftex.def Info: out/plots/plot4.png  used on input line 236.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [3
 
-<plots/plot2.png, id=19, 578.16pt x 144.54pt>
-File: plots/plot2.png Graphic file (type png)
-<use plots/plot2.png>
-Package pdftex.def Info: plots/plot2.png  used on input line 132.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-! Undefined control sequence.
-l.141 ...he head and changes its state to \textbfq
-                                                  0.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+ <./out/plots/plot3.png>] [4 <./out/plots/plot4.png>]
+<out/plots/plot5.png, id=45, 722.7pt x 289.08pt>
+File: out/plots/plot5.png Graphic file (type png)
+<use out/plots/plot5.png>
+Package pdftex.def Info: out/plots/plot5.png  used on input line 270.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot6.png, id=46, 722.7pt x 289.08pt>
+File: out/plots/plot6.png Graphic file (type png)
+<use out/plots/plot6.png>
+Package pdftex.def Info: out/plots/plot6.png  used on input line 303.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [5
 
-[2 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-3/turing_machines/out/plots/plot1.png> <C:/Users/william.gregory/OneDrive - Wes
-t Point/Documents/GitHub/CS474/phase3/turing_machines/out/plots/plot2.png>]
-<plots/plot3.png, id=25, 578.16pt x 144.54pt>
-File: plots/plot3.png Graphic file (type png)
-<use plots/plot3.png>
-Package pdftex.def Info: plots/plot3.png  used on input line 147.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
+ <./out/plots/plot5.png>] [6 <./out/plots/plot6.png>]
+<out/plots/plot7.png, id=55, 722.7pt x 289.08pt>
+File: out/plots/plot7.png Graphic file (type png)
+<use out/plots/plot7.png>
+Package pdftex.def Info: out/plots/plot7.png  used on input line 337.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot8.png, id=56, 722.7pt x 289.08pt>
+File: out/plots/plot8.png Graphic file (type png)
+<use out/plots/plot8.png>
+Package pdftex.def Info: out/plots/plot8.png  used on input line 370.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [7
 
-! Undefined control sequence.
-l.156 ...he head and changes its state to \textbfq
-                                                  1.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+ <./out/plots/plot7.png>] [8 <./out/plots/plot8.png>]
+<out/plots/plot9.png, id=66, 722.7pt x 289.08pt>
+File: out/plots/plot9.png Graphic file (type png)
+<use out/plots/plot9.png>
+Package pdftex.def Info: out/plots/plot9.png  used on input line 404.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot10.png, id=67, 722.7pt x 289.08pt>
+File: out/plots/plot10.png Graphic file (type png)
+<use out/plots/plot10.png>
+Package pdftex.def Info: out/plots/plot10.png  used on input line 437.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [9
 
-<plots/plot4.png, id=26, 578.16pt x 144.54pt>
-File: plots/plot4.png Graphic file (type png)
-<use plots/plot4.png>
-Package pdftex.def Info: plots/plot4.png  used on input line 162.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-! Undefined control sequence.
-l.171 ...he head and changes its state to \textbfq
-                                                  0.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+ <./out/plots/plot9.png>] [10 <./out/plots/plot10.png>]
+<out/plots/plot11.png, id=76, 722.7pt x 289.08pt>
+File: out/plots/plot11.png Graphic file (type png)
+<use out/plots/plot11.png>
+Package pdftex.def Info: out/plots/plot11.png  used on input line 471.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot12.png, id=77, 722.7pt x 289.08pt>
+File: out/plots/plot12.png Graphic file (type png)
+<use out/plots/plot12.png>
+Package pdftex.def Info: out/plots/plot12.png  used on input line 504.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [11
 
-<plots/plot5.png, id=27, 578.16pt x 144.54pt>
-File: plots/plot5.png Graphic file (type png)
-<use plots/plot5.png>
-Package pdftex.def Info: plots/plot5.png  used on input line 177.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
+ <./out/plots/plot11.png>] [12 <./out/plots/plot12.png>]
+<out/plots/plot13.png, id=86, 722.7pt x 289.08pt>
+File: out/plots/plot13.png Graphic file (type png)
+<use out/plots/plot13.png>
+Package pdftex.def Info: out/plots/plot13.png  used on input line 538.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot14.png, id=87, 722.7pt x 289.08pt>
+File: out/plots/plot14.png Graphic file (type png)
+<use out/plots/plot14.png>
+Package pdftex.def Info: out/plots/plot14.png  used on input line 571.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [13
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+ <./out/plots/plot13.png>] [14 <./out/plots/plot14.png>]
+<out/plots/plot15.png, id=97, 722.7pt x 289.08pt>
+File: out/plots/plot15.png Graphic file (type png)
+<use out/plots/plot15.png>
+Package pdftex.def Info: out/plots/plot15.png  used on input line 605.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot16.png, id=98, 722.7pt x 289.08pt>
+File: out/plots/plot16.png Graphic file (type png)
+<use out/plots/plot16.png>
+Package pdftex.def Info: out/plots/plot16.png  used on input line 638.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [15
 
-[3 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-3/turing_machines/out/plots/plot3.png> <C:/Users/william.gregory/OneDrive - Wes
-t Point/Documents/GitHub/CS474/phase3/turing_machines/out/plots/plot4.png>]
-! Undefined control sequence.
-l.186 ...he head and changes its state to \textbfq
-                                                  1.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+ <./out/plots/plot15.png>] [16 <./out/plots/plot16.png>]
+<out/plots/plot17.png, id=107, 722.7pt x 289.08pt>
+File: out/plots/plot17.png Graphic file (type png)
+<use out/plots/plot17.png>
+Package pdftex.def Info: out/plots/plot17.png  used on input line 672.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot18.png, id=108, 722.7pt x 289.08pt>
+File: out/plots/plot18.png Graphic file (type png)
+<use out/plots/plot18.png>
+Package pdftex.def Info: out/plots/plot18.png  used on input line 705.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [17
 
-<plots/plot6.png, id=33, 578.16pt x 144.54pt>
-File: plots/plot6.png Graphic file (type png)
-<use plots/plot6.png>
-Package pdftex.def Info: plots/plot6.png  used on input line 192.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
+ <./out/plots/plot17.png>] [18 <./out/plots/plot18.png>]
+<out/plots/plot19.png, id=117, 722.7pt x 289.08pt>
+File: out/plots/plot19.png Graphic file (type png)
+<use out/plots/plot19.png>
+Package pdftex.def Info: out/plots/plot19.png  used on input line 739.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot20.png, id=118, 722.7pt x 289.08pt>
+File: out/plots/plot20.png Graphic file (type png)
+<use out/plots/plot20.png>
+Package pdftex.def Info: out/plots/plot20.png  used on input line 772.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [19
 
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
+ <./out/plots/plot19.png>]
+[20 <./out/plots/plot20.png>]
+<out/plots/plot21.png, id=128, 722.7pt x 289.08pt>
+File: out/plots/plot21.png Graphic file (type png)
+<use out/plots/plot21.png>
+Package pdftex.def Info: out/plots/plot21.png  used on input line 806.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot22.png, id=129, 722.7pt x 289.08pt>
+File: out/plots/plot22.png Graphic file (type png)
+<use out/plots/plot22.png>
+Package pdftex.def Info: out/plots/plot22.png  used on input line 839.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [21
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.199 ...extbf5, reading the symbol \textbf{`⊔`}
-                                                  .
-You may provide a definition with
-\DeclareUnicodeCharacter 
+ <./out/plots/plot21.png>] [22 <./out/plots/plot22.png>]
+<out/plots/plot23.png, id=138, 722.7pt x 289.08pt>
+File: out/plots/plot23.png Graphic file (type png)
+<use out/plots/plot23.png>
+Package pdftex.def Info: out/plots/plot23.png  used on input line 873.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot24.png, id=139, 722.7pt x 289.08pt>
+File: out/plots/plot24.png Graphic file (type png)
+<use out/plots/plot24.png>
+Package pdftex.def Info: out/plots/plot24.png  used on input line 906.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [23
 
+ <./out/plots/plot23.png>] [24 <./out/plots/plot24.png>]
+<out/plots/plot25.png, id=148, 722.7pt x 289.08pt>
+File: out/plots/plot25.png Graphic file (type png)
+<use out/plots/plot25.png>
+Package pdftex.def Info: out/plots/plot25.png  used on input line 940.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot26.png, id=149, 722.7pt x 289.08pt>
+File: out/plots/plot26.png Graphic file (type png)
+<use out/plots/plot26.png>
+Package pdftex.def Info: out/plots/plot26.png  used on input line 973.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [25
 
-! LaTeX Error: Unicode character ⊔ (U+2294)
-               not set up for use with LaTeX.
+ <./out/plots/plot25.png>] [26 <./out/plots/plot26.png>]
+<out/plots/plot27.png, id=159, 722.7pt x 289.08pt>
+File: out/plots/plot27.png Graphic file (type png)
+<use out/plots/plot27.png>
+Package pdftex.def Info: out/plots/plot27.png  used on input line 1007.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot28.png, id=160, 722.7pt x 289.08pt>
+File: out/plots/plot28.png Graphic file (type png)
+<use out/plots/plot28.png>
+Package pdftex.def Info: out/plots/plot28.png  used on input line 1040.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [27
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.200 ...ne rewrites this cell with \textbf{`⊔`}
-                                                   (if different from the or...
+ <./out/plots/plot27.png>] [28 <./out/plots/plot28.png>]
+<out/plots/plot29.png, id=169, 722.7pt x 289.08pt>
+File: out/plots/plot29.png Graphic file (type png)
+<use out/plots/plot29.png>
+Package pdftex.def Info: out/plots/plot29.png  used on input line 1074.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot30.png, id=170, 722.7pt x 289.08pt>
+File: out/plots/plot30.png Graphic file (type png)
+<use out/plots/plot30.png>
+Package pdftex.def Info: out/plots/plot30.png  used on input line 1107.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [29
 
-You may provide a definition with
-\DeclareUnicodeCharacter 
+ <./out/plots/plot29.png>] [30 <./out/plots/plot30.png>]
+<out/plots/plot31.png, id=179, 722.7pt x 289.08pt>
+File: out/plots/plot31.png Graphic file (type png)
+<use out/plots/plot31.png>
+Package pdftex.def Info: out/plots/plot31.png  used on input line 1141.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot32.png, id=180, 722.7pt x 289.08pt>
+File: out/plots/plot32.png Graphic file (type png)
+<use out/plots/plot32.png>
+Package pdftex.def Info: out/plots/plot32.png  used on input line 1174.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [31
 
-! Undefined control sequence.
-l.201 ...he head and changes its state to \textbfq
-                                                  2.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+ <./out/plots/plot31.png>] [32 <./out/plots/plot32.png>]
+<out/plots/plot33.png, id=190, 722.7pt x 289.08pt>
+File: out/plots/plot33.png Graphic file (type png)
+<use out/plots/plot33.png>
+Package pdftex.def Info: out/plots/plot33.png  used on input line 1208.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot34.png, id=191, 722.7pt x 289.08pt>
+File: out/plots/plot34.png Graphic file (type png)
+<use out/plots/plot34.png>
+Package pdftex.def Info: out/plots/plot34.png  used on input line 1241.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
 
-<plots/plot7.png, id=34, 578.16pt x 144.54pt>
-File: plots/plot7.png Graphic file (type png)
-<use plots/plot7.png>
-Package pdftex.def Info: plots/plot7.png  used on input line 207.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
-File: plots/plot7.png Graphic file (type png)
-<use plots/plot7.png>
-Package pdftex.def Info: plots/plot7.png  used on input line 220.
-(pdftex.def)             Requested size: 362.37569pt x 90.5931pt.
+[33
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+ <./out/plots/plot33.png>] [34 <./out/plots/plot34.png>]
+<out/plots/plot35.png, id=200, 722.7pt x 289.08pt>
+File: out/plots/plot35.png Graphic file (type png)
+<use out/plots/plot35.png>
+Package pdftex.def Info: out/plots/plot35.png  used on input line 1275.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot36.png, id=201, 722.7pt x 289.08pt>
+File: out/plots/plot36.png Graphic file (type png)
+<use out/plots/plot36.png>
+Package pdftex.def Info: out/plots/plot36.png  used on input line 1308.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [35
 
-[4 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
-3/turing_machines/out/plots/plot5.png> <C:/Users/william.gregory/OneDrive - Wes
-t Point/Documents/GitHub/CS474/phase3/turing_machines/out/plots/plot6.png> <C:/
-Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase3/turin
-g_machines/out/plots/plot7.png>] [5]
+ <./out/plots/plot35.png>] [36 <./out/plots/plot36.png>]
+<out/plots/plot37.png, id=210, 722.7pt x 289.08pt>
+File: out/plots/plot37.png Graphic file (type png)
+<use out/plots/plot37.png>
+Package pdftex.def Info: out/plots/plot37.png  used on input line 1342.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot38.png, id=211, 722.7pt x 289.08pt>
+File: out/plots/plot38.png Graphic file (type png)
+<use out/plots/plot38.png>
+Package pdftex.def Info: out/plots/plot38.png  used on input line 1375.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [37
+
+ <./out/plots/plot37.png>] [38 <./out/plots/plot38.png>]
+<out/plots/plot39.png, id=221, 722.7pt x 289.08pt>
+File: out/plots/plot39.png Graphic file (type png)
+<use out/plots/plot39.png>
+Package pdftex.def Info: out/plots/plot39.png  used on input line 1409.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot40.png, id=222, 722.7pt x 289.08pt>
+File: out/plots/plot40.png Graphic file (type png)
+<use out/plots/plot40.png>
+Package pdftex.def Info: out/plots/plot40.png  used on input line 1442.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [39
+
+ <./out/plots/plot39.png>] [40 <./out/plots/plot40.png>]
+<out/plots/plot41.png, id=231, 722.7pt x 289.08pt>
+File: out/plots/plot41.png Graphic file (type png)
+<use out/plots/plot41.png>
+Package pdftex.def Info: out/plots/plot41.png  used on input line 1476.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot42.png, id=232, 722.7pt x 289.08pt>
+File: out/plots/plot42.png Graphic file (type png)
+<use out/plots/plot42.png>
+Package pdftex.def Info: out/plots/plot42.png  used on input line 1509.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [41
+
+ <./out/plots/plot41.png>] [42 <./out/plots/plot42.png>]
+<out/plots/plot43.png, id=241, 722.7pt x 289.08pt>
+File: out/plots/plot43.png Graphic file (type png)
+<use out/plots/plot43.png>
+Package pdftex.def Info: out/plots/plot43.png  used on input line 1543.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot44.png, id=242, 722.7pt x 289.08pt>
+File: out/plots/plot44.png Graphic file (type png)
+<use out/plots/plot44.png>
+Package pdftex.def Info: out/plots/plot44.png  used on input line 1576.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [43
+
+ <./out/plots/plot43.png>] [44 <./out/plots/plot44.png>]
+<out/plots/plot45.png, id=252, 722.7pt x 289.08pt>
+File: out/plots/plot45.png Graphic file (type png)
+<use out/plots/plot45.png>
+Package pdftex.def Info: out/plots/plot45.png  used on input line 1610.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot46.png, id=253, 722.7pt x 289.08pt>
+File: out/plots/plot46.png Graphic file (type png)
+<use out/plots/plot46.png>
+Package pdftex.def Info: out/plots/plot46.png  used on input line 1643.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [45
+
+ <./out/plots/plot45.png>]
+[46 <./out/plots/plot46.png>]
+<out/plots/plot47.png, id=262, 722.7pt x 289.08pt>
+File: out/plots/plot47.png Graphic file (type png)
+<use out/plots/plot47.png>
+Package pdftex.def Info: out/plots/plot47.png  used on input line 1677.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot48.png, id=263, 722.7pt x 289.08pt>
+File: out/plots/plot48.png Graphic file (type png)
+<use out/plots/plot48.png>
+Package pdftex.def Info: out/plots/plot48.png  used on input line 1710.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [47
+
+ <./out/plots/plot47.png>] [48 <./out/plots/plot48.png>]
+<out/plots/plot49.png, id=272, 722.7pt x 289.08pt>
+File: out/plots/plot49.png Graphic file (type png)
+<use out/plots/plot49.png>
+Package pdftex.def Info: out/plots/plot49.png  used on input line 1744.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+<out/plots/plot50.png, id=273, 722.7pt x 289.08pt>
+File: out/plots/plot50.png Graphic file (type png)
+<use out/plots/plot50.png>
+Package pdftex.def Info: out/plots/plot50.png  used on input line 1777.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [49
+
+ <./out/plots/plot49.png>] [50 <./out/plots/plot50.png>]
+<out/plots/plot51.png, id=283, 722.7pt x 289.08pt>
+File: out/plots/plot51.png Graphic file (type png)
+<use out/plots/plot51.png>
+Package pdftex.def Info: out/plots/plot51.png  used on input line 1811.
+(pdftex.def)             Requested size: 407.66833pt x 163.06583pt.
+ [51
+
+ <./out/plots/plot51.png>]
 (C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase3\t
 uring_machines\out\tm_steps.aux)
  ***********
@@ -1027,29 +1168,41 @@ L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 19259 strings out of 474486
- 401364 string characters out of 5739035
- 1937542 words of memory out of 5000000
- 41252 multiletter control sequences out of 15000+600000
- 566588 words of font info for 69 fonts, out of 8000000 for 9000
+ 21087 strings out of 474486
+ 438444 string characters out of 5739035
+ 1953542 words of memory out of 5000000
+ 43060 multiletter control sequences out of 15000+600000
+ 569254 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,11n,107p,414b,428s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,14n,107p,875b,506s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\william.gregory\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\tcrm1000.pk><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/william.gregory/AppData/Local/Pr
 ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/william.grego
-ry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/
-Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmmi7.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmr10.pfb><C:/Users/william.gregory/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/wi
-lliam.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb>
+ry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/U
+sers/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmbx9.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmmi10.pfb><C:/Users/william.gregory/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/william.gregory/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/w
+illiam.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmm
+i9.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/william.g
+regory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C
+:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmr8.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmr9.pfb><C:/Users/william.gregory/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/william.gregory/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/
+william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+sy9.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmtt10.pfb>
 Output written on "C:\Users\william.gregory\OneDrive - West Point\Documents\Git
-Hub\CS474\phase3\turing_machines\out\tm_steps.pdf" (5 pages, 148373 bytes).
+Hub\CS474\phase3\turing_machines\out\tm_steps.pdf" (51 pages, 1146088 bytes).
 PDF statistics:
- 81 PDF objects out of 1000 (max. 8388607)
+ 368 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 268 words of extra memory for PDF output out of 10000 (max. 10000000)
 

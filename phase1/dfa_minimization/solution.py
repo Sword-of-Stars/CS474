@@ -5,7 +5,7 @@ import os
 
 class Solution():
     def __init__(self, format_path="phase1/dfa_minimization/templates", 
-                 outfile="phase1/dfa_minimization/out/dfa_min_steps.tex"):
+                 outfile="phase1/dfa_minimization/out/dfa_minimization.tex"):
         self.FORMAT_PATH = format_path
         self.OUT_FILE = outfile
         self.OUTPUT_PATH = os.path.dirname(self.OUT_FILE)

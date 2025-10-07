@@ -1,35 +1,184 @@
 \section{DFA Transition Function}
 
-The DFA’s transition function, \(\delta\), is defined as follows:
+The DFA's transition function, $\delta$, is defined as follows:
 \begin{align*}
 {%- for state, transitions in tf.items() -%}
     {%- for symbol, target in transitions.items() -%}
-        \delta({{ state }},\,{{ symbol }}) &= {{ target }} {%- if not loop.last %}\\[0.5em]{%- endif %}
-    {%- endfor %}
-{%- if not loop.last %}\\[1em]{%- endif %}
-{%- endfor %}
+        \delta({{ state }},\,{{ symbol }}) &= {{ target }} {%- if not loop.last %}\\[0.5em]{%- endif -%}
+    {%- endfor -%}
+{%- if not loop.last %}\\[1em]{%- endif -%}
+{%- endfor -%}
 \end{align*}
 
-\section{Indistinguishability Table Steps}
+{%- if indis_details[0].final_states_list %}
+The set of final states is $F = \{ {{ indis_details[0].final_states_list|join(", ") }} \}$.
+{%- endif %}
 
-We apply the table‑filling (indistinguishability) algorithm iteratively.  For each iteration, we show the triangular table and provide a short explanation of which pairs were marked.
+\section{Table-Filling (Indistinguishability) Algorithm}
 
-{%- for idx in range(indis_plots|length) %}
-\subsection*{Table Step {{ idx+1 }}}
+We apply the table-filling algorithm with systematic pair-by-pair analysis. The algorithm begins with an initialization phase that identifies all pairs differing in finality, followed by iterative refinement phases that identify additional distinguishable pairs.
 
-\textbf{Explanation:} {{ indis_details[idx].description }}
+{%- for step_idx in range(indis_plots|length) %}
 
+{%- if step_idx == 0 %}
+\subsection*{Step {{ step_idx+1 }}: Initialization Phase}
+
+{%- if indis_details[step_idx].cumulative_narrative %}
+{{ indis_details[step_idx].cumulative_narrative }}
+{%- endif %}
+
+{%- if indis_details[step_idx].finality_analysis %}
+\\[0.5em]
+\textbf{Detailed Analysis:}
+\begin{itemize}
+{%- for analysis in indis_details[step_idx].finality_analysis %}
+  \item ${{ analysis.analysis }}$ {%- if analysis.mismatch %} $\rightarrow$ \textbf{MARK}{%- endif %}
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+
+{%- else %}
+\subsection*{Step {{ step_idx+1 }}: Refinement Phase}
+
+\textbf{Summary:} {{ indis_details[step_idx].description }}
+
+{# --- Enhanced pair-level substeps with individual visualizations --- #}
+{%- for ps in indis_details[step_idx].pair_substeps %}
+\paragraph{Part {{ step_idx+1 }}.{{ ps.label }} \;–\; Pair $( {{ ps.pair[0] }}, {{ ps.pair[1] }} )$}
+
+\emph{Analysis.} {{ ps.narrative }}
+
+{%- if ps.kind == "refine" and ps.probes and ps.probes|length > 0 %}
+
+\noindent\textbf{Transition Analysis:}
 \begin{center}
-    \includegraphics[width=0.6\linewidth]{plots/indis_step{{ idx+1 }}.png}
+\begin{tabular}{c c c c c c}
+\toprule
+$a$ & $\delta({{ ps.pair[0] }},a)$ & $\delta({{ ps.pair[1] }},a)$ & Witness Pair & Witness Status & Decision \\
+\midrule
+{%- for r in ps.probes %}
+{{ r.a }} & {{ r.delta_p }} & {{ r.delta_q }} &
+({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }}) &
+{{ 'Marked' if r.witness_marked else 'Unmarked' }} &
+{{ r.decision|capitalize }} \\
+{%- if r.decision == "mark" %}\arrayrulecolor{red}\midrule\arrayrulecolor{black}{%- endif %}
+{%- endfor %}
+\bottomrule
+\end{tabular}
 \end{center}
-\vspace{1em}
+
+{# Individual probe visualizations (show decisive ones) #}
+{%- set decisive_probes = ps.probes | selectattr('decision', 'equalto', 'mark') | selectattr('visual_path') | list %}
+{%- if decisive_probes %}
+{%- set r = decisive_probes[0] %}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\linewidth]{plots/{{ r.visual_path }}}
+\caption{Decisive Probe: $\delta({{ ps.pair[0] }}, {{ r.a }}) = {{ r.delta_p }}$, $\delta({{ ps.pair[1] }}, {{ r.a }}) = {{ r.delta_q }}$ 
+→ Witness $({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ is marked}
+\label{{ "{" }}{{ r.figure_label }}{{ "}" }}
+\end{figure}
+{%- endif %}
+
+{%- endif %}
+
+\noindent\textbf{Final Decision for $( {{ ps.pair[0] }}, {{ ps.pair[1] }} )$:} {{ ps.decision.replace('-', ' ')|capitalize }}.
+{%- if ps.decision == "mark" %}
+\textbf{Action:} Add ``X'' to the indistinguishability table.
+{%- endif %}
+
+\vspace{0.75em}
+{%- endfor %}
+{%- endif %}
+
+\\[0.25em]
+\textbf{Metrics:}
+\begin{itemize}
+  \item Newly marked this step: {{ indis_details[step_idx].metrics.newly_count }}
+  \item Cumulative marked: {{ indis_details[step_idx].metrics.cumulative_marked }} of {{ indis_details[step_idx].metrics.total_pairs }} ({{ "%.1f"|format(indis_details[step_idx].metrics.percent_marked) }}\%)
+\end{itemize}
+
+{# --- Overall step summary figures --- #}
+\begin{figure}[h!]
+\centering
+\begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{{ "{" }}{{ indis_plots[step_idx] }}{{ "}" }}
+    \caption{Step {{ step_idx+1 }}: Indistinguishability table 
+    {%- if step_idx == 0 %} showing finality-based marks{%- else %} (bright red ``X'' = newly marked, dark red ``X'' = previously marked){%- endif %}}
+    \label{{ "{" }}fig:indis_table_step{{ step_idx+1 }}{{ "}" }}
+\end{minipage}\hfill
+{%- if blocks_plots and step_idx < blocks_plots|length and blocks_plots[step_idx] %}
+\begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{{ "{" }}{{ blocks_plots[step_idx] }}{{ "}" }}
+    \caption{Partition after Step {{ step_idx+1 }} (states colored by equivalence class)}
+    \label{{ "{" }}fig:partition_step{{ step_idx+1 }}{{ "}" }}
+\end{minipage}
+{%- endif %}
+\end{figure}
+
+{# --- Partition summary --- #}
+{%- if indis_details[step_idx].blocks and indis_details[step_idx].blocks|length > 0 %}
+\paragraph{Equivalence Partition after Step {{ step_idx+1 }}}
+The current partition of states into equivalence classes is shown in Figure~\ref{{ "{" }}fig:partition_step{{ step_idx+1 }}{{ "}" }}:
+\[
+\left\{
+{%- for block in indis_details[step_idx].blocks -%}
+  \{ {{ block|join(", ") }} \}
+  {%- if not loop.last %}, {% endif -%}
+{%- endfor -%}
+\right\}
+\]
+{%- endif %}
+
+\clearpage
 {%- endfor %}
 
 \section{Minimized DFA}
 
-After no further distinguishable pairs can be marked, the remaining unmarked state‑pairs are equivalent and are merged.  The resulting minimized DFA is:
+After reaching the fixed point, all unmarked pairs represent equivalent states that can be merged. The resulting minimized DFA is shown in Figure~\ref{fig:minimized_dfa}:
 
-\begin{center}
-    \includegraphics[width=0.7\linewidth]{minimized_dfa.png}
-    \caption{Minimized DFA}
-\end{center}
+{%- if minimized_dfa_png %}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\linewidth]{{ "{" }}{{ minimized_dfa_png }}{{ "}" }}
+\caption{Minimized DFA - equivalent states have been merged into single representatives}
+\label{{ "{" }}fig:minimized_dfa{{ "}" }}
+\end{figure}
+{%- else %}
+\textit{Minimized DFA visualization not available.}
+{%- endif %}
+
+\subsection*{Summary}
+
+The table-filling algorithm successfully identified all distinguishable state pairs through systematic analysis:
+\begin{itemize}
+\item \textbf{Initialization (Step 1):} Marked pairs with different finality status through cumulative analysis as shown in Figure~\ref{fig:indis_table_step1}
+\item \textbf{Refinement steps:} Iteratively marked pairs whose transitions lead to already-distinguishable pairs
+\item \textbf{Convergence:} Reached fixed point when no new pairs could be marked
+\item \textbf{Result:} Minimized DFA with merged equivalent states (Figure~\ref{fig:minimized_dfa})
+\end{itemize}
+
+\subsection*{Figure Reference Summary}
+The following figures were generated during the analysis:
+\begin{itemize}
+{%- for step_idx in range(indis_plots|length) %}
+  \item Step {{ step_idx+1 }} table: Figure~\ref{fig:indis_table_step{{ step_idx+1 }}}
+  {%- if blocks_plots and step_idx < blocks_plots|length %}
+  \item Step {{ step_idx+1 }} partition: Figure~\ref{fig:partition_step{{ step_idx+1 }}}
+  {%- endif %}
+  {%- if step_idx > 0 %}
+    {%- for ps in indis_details[step_idx].pair_substeps %}
+      {%- for probe in ps.probes %}
+        {%- if probe.visual_path and probe.decision == "mark" %}
+  \item Decisive probe {{ ps.pair[0] }}-{{ ps.pair[1] }} on {{ probe.a }}: Figure~\ref{{ "{" }}{{ probe.figure_label }}{{ "}" }}
+        {%- endif %}
+      {%- endfor %}
+    {%- endfor %}
+  {%- endif %}
+{%- endfor %}
+{%- if minimized_dfa_png %}
+  \item Minimized DFA: Figure~\ref{fig:minimized_dfa}
+{%- endif %}
+\end{itemize}
