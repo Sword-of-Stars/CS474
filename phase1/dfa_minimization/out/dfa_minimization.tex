@@ -99,632 +99,343 @@ where:
 \end{itemize}
 
 The minimization of a DFA entails computing an equivalent DFA with the fewest possible states. The process begins by partitioning the state set into final and non-final states and then repeatedly refining these partitions by identifying states that are indistinguishable with respect to the input symbols. The resulting minimized DFA retains the same language as the original.
-\section{DFA Transition Function}
+\section{DFA Specification}
 
-The DFA's transition function, $\delta$, is defined as follows:
-\begin{align*}\delta(1,\,a) &= 2\\[0.5em]\delta(1,\,b) &= 4\\[1em]\delta(2,\,a) &= 4\\[0.5em]\delta(2,\,b) &= 3\\[1em]\delta(3,\,a) &= 3\\[0.5em]\delta(3,\,b) &= 3\\[1em]\delta(4,\,a) &= 4\\[0.5em]\delta(4,\,b) &= 5\\[1em]\delta(5,\,a) &= 5\\[0.5em]\delta(5,\,b) &= 5\\[1em]\delta(6,\,a) &= 6\\[0.5em]\delta(6,\,b) &= 5\end{align*}
-The set of final states is $F = \{ 3, 5 \}$.
+We will use the DFA shown below to illustrate the minimization process. As we work through the algorithm to determine which pairs of states are indistinguishable from each other, we will fill in the Indis Table. Note that the table only includes the cells below the diagonal, because we only need one cell comparing $p$ and $q$ (the order is irrelevant) and there is no need to compare a state with itself.
 
-\section{Table-Filling (Indistinguishability) Algorithm}
+\subsection*{Transition Function}
 
-We apply the table-filling algorithm with systematic pair-by-pair analysis. The algorithm begins with an initialization phase that identifies all pairs differing in finality, followed by iterative refinement phases that identify additional distinguishable pairs.
-\subsection*{Step 1: Initialization Phase}
-We systematically examine all 15 state pairs to identify those that differ in finality. The final states are F = {3, 5}. For each pair (p, q), we check whether exactly one of p or q is final. Our analysis proceeds as follows: (1, 2): 1 is non-final, 2 is non-final; (1, 3): 1 is non-final, 3 is final→ MARK; (1, 4): 1 is non-final, 4 is non-final; (1, 5): 1 is non-final, 5 is final→ MARK; (1, 6): 1 is non-final, 6 is non-final; (2, 3): 2 is non-final, 3 is final→ MARK; (2, 4): 2 is non-final, 4 is non-final; (2, 5): 2 is non-final, 5 is final→ MARK; (2, 6): 2 is non-final, 6 is non-final; (3, 4): 3 is final, 4 is non-final→ MARK; (3, 5): 3 is final, 5 is final; (3, 6): 3 is final, 6 is non-final→ MARK; (4, 5): 4 is non-final, 5 is final→ MARK; (4, 6): 4 is non-final, 6 is non-final; (5, 6): 5 is final, 6 is non-final→ MARK. Therefore, we mark 8 pairs as distinguishable: (1, 3), (1, 5), (2, 3), (2, 5), (3, 4), (3, 6), (4, 5), (5, 6). These receive X marks in our indistinguishability table.
-\\[0.5em]
-\textbf{Detailed Analysis:}
-\begin{itemize}
-  \item $(1, 2): 1 is non-final, 2 is non-final$
-  \item $(1, 3): 1 is non-final, 3 is final$ $\rightarrow$ \textbf{MARK}
-  \item $(1, 4): 1 is non-final, 4 is non-final$
-  \item $(1, 5): 1 is non-final, 5 is final$ $\rightarrow$ \textbf{MARK}
-  \item $(1, 6): 1 is non-final, 6 is non-final$
-  \item $(2, 3): 2 is non-final, 3 is final$ $\rightarrow$ \textbf{MARK}
-  \item $(2, 4): 2 is non-final, 4 is non-final$
-  \item $(2, 5): 2 is non-final, 5 is final$ $\rightarrow$ \textbf{MARK}
-  \item $(2, 6): 2 is non-final, 6 is non-final$
-  \item $(3, 4): 3 is final, 4 is non-final$ $\rightarrow$ \textbf{MARK}
-  \item $(3, 5): 3 is final, 5 is final$
-  \item $(3, 6): 3 is final, 6 is non-final$ $\rightarrow$ \textbf{MARK}
-  \item $(4, 5): 4 is non-final, 5 is final$ $\rightarrow$ \textbf{MARK}
-  \item $(4, 6): 4 is non-final, 6 is non-final$
-  \item $(5, 6): 5 is final, 6 is non-final$ $\rightarrow$ \textbf{MARK}
+\begin{center}
+\small
+\begin{tabular}{c|*{10}{c}}
+\toprule
+\textbf{State} & \multicolumn{10}{c}{\textbf{Input Symbols}} \\
+\midrule
+& \textbf{a} & \textbf{b} \\
+\midrule
+1 &2 &4 \\
+2 &4 &3 \\
+3 &3 &3 \\
+4 &4 &5 \\
+5 &5 &5 \\
+6 &6 &5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\noindent The set of accepting states is $F = \{ 3, 5 \}$.
+
+\vspace{1em}
+\noindent\textbf{Understanding the Indis Table:}
+\begin{itemize}[itemsep=0.2em]
+\item \textbf{Empty cells} correspond to a \texttt{True} value, meaning we have not yet learned that the pair of states are distinguishable. These pairs are \emph{potentially indistinguishable}.
+\item \textbf{Cells marked with ``X''} correspond to a \texttt{False} value, indicating we have determined that the pair of states \emph{are} distinguishable. There exists at least one input string that leads to different outcomes (one accepts, one rejects) from these two states.
+\item The table only shows cells below the diagonal because:
+  \begin{itemize}
+  \item Indis$(p, q)$ = Indis$(q, p)$ (order doesn't matter)
+  \item Indis$(p, p)$ is always \texttt{True} (a state can't be distinguished from itself)
+  \end{itemize}
 \end{itemize}
 
-\\[0.25em]
-\textbf{Metrics:}
-\begin{itemize}
-  \item Newly marked this step: 8
-  \item Cumulative marked: 8 of 15 (53.3\%)
-\end{itemize}
+\section{Indistinguishability Algorithm}
+\subsection*{Initialization — Lines 5--7}
 
+The algorithm implements the base cases in the definition of distinguishable states by setting the $\text{Indis}(p, q)$ value to \texttt{False} for those pairs of states that are an accepting state paired with a non-accepting state (lines 5 thru 7).
+
+\textbf{Why?} If one state is accepting and the other is non-accepting, they are immediately distinguishable: the empty string $\varepsilon$ is accepted from one state but rejected from the other. This is the simplest way two states can differ.
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{c c c c}
+\toprule
+\textbf{Pair} & \textbf{State $p$} & \textbf{State $q$} & \textbf{Indis$(p,q)$ Value} \\
+\midrule
+$(1, 2)$ & 
+non-accepting & 
+non-accepting &\texttt{True} (leave empty) \\
+$(1, 3)$ & 
+non-accepting & 
+accepting &\textcolor{red}{\texttt{False}} (mark with ``X'') \\
+$(1, 4)$ & 
+non-accepting & 
+non-accepting &\texttt{True} (leave empty) \\
+$(1, 5)$ & 
+non-accepting & 
+accepting &\textcolor{red}{\texttt{False}} (mark with ``X'') \\
+$(1, 6)$ & 
+non-accepting & 
+non-accepting &\texttt{True} (leave empty) \\
+$(2, 3)$ & 
+non-accepting & 
+accepting &\textcolor{red}{\texttt{False}} (mark with ``X'') \\
+$(2, 4)$ & 
+non-accepting & 
+non-accepting &\texttt{True} (leave empty) \\
+$(2, 5)$ & 
+non-accepting & 
+accepting &\textcolor{red}{\texttt{False}} (mark with ``X'') \\
+$(2, 6)$ & 
+non-accepting & 
+non-accepting &\texttt{True} (leave empty) \\
+$(3, 4)$ & 
+accepting & 
+non-accepting &\textcolor{red}{\texttt{False}} (mark with ``X'') \\
+$(3, 5)$ & 
+accepting & 
+accepting &\texttt{True} (leave empty) \\
+$(3, 6)$ & 
+accepting & 
+non-accepting &\textcolor{red}{\texttt{False}} (mark with ``X'') \\
+$(4, 5)$ & 
+non-accepting & 
+accepting &\textcolor{red}{\texttt{False}} (mark with ``X'') \\
+$(4, 6)$ & 
+non-accepting & 
+non-accepting &\texttt{True} (leave empty) \\
+$(5, 6)$ & 
+accepting & 
+non-accepting &\textcolor{red}{\texttt{False}} (mark with ``X'') \\
+\bottomrule
+\end{tabular}
+\caption{Initialization: Setting Indis$(p,q)$ for all 15 state pairs}
+\end{table}
+Since states 3 and 5 are accepting and all other states are non-accepting, we fill in the rows and columns for 3 and 5.
 
 \begin{figure}[h!]
 \centering
 \begin{minipage}{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{plots/indis_step1.png}
-    \caption{Step 1: Indistinguishability table showing finality-based marks}
+    \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{plots/indis_step1.png}
+    \caption{Indis Table afterinitialization.}
     \label{fig:indis_table_step1}
 \end{minipage}\hfill
 \begin{minipage}{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{plots/blocks_step1.png}
-    \caption{Partition after Step 1 (states colored by equivalence class)}
+    \fbox{\includegraphics[width=0.95\linewidth,height=6cm,keepaspectratio]{plots/blocks_step1.png}}
+    \caption{Current equivalence partition afterinitialization. Dark theme visualization: States with the same color are potentially indistinguishable. Note the cyan/teal color scheme highlighting equivalence classes.}
     \label{fig:partition_step1}
 \end{minipage}
 \end{figure}
-
-
-\paragraph{Equivalence Partition after Step 1}
-The current partition of states into equivalence classes is shown in Figure~\ref{fig:partition_step1}:
+\noindent\textbf{Current equivalence classes:}
 \[
-\left\{\{ 5, 3 \}, \{ 4, 2, 6, 1 \}\right\}
+\left\{\{ 5, 3 \}, \{ 2, 1, 6, 4 \}\right\}
 \]
 
 \clearpage
-\subsection*{Step 2: Refinement Phase}
-
-\textbf{Summary:} Pairs marked this round because their transitions reach marked witnesses.
-
-
-\paragraph{Part 2.a \;–\; Pair $( 1, 2 )$}
-
-\emph{Analysis.} Found witness on input b: $\delta$(1,b)=4, $\delta$(2,b)=3. Since ( 3, 4 ) is already marked, we mark ( 1, 2 ).
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(1,a)$ & $\delta(2,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 2 & 4 &
-(2, 4) &
-Unmarked &
-Continue \\
-b & 4 & 3 &
-(3, 4) &
-Marked &
-Mark \\\arrayrulecolor{red}\midrule\arrayrulecolor{black}
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.85\linewidth]{plots/pair_steps/step2_a_probe2.png}
-\caption{Decisive Probe: $\delta(1, b) = 4$, $\delta(2, b) = 3$ 
-→ Witness $(3, 4)$ is marked}
-\label{fig:step2_a_probe2}
-\end{figure}
-
-\noindent\textbf{Final Decision for $( 1, 2 )$:} Mark.
-\textbf{Action:} Add ``X'' to the indistinguishability table.
-
-\vspace{0.75em}
-\paragraph{Part 2.b \;–\; Pair $( 1, 3 )$}
-
-\emph{Analysis.} Pair ( 1, 3 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 1, 3 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 2.c \;–\; Pair $( 1, 4 )$}
-
-\emph{Analysis.} Found witness on input b: $\delta$(1,b)=4, $\delta$(4,b)=5. Since ( 4, 5 ) is already marked, we mark ( 1, 4 ).
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(1,a)$ & $\delta(4,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 2 & 4 &
-(2, 4) &
-Unmarked &
-Continue \\
-b & 4 & 5 &
-(4, 5) &
-Marked &
-Mark \\\arrayrulecolor{red}\midrule\arrayrulecolor{black}
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.85\linewidth]{plots/pair_steps/step2_c_probe2.png}
-\caption{Decisive Probe: $\delta(1, b) = 4$, $\delta(4, b) = 5$ 
-→ Witness $(4, 5)$ is marked}
-\label{fig:step2_c_probe2}
-\end{figure}
-
-\noindent\textbf{Final Decision for $( 1, 4 )$:} Mark.
-\textbf{Action:} Add ``X'' to the indistinguishability table.
-
-\vspace{0.75em}
-\paragraph{Part 2.d \;–\; Pair $( 1, 5 )$}
-
-\emph{Analysis.} Pair ( 1, 5 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 1, 5 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 2.e \;–\; Pair $( 1, 6 )$}
-
-\emph{Analysis.} Found witness on input b: $\delta$(1,b)=4, $\delta$(6,b)=5. Since ( 4, 5 ) is already marked, we mark ( 1, 6 ).
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(1,a)$ & $\delta(6,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 2 & 6 &
-(2, 6) &
-Unmarked &
-Continue \\
-b & 4 & 5 &
-(4, 5) &
-Marked &
-Mark \\\arrayrulecolor{red}\midrule\arrayrulecolor{black}
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.85\linewidth]{plots/pair_steps/step2_e_probe2.png}
-\caption{Decisive Probe: $\delta(1, b) = 4$, $\delta(6, b) = 5$ 
-→ Witness $(4, 5)$ is marked}
-\label{fig:step2_e_probe2}
-\end{figure}
-
-\noindent\textbf{Final Decision for $( 1, 6 )$:} Mark.
-\textbf{Action:} Add ``X'' to the indistinguishability table.
-
-\vspace{0.75em}
-\paragraph{Part 2.f \;–\; Pair $( 2, 3 )$}
-
-\emph{Analysis.} Pair ( 2, 3 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 2, 3 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 2.g \;–\; Pair $( 2, 4 )$}
-
-\emph{Analysis.} Analyze pair ( 2, 4 ) by probing input symbols. No probe led to a marked witness pair; remain unmarked this round.
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(2,a)$ & $\delta(4,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 4 & 4 &
-(4, 4) &
-Unmarked &
-Continue \\
-b & 3 & 5 &
-(3, 5) &
-Unmarked &
-Continue \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-
-\noindent\textbf{Final Decision for $( 2, 4 )$:} Keep unmarked.
-
-\vspace{0.75em}
-\paragraph{Part 2.h \;–\; Pair $( 2, 5 )$}
-
-\emph{Analysis.} Pair ( 2, 5 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 2, 5 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 2.i \;–\; Pair $( 2, 6 )$}
-
-\emph{Analysis.} Analyze pair ( 2, 6 ) by probing input symbols. No probe led to a marked witness pair; remain unmarked this round.
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(2,a)$ & $\delta(6,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 4 & 6 &
-(4, 6) &
-Unmarked &
-Continue \\
-b & 3 & 5 &
-(3, 5) &
-Unmarked &
-Continue \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-
-\noindent\textbf{Final Decision for $( 2, 6 )$:} Keep unmarked.
-
-\vspace{0.75em}
-\paragraph{Part 2.j \;–\; Pair $( 3, 4 )$}
-
-\emph{Analysis.} Pair ( 3, 4 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 3, 4 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 2.k \;–\; Pair $( 3, 5 )$}
-
-\emph{Analysis.} Analyze pair ( 3, 5 ) by probing input symbols. No probe led to a marked witness pair; remain unmarked this round.
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(3,a)$ & $\delta(5,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 3 & 5 &
-(3, 5) &
-Unmarked &
-Continue \\
-b & 3 & 5 &
-(3, 5) &
-Unmarked &
-Continue \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-
-\noindent\textbf{Final Decision for $( 3, 5 )$:} Keep unmarked.
-
-\vspace{0.75em}
-\paragraph{Part 2.l \;–\; Pair $( 3, 6 )$}
-
-\emph{Analysis.} Pair ( 3, 6 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 3, 6 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 2.m \;–\; Pair $( 4, 5 )$}
-
-\emph{Analysis.} Pair ( 4, 5 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 4, 5 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 2.n \;–\; Pair $( 4, 6 )$}
-
-\emph{Analysis.} Analyze pair ( 4, 6 ) by probing input symbols. No probe led to a marked witness pair; remain unmarked this round.
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(4,a)$ & $\delta(6,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 4 & 6 &
-(4, 6) &
-Unmarked &
-Continue \\
-b & 5 & 5 &
-(5, 5) &
-Unmarked &
-Continue \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-
-\noindent\textbf{Final Decision for $( 4, 6 )$:} Keep unmarked.
-
-\vspace{0.75em}
-\paragraph{Part 2.o \;–\; Pair $( 5, 6 )$}
-
-\emph{Analysis.} Pair ( 5, 6 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 5, 6 )$:} Already marked.
-
-\vspace{0.75em}
-
-\\[0.25em]
-\textbf{Metrics:}
-\begin{itemize}
-  \item Newly marked this step: 3
-  \item Cumulative marked: 11 of 15 (73.3\%)
+\subsection*{Iteration 1}
+
+After initialization we enter the while loop. Line 9 tells us to scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have 7 cells to process.
+
+\textbf{Strategy:} For each unmarked pair $(p, q)$, we test all input symbols. If we find \emph{any} input $a$ where $\delta(p, a)$ and $\delta(q, a)$ lead to states that are already marked as distinguishable, then $(p, q)$ must also be distinguishable.
+\paragraph{$(1, 2)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+
+\item \textbf{Input $b$:} Here we see that $\delta(1, b)$ leads to state $4$ and $\delta(2, b)$ leads to state $3$.
+  Since $\text{Indis}(3, 4)$ is \texttt{False}, we \textcolor{red}{change $\text{Indis}(1, 2)$ to \texttt{False}}.
+  
+  \textcolor{red}{\textbf{→ We set Indis$(1, 2)$ = False}}
+  
+  \textbf{Explanation:} If states $3$ and $4$ are distinguishable (we already marked them), and we can reach them from states $1$ and $2$ using input $b$, then states $1$ and $2$ must also be distinguishable. Any string that distinguishes $3$ from $4$ can be prepended with $b$ to distinguish $1$ from $2$.
+\end{itemize}
+\paragraph{$(1, 4)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+
+\item \textbf{Input $b$:} Here we see that $\delta(1, b)$ leads to state $4$ and $\delta(4, b)$ leads to state $5$.
+  Since $\text{Indis}(4, 5)$ is \texttt{False}, we \textcolor{red}{change $\text{Indis}(1, 4)$ to \texttt{False}}.
+  
+  \textcolor{red}{\textbf{→ We set Indis$(1, 4)$ = False}}
+  
+  \textbf{Explanation:} If states $4$ and $5$ are distinguishable (we already marked them), and we can reach them from states $1$ and $4$ using input $b$, then states $1$ and $4$ must also be distinguishable. Any string that distinguishes $4$ from $5$ can be prepended with $b$ to distinguish $1$ from $4$.
+\end{itemize}
+\paragraph{$(1, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+
+\item \textbf{Input $b$:} Here we see that $\delta(1, b)$ leads to state $4$ and $\delta(6, b)$ leads to state $5$.
+  Since $\text{Indis}(4, 5)$ is \texttt{False}, we \textcolor{red}{change $\text{Indis}(1, 6)$ to \texttt{False}}.
+  
+  \textcolor{red}{\textbf{→ We set Indis$(1, 6)$ = False}}
+  
+  \textbf{Explanation:} If states $4$ and $5$ are distinguishable (we already marked them), and we can reach them from states $1$ and $6$ using input $b$, then states $1$ and $6$ must also be distinguishable. Any string that distinguishes $4$ from $5$ can be prepended with $b$ to distinguish $1$ from $6$.
+\end{itemize}
+\paragraph{$(2, 4)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Input $a$:} Here we see that $\delta(2, a)$ leads to state $4$ and $\delta(4, a)$ leads to state $4$.
+  Both states transition to the same state, so $\text{Indis}(2, 4)$ will never change based on $a$. This input provides no distinguishing information.
+\item \textbf{Input $b$:} Here we see that $\delta(2, b)$ leads to state $3$ and $\delta(4, b)$ leads to state $5$.
+  Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 4)$. We continue checking other inputs.
+\end{itemize}
+\paragraph{$(2, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Input $a$:} Here we see that $\delta(2, a)$ leads to state $4$ and $\delta(6, a)$ leads to state $6$.
+  Since $\text{Indis}(4, 6)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 6)$. We continue checking other inputs.
+\item \textbf{Input $b$:} Here we see that $\delta(2, b)$ leads to state $3$ and $\delta(6, b)$ leads to state $5$.
+  Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 6)$. We continue checking other inputs.
+\end{itemize}
+\paragraph{$(3, 5)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Input $a$:} Here we see that $\delta(3, a)$ leads to state $3$ and $\delta(5, a)$ leads to state $5$.
+  Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(3, 5)$. We continue checking other inputs.
+\item \textbf{Input $b$:} Here we see that $\delta(3, b)$ leads to state $3$ and $\delta(5, b)$ leads to state $5$.
+  Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(3, 5)$. We continue checking other inputs.
+\end{itemize}
+\paragraph{$(4, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Input $a$:} Here we see that $\delta(4, a)$ leads to state $4$ and $\delta(6, a)$ leads to state $6$.
+  Since $\text{Indis}(4, 6)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(4, 6)$. We continue checking other inputs.
+\item \textbf{Input $b$:} Here we see that $\delta(4, b)$ leads to state $5$ and $\delta(6, b)$ leads to state $5$.
+  Both states transition to the same state, so $\text{Indis}(4, 6)$ will never change based on $b$. This input provides no distinguishing information.
 \end{itemize}
 
 
 \begin{figure}[h!]
 \centering
+\fbox{\includegraphics[width=0.75\linewidth,height=8cm,keepaspectratio]{plots/pair_steps/iter1_paira_input2.png}}
+\caption{Visual analysis for pair $(1, 2)$: On input $b$, transitions lead to the already-marked pair $(3, 4)$, forcing Indis$(1, 2)$ to become \texttt{False}. (Note: Modern dark theme visualization with colored equivalence classes)}
+\label{fig:iter1_paira_input2}
+\end{figure}
+\vspace{0.5em}
+\noindent This iteration through all empty cells caused \textbf{3} cell value(s) to change from \texttt{True} to \texttt{False}. Thus, at the end of this iteration, the table looks like this, with updated values shown in red ``X'' marks:
+
+\textbf{Progress check:} Since we made changes, we must continue to the next iteration. The newly marked pairs might help us identify additional distinguishable pairs in the next round.
+
+\begin{figure}[h!]
+\centering
 \begin{minipage}{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{plots/indis_step2.png}
-    \caption{Step 2: Indistinguishability table (bright red ``X'' = newly marked, dark red ``X'' = previously marked)}
+    \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{plots/indis_step2.png}
+    \caption{Indis Table afteriteration 1. Bright red ``X'': newly marked; dark red ``X'': previously marked.}
     \label{fig:indis_table_step2}
 \end{minipage}\hfill
 \begin{minipage}{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{plots/blocks_step2.png}
-    \caption{Partition after Step 2 (states colored by equivalence class)}
+    \fbox{\includegraphics[width=0.95\linewidth,height=6cm,keepaspectratio]{plots/blocks_step2.png}}
+    \caption{Current equivalence partition afteriteration 1. Dark theme visualization: States with the same color are potentially indistinguishable. Note the cyan/teal color scheme highlighting equivalence classes.}
     \label{fig:partition_step2}
 \end{minipage}
 \end{figure}
-
-
-\paragraph{Equivalence Partition after Step 2}
-The current partition of states into equivalence classes is shown in Figure~\ref{fig:partition_step2}:
+\noindent\textbf{Current equivalence classes:}
 \[
-\left\{\{ 1 \}, \{ 5, 3 \}, \{ 4, 6, 2 \}\right\}
+\left\{\{ 1 \}, \{ 5, 3 \}, \{ 2, 6, 4 \}\right\}
 \]
 
 \clearpage
-\subsection*{Step 3: Refinement Phase}
+\subsection*{Iteration 2}
 
-\textbf{Summary:} No new pairs marked; reached a fixed point.
+After the previous iteration, line 9 tells us to scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have 4 cells to process.
 
-
-\paragraph{Part 3.a \;–\; Pair $( 1, 2 )$}
-
-\emph{Analysis.} Pair ( 1, 2 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 1, 2 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.b \;–\; Pair $( 1, 3 )$}
-
-\emph{Analysis.} Pair ( 1, 3 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 1, 3 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.c \;–\; Pair $( 1, 4 )$}
-
-\emph{Analysis.} Pair ( 1, 4 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 1, 4 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.d \;–\; Pair $( 1, 5 )$}
-
-\emph{Analysis.} Pair ( 1, 5 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 1, 5 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.e \;–\; Pair $( 1, 6 )$}
-
-\emph{Analysis.} Pair ( 1, 6 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 1, 6 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.f \;–\; Pair $( 2, 3 )$}
-
-\emph{Analysis.} Pair ( 2, 3 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 2, 3 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.g \;–\; Pair $( 2, 4 )$}
-
-\emph{Analysis.} Analyze pair ( 2, 4 ) by probing input symbols. No probe led to a marked witness pair; remain unmarked this round.
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(2,a)$ & $\delta(4,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 4 & 4 &
-(4, 4) &
-Unmarked &
-Continue \\
-b & 3 & 5 &
-(3, 5) &
-Unmarked &
-Continue \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-
-\noindent\textbf{Final Decision for $( 2, 4 )$:} Keep unmarked.
-
-\vspace{0.75em}
-\paragraph{Part 3.h \;–\; Pair $( 2, 5 )$}
-
-\emph{Analysis.} Pair ( 2, 5 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 2, 5 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.i \;–\; Pair $( 2, 6 )$}
-
-\emph{Analysis.} Analyze pair ( 2, 6 ) by probing input symbols. No probe led to a marked witness pair; remain unmarked this round.
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(2,a)$ & $\delta(6,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 4 & 6 &
-(4, 6) &
-Unmarked &
-Continue \\
-b & 3 & 5 &
-(3, 5) &
-Unmarked &
-Continue \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-
-\noindent\textbf{Final Decision for $( 2, 6 )$:} Keep unmarked.
-
-\vspace{0.75em}
-\paragraph{Part 3.j \;–\; Pair $( 3, 4 )$}
-
-\emph{Analysis.} Pair ( 3, 4 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 3, 4 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.k \;–\; Pair $( 3, 5 )$}
-
-\emph{Analysis.} Analyze pair ( 3, 5 ) by probing input symbols. No probe led to a marked witness pair; remain unmarked this round.
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(3,a)$ & $\delta(5,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 3 & 5 &
-(3, 5) &
-Unmarked &
-Continue \\
-b & 3 & 5 &
-(3, 5) &
-Unmarked &
-Continue \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-
-\noindent\textbf{Final Decision for $( 3, 5 )$:} Keep unmarked.
-
-\vspace{0.75em}
-\paragraph{Part 3.l \;–\; Pair $( 3, 6 )$}
-
-\emph{Analysis.} Pair ( 3, 6 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 3, 6 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.m \;–\; Pair $( 4, 5 )$}
-
-\emph{Analysis.} Pair ( 4, 5 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 4, 5 )$:} Already marked.
-
-\vspace{0.75em}
-\paragraph{Part 3.n \;–\; Pair $( 4, 6 )$}
-
-\emph{Analysis.} Analyze pair ( 4, 6 ) by probing input symbols. No probe led to a marked witness pair; remain unmarked this round.
-
-\noindent\textbf{Transition Analysis:}
-\begin{center}
-\begin{tabular}{c c c c c c}
-\toprule
-$a$ & $\delta(4,a)$ & $\delta(6,a)$ & Witness Pair & Witness Status & Decision \\
-\midrule
-a & 4 & 6 &
-(4, 6) &
-Unmarked &
-Continue \\
-b & 5 & 5 &
-(5, 5) &
-Unmarked &
-Continue \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-
-
-\noindent\textbf{Final Decision for $( 4, 6 )$:} Keep unmarked.
-
-\vspace{0.75em}
-\paragraph{Part 3.o \;–\; Pair $( 5, 6 )$}
-
-\emph{Analysis.} Pair ( 5, 6 ) was already marked before this step; no further probing is needed.
-
-\noindent\textbf{Final Decision for $( 5, 6 )$:} Already marked.
-
-\vspace{0.75em}
-
-\\[0.25em]
-\textbf{Metrics:}
-\begin{itemize}
-  \item Newly marked this step: 0
-  \item Cumulative marked: 11 of 15 (73.3\%)
+\textbf{Strategy:} For each unmarked pair $(p, q)$, we test all input symbols. If we find \emph{any} input $a$ where $\delta(p, a)$ and $\delta(q, a)$ lead to states that are already marked as distinguishable, then $(p, q)$ must also be distinguishable.
+\paragraph{$(2, 4)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Input $a$:} Here we see that $\delta(2, a)$ leads to state $4$ and $\delta(4, a)$ leads to state $4$.
+  Both states transition to the same state, so $\text{Indis}(2, 4)$ will never change based on $a$. This input provides no distinguishing information.
+\item \textbf{Input $b$:} Here we see that $\delta(2, b)$ leads to state $3$ and $\delta(4, b)$ leads to state $5$.
+  Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 4)$. We continue checking other inputs.
+\end{itemize}
+\paragraph{$(2, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Input $a$:} Here we see that $\delta(2, a)$ leads to state $4$ and $\delta(6, a)$ leads to state $6$.
+  Since $\text{Indis}(4, 6)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 6)$. We continue checking other inputs.
+\item \textbf{Input $b$:} Here we see that $\delta(2, b)$ leads to state $3$ and $\delta(6, b)$ leads to state $5$.
+  Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 6)$. We continue checking other inputs.
+\end{itemize}
+\paragraph{$(3, 5)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Input $a$:} Here we see that $\delta(3, a)$ leads to state $3$ and $\delta(5, a)$ leads to state $5$.
+  Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(3, 5)$. We continue checking other inputs.
+\item \textbf{Input $b$:} Here we see that $\delta(3, b)$ leads to state $3$ and $\delta(5, b)$ leads to state $5$.
+  Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(3, 5)$. We continue checking other inputs.
+\end{itemize}
+\paragraph{$(4, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Input $a$:} Here we see that $\delta(4, a)$ leads to state $4$ and $\delta(6, a)$ leads to state $6$.
+  Since $\text{Indis}(4, 6)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(4, 6)$. We continue checking other inputs.
+\item \textbf{Input $b$:} Here we see that $\delta(4, b)$ leads to state $5$ and $\delta(6, b)$ leads to state $5$.
+  Both states transition to the same state, so $\text{Indis}(4, 6)$ will never change based on $b$. This input provides no distinguishing information.
 \end{itemize}
 
+
+\vspace{0.5em}
+\noindent This pass through the 4 remaining cells did not cause a change. Thus, in line 18 we break out of the while loop and we are finished finding all indistinguishable pairs of states.
+
+\textbf{Why stop?} If a full iteration produces no new markings, it means we've found all distinguishable pairs. The remaining empty cells represent states that truly cannot be distinguished by any input string — these are the indistinguishable pairs we will merge.
 
 \begin{figure}[h!]
 \centering
 \begin{minipage}{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{plots/indis_step3.png}
-    \caption{Step 3: Indistinguishability table (bright red ``X'' = newly marked, dark red ``X'' = previously marked)}
+    \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{plots/indis_step3.png}
+    \caption{Indis Table afteriteration 2. Bright red ``X'': newly marked; dark red ``X'': previously marked.}
     \label{fig:indis_table_step3}
 \end{minipage}\hfill
 \begin{minipage}{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{plots/blocks_step3.png}
-    \caption{Partition after Step 3 (states colored by equivalence class)}
+    \fbox{\includegraphics[width=0.95\linewidth,height=6cm,keepaspectratio]{plots/blocks_step3.png}}
+    \caption{Current equivalence partition afteriteration 2. Dark theme visualization: States with the same color are potentially indistinguishable. Note the cyan/teal color scheme highlighting equivalence classes.}
     \label{fig:partition_step3}
 \end{minipage}
 \end{figure}
-
-
-\paragraph{Equivalence Partition after Step 3}
-The current partition of states into equivalence classes is shown in Figure~\ref{fig:partition_step3}:
+\noindent\textbf{Current equivalence classes:}
 \[
-\left\{\{ 1 \}, \{ 5, 3 \}, \{ 4, 6, 2 \}\right\}
+\left\{\{ 1 \}, \{ 5, 3 \}, \{ 2, 6, 4 \}\right\}
 \]
 
 \clearpage
 
-\section{Minimized DFA}
+\section{Make the Resulting Minimized DFA}
 
-After reaching the fixed point, all unmarked pairs represent equivalent states that can be merged. The resulting minimized DFA is shown in Figure~\ref{fig:minimized_dfa}:
+We must now merge the indistinguishable states and determine the start state, transition function, and set of accepting states ``in the standard way.''
+
+\subsection*{Identifying Indistinguishable States}
+
+After the algorithm terminates, all \textbf{empty cells} in the Indis Table (those with \texttt{True} values) represent pairs of states that cannot be distinguished by any input string. These states behave identically from the perspective of language acceptance.
+
+\textbf{Key insight:} If Indis$(p, q)$ = \texttt{True} at the end, then for \emph{every possible input string} $w$, either both $p$ and $q$ accept $w$ or both reject $w$. Since they're functionally equivalent, we can merge them into a single state.
+\noindent\textbf{Final equivalence classes (states to be merged):}
+\[
+\left\{\{ 1 \}, \{ 5, 3 \}, \{ 2, 6, 4 \}\right\}
+\]
+
+\noindent Each equivalence class becomes a single state in the minimized DFA:
+\begin{itemize}[itemsep=0.2em]
+\item States $\{ 1 \}$ merge into state $1$
+\item States $\{ 5, 3 \}$ merge into state $53$
+\item States $\{ 2, 6, 4 \}$ merge into state $264$
+\end{itemize}
+
+\subsection*{Constructing the Minimized DFA}
+
+\begin{enumerate}[itemsep=0.3em]
+\item \textbf{States:} One state per equivalence class
+\item \textbf{Start state:} The merged state containing the original start state
+\item \textbf{Accepting states:} A merged state is accepting if any of its component states was accepting in the original DFA
+\item \textbf{Transition function:} For each merged state and input symbol, pick any representative from the equivalence class, see where that state transitions, and the merged state transitions to whichever merged state contains that target
+\end{enumerate}
+
+\subsection*{Result}
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\linewidth]{minimized_dfa.png}
-\caption{Minimized DFA - equivalent states have been merged into single representatives}
+\fbox{\includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{minimized_dfa.png}}
+\caption{The minimized DFA with merged indistinguishable states. Modern dark theme visualization with cyan/teal color scheme emphasizes the clean, merged structure.}
 \label{fig:minimized_dfa}
 \end{figure}
 
-\subsection*{Summary}
+The minimized DFA accepts exactly the same language as the original DFA but uses the minimum number of states possible. States that could not be distinguished by any input string have been merged while preserving the transition structure and accepting behavior.
 
-The table-filling algorithm successfully identified all distinguishable state pairs through systematic analysis:
-\begin{itemize}
-\item \textbf{Initialization (Step 1):} Marked pairs with different finality status through cumulative analysis as shown in Figure~\ref{fig:indis_table_step1}
-\item \textbf{Refinement steps:} Iteratively marked pairs whose transitions lead to already-distinguishable pairs
-\item \textbf{Convergence:} Reached fixed point when no new pairs could be marked
-\item \textbf{Result:} Minimized DFA with merged equivalent states (Figure~\ref{fig:minimized_dfa})
+\subsection*{Why This Works}
+
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Correctness:} Two states are merged only if no input string can distinguish them (empty cells in Indis Table)
+\item \textbf{Completeness:} The algorithm exhaustively checks all possible distinguishing strings through iterative refinement
+\item \textbf{Termination:} Guaranteed because cells can only change from \texttt{True} to \texttt{False} (never the reverse) and there are finitely many cells
+\item \textbf{Minimality:} The result has the fewest possible states while preserving the language — merging any states that are marked as distinguishable would change the language
 \end{itemize}
 
-\subsection*{Figure Reference Summary}
-The following figures were generated during the analysis:
-\begin{itemize}
-  \item Step 1 table: Figure~\ref{fig:indis_table_step1}
-  \item Step 1 partition: Figure~\ref{fig:partition_step1}
-  \item Step 2 table: Figure~\ref{fig:indis_table_step2}
-  \item Step 2 partition: Figure~\ref{fig:partition_step2}
-  \item Decisive probe 1-2 on b: Figure~\ref{fig:step2_a_probe2}
-  \item Decisive probe 1-4 on b: Figure~\ref{fig:step2_c_probe2}
-  \item Decisive probe 1-6 on b: Figure~\ref{fig:step2_e_probe2}
-  \item Step 3 table: Figure~\ref{fig:indis_table_step3}
-  \item Step 3 partition: Figure~\ref{fig:partition_step3}
-  \item Minimized DFA: Figure~\ref{fig:minimized_dfa}
+\subsection*{Visual Design Notes}
+
+The DFA visualizations in this document use a modern dark theme with a cyan/teal color palette. This design choice:
+\begin{itemize}[itemsep=0.2em]
+\item Enhances visual clarity by providing strong contrast between components
+\item Uses color-coding to group states in equivalence classes throughout the minimization process
+\item Highlights important transitions and states (e.g., initial states with thicker borders, accepting states with double circles)
+\item Makes it easier to track how equivalence classes evolve across iterations
 \end{itemize}
 \end{document}

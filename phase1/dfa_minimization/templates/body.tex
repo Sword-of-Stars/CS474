@@ -1,127 +1,184 @@
-\section{DFA Transition Function}
+\section{DFA Specification}
 
-The DFA's transition function, $\delta$, is defined as follows:
-\begin{align*}
-{%- for state, transitions in tf.items() -%}
-    {%- for symbol, target in transitions.items() -%}
-        \delta({{ state }},\,{{ symbol }}) &= {{ target }} {%- if not loop.last %}\\[0.5em]{%- endif -%}
-    {%- endfor -%}
-{%- if not loop.last %}\\[1em]{%- endif -%}
-{%- endfor -%}
-\end{align*}
+We will use the DFA shown below to illustrate the minimization process. As we work through the algorithm to determine which pairs of states are indistinguishable from each other, we will fill in the Indis Table. Note that the table only includes the cells below the diagonal, because we only need one cell comparing $p$ and $q$ (the order is irrelevant) and there is no need to compare a state with itself.
 
-{%- if indis_details[0].final_states_list %}
-The set of final states is $F = \{ {{ indis_details[0].final_states_list|join(", ") }} \}$.
-{%- endif %}
+\subsection*{Transition Function}
 
-\section{Table-Filling (Indistinguishability) Algorithm}
-
-We apply the table-filling algorithm with systematic pair-by-pair analysis. The algorithm begins with an initialization phase that identifies all pairs differing in finality, followed by iterative refinement phases that identify additional distinguishable pairs.
-
-{%- for step_idx in range(indis_plots|length) %}
-
-{%- if step_idx == 0 %}
-\subsection*{Step {{ step_idx+1 }}: Initialization Phase}
-
-{%- if indis_details[step_idx].cumulative_narrative %}
-{{ indis_details[step_idx].cumulative_narrative }}
-{%- endif %}
-
-{%- if indis_details[step_idx].finality_analysis %}
-\\[0.5em]
-\textbf{Detailed Analysis:}
-\begin{itemize}
-{%- for analysis in indis_details[step_idx].finality_analysis %}
-  \item ${{ analysis.analysis }}$ {%- if analysis.mismatch %} $\rightarrow$ \textbf{MARK}{%- endif %}
-{%- endfor %}
-\end{itemize}
-{%- endif %}
-
-{%- else %}
-\subsection*{Step {{ step_idx+1 }}: Refinement Phase}
-
-\textbf{Summary:} {{ indis_details[step_idx].description }}
-
-{# --- Enhanced pair-level substeps with individual visualizations --- #}
-{%- for ps in indis_details[step_idx].pair_substeps %}
-\paragraph{Part {{ step_idx+1 }}.{{ ps.label }} \;–\; Pair $( {{ ps.pair[0] }}, {{ ps.pair[1] }} )$}
-
-\emph{Analysis.} {{ ps.narrative }}
-
-{%- if ps.kind == "refine" and ps.probes and ps.probes|length > 0 %}
-
-\noindent\textbf{Transition Analysis:}
 \begin{center}
-\begin{tabular}{c c c c c c}
+\small
+\begin{tabular}{c|*{10}{c}}
 \toprule
-$a$ & $\delta({{ ps.pair[0] }},a)$ & $\delta({{ ps.pair[1] }},a)$ & Witness Pair & Witness Status & Decision \\
+\textbf{State} & \multicolumn{10}{c}{\textbf{Input Symbols}} \\
 \midrule
-{%- for r in ps.probes %}
-{{ r.a }} & {{ r.delta_p }} & {{ r.delta_q }} &
-({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }}) &
-{{ 'Marked' if r.witness_marked else 'Unmarked' }} &
-{{ r.decision|capitalize }} \\
-{%- if r.decision == "mark" %}\arrayrulecolor{red}\midrule\arrayrulecolor{black}{%- endif %}
+{%- set all_symbols = [] %}
+{%- for state, transitions in tf.items() %}
+  {%- for symbol in transitions.keys() %}
+    {%- if symbol not in all_symbols %}
+      {%- set _ = all_symbols.append(symbol) %}
+    {%- endif %}
+  {%- endfor %}
+{%- endfor %}
+{%- set sorted_symbols = all_symbols|sort %}
+& {%- for symbol in sorted_symbols %} \textbf{{ "{" }}{{ symbol }}{{ "}" }} {%- if not loop.last %} & {%- endif %}{%- endfor %} \\
+\midrule
+{%- for state in tf.keys()|sort %}
+{{ state }} & {%- for symbol in sorted_symbols %}{{ tf[state][symbol] }}{%- if not loop.last %} & {%- endif %}{%- endfor %} \\
 {%- endfor %}
 \bottomrule
 \end{tabular}
 \end{center}
 
-{# Individual probe visualizations (show decisive ones) #}
-{%- set decisive_probes = ps.probes | selectattr('decision', 'equalto', 'mark') | selectattr('visual_path') | list %}
-{%- if decisive_probes %}
-{%- set r = decisive_probes[0] %}
+{%- if indis_details[0].final_states_list %}
+\noindent The set of accepting states is $F = \{ {{ indis_details[0].final_states_list|join(", ") }} \}$.
+{%- endif %}
+
+\vspace{1em}
+\noindent\textbf{Understanding the Indis Table:}
+\begin{itemize}[itemsep=0.2em]
+\item \textbf{Empty cells} correspond to a \texttt{True} value, meaning we have not yet learned that the pair of states are distinguishable. These pairs are \emph{potentially indistinguishable}.
+\item \textbf{Cells marked with ``X''} correspond to a \texttt{False} value, indicating we have determined that the pair of states \emph{are} distinguishable. There exists at least one input string that leads to different outcomes (one accepts, one rejects) from these two states.
+\item The table only shows cells below the diagonal because:
+  \begin{itemize}
+  \item Indis$(p, q)$ = Indis$(q, p)$ (order doesn't matter)
+  \item Indis$(p, p)$ is always \texttt{True} (a state can't be distinguished from itself)
+  \end{itemize}
+\end{itemize}
+
+\section{Indistinguishability Algorithm}
+
+{%- for step_idx in range(indis_plots|length) %}
+
+{%- if step_idx == 0 %}
+\subsection*{Initialization}
+
+The algorithm implements the base cases in the definition of distinguishable states by setting the $\text{Indis}(p, q)$ value to \texttt{False} for those pairs of states that are an accepting state paired with a non-accepting state.
+
+\textbf{Why?} If one state is accepting and the other is non-accepting, they are immediately distinguishable: the empty string $\varepsilon$ is accepted from one state but rejected from the other. This is the simplest way two states can differ.
+
+{%- if indis_details[step_idx].finality_analysis %}
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{c c c c}
+\toprule
+\textbf{Pair} & \textbf{State $p$} & \textbf{State $q$} & \textbf{Indis$(p,q)$ Value} \\
+\midrule
+{%- for analysis in indis_details[step_idx].finality_analysis %}
+$({{ analysis.pair[0] }}, {{ analysis.pair[1] }})$ & 
+{{ 'accepting' if analysis.p_final else 'non-accepting' }} & 
+{{ 'accepting' if analysis.q_final else 'non-accepting' }} & 
+{%- if analysis.mismatch %}\textcolor{red}{\texttt{False}} (mark with ``X''){%- else %}\texttt{True} (leave empty){%- endif %} \\
+{%- endfor %}
+\bottomrule
+\end{tabular}
+\caption{Initialization: Setting Indis$(p,q)$ for all {{ indis_details[step_idx].finality_analysis|length }} state pairs}
+\end{table}
+{%- endif %}
+
+{%- if indis_details[0].final_states_list %}
+Since states {{ indis_details[0].final_states_list|join(" and ") }} are accepting and all other states are non-accepting, we fill in the rows and columns for {{ indis_details[0].final_states_list|join(" and ") }}.
+{%- endif %}
+
+{%- else %}
+\subsection*{Iteration {{ step_idx }}}
+
+After {%- if step_idx == 1 %} initialization we enter the while loop. Line 9{%- else %} the previous iteration, line 9{%- endif %} tells us to scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have {{ indis_details[step_idx].pair_substeps | selectattr('decision', 'in', ['mark', 'keep-unmarked']) | list | length }} cells to process.
+
+\textbf{Strategy:} For each unmarked pair $(p, q)$, we test all input symbols. If we find \emph{any} input $a$ where $\delta(p, a)$ and $\delta(q, a)$ lead to states that are already marked as distinguishable, then $(p, q)$ must also be distinguishable.
+
+{%- if indis_details[step_idx].pair_substeps|length > 0 %}
+
+{%- set pairs_to_show = indis_details[step_idx].pair_substeps | selectattr('decision', 'in', ['mark', 'keep-unmarked']) | list %}
+{%- if pairs_to_show %}
+
+{%- for ps in pairs_to_show %}
+\paragraph{$({{ ps.pair[0] }}, {{ ps.pair[1] }})$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+
+{%- if ps.probes and ps.probes|length > 0 %}
+\begin{itemize}[itemsep=0.3em]
+{%- for r in ps.probes %}
+{%- if ps.decision == 'mark' and r.decision != 'mark' %}
+{# Skip probes after we found the marking one #}
+{%- else %}
+\item \textbf{Input ${{ r.a }}$:} Here we see that $\delta({{ ps.pair[0] }}, {{ r.a }})$ leads to state ${{ r.delta_p }}$ and $\delta({{ ps.pair[1] }}, {{ r.a }})$ leads to state ${{ r.delta_q }}$.
+{%- if r.witness_pair[0] == r.witness_pair[1] %}
+  Both states transition to the same state, so $\text{Indis}({{ ps.pair[0] }}, {{ ps.pair[1] }})$ will never change based on ${{ r.a }}$. This input provides no distinguishing information.
+{%- elif r.witness_marked %}
+  Since $\text{Indis}({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ is \texttt{False}, we \textcolor{red}{change $\text{Indis}({{ ps.pair[0] }}, {{ ps.pair[1] }})$ to \texttt{False}}.
+  
+  \textcolor{red}{\textbf{→ We set Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ = False}}
+  
+  \textbf{Explanation:} If states ${{ r.witness_pair[0] }}$ and ${{ r.witness_pair[1] }}$ are distinguishable (we already marked them), and we can reach them from states ${{ ps.pair[0] }}$ and ${{ ps.pair[1] }}$ using input ${{ r.a }}$, then states ${{ ps.pair[0] }}$ and ${{ ps.pair[1] }}$ must also be distinguishable. Any string that distinguishes ${{ r.witness_pair[0] }}$ from ${{ r.witness_pair[1] }}$ can be prepended with ${{ r.a }}$ to distinguish ${{ ps.pair[0] }}$ from ${{ ps.pair[1] }}$.
+{%- else %}
+  Since $\text{Indis}({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}({{ ps.pair[0] }}, {{ ps.pair[1] }})$. We continue checking other inputs.
+{%- endif %}
+{%- endif %}
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+
+{%- endfor %}
+
+{# Show decisive visual for one marked pair per iteration #}
+{%- set marked_pairs_with_visuals = [] %}
+{%- for ps in pairs_to_show %}
+  {%- if ps.decision == "mark" %}
+    {%- for probe in ps.probes %}
+      {%- if probe.visual_path and probe.decision == "mark" %}
+        {%- set _ = marked_pairs_with_visuals.append((ps, probe)) %}
+      {%- endif %}
+    {%- endfor %}
+  {%- endif %}
+{%- endfor %}
+
+{%- if marked_pairs_with_visuals %}
+{%- set ps, probe = marked_pairs_with_visuals[0] %}
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.85\linewidth]{plots/{{ r.visual_path }}}
-\caption{Decisive Probe: $\delta({{ ps.pair[0] }}, {{ r.a }}) = {{ r.delta_p }}$, $\delta({{ ps.pair[1] }}, {{ r.a }}) = {{ r.delta_q }}$ 
-→ Witness $({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ is marked}
-\label{{ "{" }}{{ r.figure_label }}{{ "}" }}
+\fbox{\includegraphics[width=0.75\linewidth,height=8cm,keepaspectratio]{plots/{{ probe.visual_path }}}}
+\caption{Visual analysis for pair $({{ ps.pair[0] }}, {{ ps.pair[1] }})$: On input ${{ probe.a }}$, transitions lead to the already-marked pair $({{ probe.witness_pair[0] }}, {{ probe.witness_pair[1] }})$, forcing Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ to become \texttt{False}.}
+\label{{ "{" }}{{ probe.figure_label }}{{ "}" }}
 \end{figure}
 {%- endif %}
 
 {%- endif %}
-
-\noindent\textbf{Final Decision for $( {{ ps.pair[0] }}, {{ ps.pair[1] }} )$:} {{ ps.decision.replace('-', ' ')|capitalize }}.
-{%- if ps.decision == "mark" %}
-\textbf{Action:} Add ``X'' to the indistinguishability table.
 {%- endif %}
 
-\vspace{0.75em}
-{%- endfor %}
+{%- if indis_details[step_idx].metrics.newly_count > 0 %}
+\vspace{0.5em}
+\noindent This iteration through all empty cells caused \textbf{{ "{" }}{{ indis_details[step_idx].metrics.newly_count }}{{ "}" }} cell value(s) to change from \texttt{True} to \texttt{False}. Thus, at the end of this iteration, the table looks like this, with updated values shown in red ``X'' marks:
+
+\textbf{Progress check:} Since we made changes, we must continue to the next iteration. The newly marked pairs might help us identify additional distinguishable pairs in the next round.
+{%- else %}
+\vspace{0.5em}
+\noindent This pass through the {{ pairs_to_show|length }} remaining cells did not cause a change. Thus, in line 18 we break out of the while loop and we are finished finding all indistinguishable pairs of states.
+
+\textbf{Why stop?} If a full iteration produces no new markings, it means we've found all distinguishable pairs. The remaining empty cells represent states that truly cannot be distinguished by any input string — these are the indistinguishable pairs we will merge.
 {%- endif %}
 
-\\[0.25em]
-\textbf{Metrics:}
-\begin{itemize}
-  \item Newly marked this step: {{ indis_details[step_idx].metrics.newly_count }}
-  \item Cumulative marked: {{ indis_details[step_idx].metrics.cumulative_marked }} of {{ indis_details[step_idx].metrics.total_pairs }} ({{ "%.1f"|format(indis_details[step_idx].metrics.percent_marked) }}\%)
-\end{itemize}
+{%- endif %}
 
-{# --- Overall step summary figures --- #}
 \begin{figure}[h!]
 \centering
 \begin{minipage}{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{{ "{" }}{{ indis_plots[step_idx] }}{{ "}" }}
-    \caption{Step {{ step_idx+1 }}: Indistinguishability table 
-    {%- if step_idx == 0 %} showing finality-based marks{%- else %} (bright red ``X'' = newly marked, dark red ``X'' = previously marked){%- endif %}}
+    \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{{ "{" }}{{ indis_plots[step_idx] }}{{ "}" }}
+    \caption{Indis Table after {%- if step_idx == 0 %}initialization{%- else %}iteration {{ step_idx }}{%- endif %}.
+    {%- if step_idx > 0 %} Bright red ``X'': newly marked; dark red ``X'': previously marked.{%- endif %}}
     \label{{ "{" }}fig:indis_table_step{{ step_idx+1 }}{{ "}" }}
 \end{minipage}\hfill
 {%- if blocks_plots and step_idx < blocks_plots|length and blocks_plots[step_idx] %}
 \begin{minipage}{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{{ "{" }}{{ blocks_plots[step_idx] }}{{ "}" }}
-    \caption{Partition after Step {{ step_idx+1 }} (states colored by equivalence class)}
+    \fbox{\includegraphics[width=0.95\linewidth,height=6cm,keepaspectratio]{{ "{" }}{{ blocks_plots[step_idx] }}{{ "}" }}}
+    \caption{Current equivalence partition after {%- if step_idx == 0 %}initialization{%- else %}iteration {{ step_idx }}{%- endif %}.}
     \label{{ "{" }}fig:partition_step{{ step_idx+1 }}{{ "}" }}
 \end{minipage}
 {%- endif %}
 \end{figure}
 
-{# --- Partition summary --- #}
 {%- if indis_details[step_idx].blocks and indis_details[step_idx].blocks|length > 0 %}
-\paragraph{Equivalence Partition after Step {{ step_idx+1 }}}
-The current partition of states into equivalence classes is shown in Figure~\ref{{ "{" }}fig:partition_step{{ step_idx+1 }}{{ "}" }}:
+\noindent\textbf{Current equivalence classes:}
 \[
 \left\{
 {%- for block in indis_details[step_idx].blocks -%}
@@ -135,50 +192,67 @@ The current partition of states into equivalence classes is shown in Figure~\ref
 \clearpage
 {%- endfor %}
 
-\section{Minimized DFA}
+\section{Make the Resulting Minimized DFA}
 
-After reaching the fixed point, all unmarked pairs represent equivalent states that can be merged. The resulting minimized DFA is shown in Figure~\ref{fig:minimized_dfa}:
+We must now merge the indistinguishable states and determine the start state, transition function, and set of accepting states ``in the standard way.''
+
+\subsection*{Identifying Indistinguishable States}
+
+After the algorithm terminates, all \textbf{empty cells} in the Indis Table (those with \texttt{True} values) represent pairs of states that cannot be distinguished by any input string. These states behave identically from the perspective of language acceptance.
+
+\textbf{Key insight:} If Indis$(p, q)$ = \texttt{True} at the end, then for \emph{every possible input string} $w$, either both $p$ and $q$ accept $w$ or both reject $w$. Since they're functionally equivalent, we can merge them into a single state.
+
+{%- set final_blocks = indis_details[-1].blocks %}
+{%- if final_blocks %}
+\noindent\textbf{Final equivalence classes (states to be merged):}
+\[
+\left\{
+{%- for block in final_blocks -%}
+  \{ {{ block|join(", ") }} \}
+  {%- if not loop.last %}, {% endif -%}
+{%- endfor -%}
+\right\}
+\]
+
+\noindent Each equivalence class becomes a single state in the minimized DFA:
+\begin{itemize}[itemsep=0.2em]
+{%- for block in final_blocks %}
+\item States $\{ {{ block|join(", ") }} \}$ merge into state ${{ block|join("") }}$
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+
+\subsection*{Constructing the Minimized DFA}
+
+\begin{enumerate}[itemsep=0.3em]
+\item \textbf{States:} One state per equivalence class
+\item \textbf{Start state:} The merged state containing the original start state
+\item \textbf{Accepting states:} A merged state is accepting if any of its component states was accepting in the original DFA
+\item \textbf{Transition function:} For each merged state and input symbol, pick any representative from the equivalence class, see where that state transitions, and the merged state transitions to whichever merged state contains that target
+\end{enumerate}
+
+\subsection*{Result}
 
 {%- if minimized_dfa_png %}
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\linewidth]{{ "{" }}{{ minimized_dfa_png }}{{ "}" }}
-\caption{Minimized DFA - equivalent states have been merged into single representatives}
+\fbox{\includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{{ "{" }}{{ minimized_dfa_png }}{{ "}" }}}
+\caption{The minimized DFA with merged indistinguishable states.}
 \label{{ "{" }}fig:minimized_dfa{{ "}" }}
 \end{figure}
 {%- else %}
-\textit{Minimized DFA visualization not available.}
+\begin{center}
+\textit{Note: Minimized DFA visualization not available. Please check that pygraphviz is properly installed and configured.}
+\end{center}
 {%- endif %}
 
-\subsection*{Summary}
+The minimized DFA accepts exactly the same language as the original DFA but uses the minimum number of states possible. States that could not be distinguished by any input string have been merged while preserving the transition structure and accepting behavior.
 
-The table-filling algorithm successfully identified all distinguishable state pairs through systematic analysis:
-\begin{itemize}
-\item \textbf{Initialization (Step 1):} Marked pairs with different finality status through cumulative analysis as shown in Figure~\ref{fig:indis_table_step1}
-\item \textbf{Refinement steps:} Iteratively marked pairs whose transitions lead to already-distinguishable pairs
-\item \textbf{Convergence:} Reached fixed point when no new pairs could be marked
-\item \textbf{Result:} Minimized DFA with merged equivalent states (Figure~\ref{fig:minimized_dfa})
-\end{itemize}
+\subsection*{Why This Works}
 
-\subsection*{Figure Reference Summary}
-The following figures were generated during the analysis:
-\begin{itemize}
-{%- for step_idx in range(indis_plots|length) %}
-  \item Step {{ step_idx+1 }} table: Figure~\ref{fig:indis_table_step{{ step_idx+1 }}}
-  {%- if blocks_plots and step_idx < blocks_plots|length %}
-  \item Step {{ step_idx+1 }} partition: Figure~\ref{fig:partition_step{{ step_idx+1 }}}
-  {%- endif %}
-  {%- if step_idx > 0 %}
-    {%- for ps in indis_details[step_idx].pair_substeps %}
-      {%- for probe in ps.probes %}
-        {%- if probe.visual_path and probe.decision == "mark" %}
-  \item Decisive probe {{ ps.pair[0] }}-{{ ps.pair[1] }} on {{ probe.a }}: Figure~\ref{{ "{" }}{{ probe.figure_label }}{{ "}" }}
-        {%- endif %}
-      {%- endfor %}
-    {%- endfor %}
-  {%- endif %}
-{%- endfor %}
-{%- if minimized_dfa_png %}
-  \item Minimized DFA: Figure~\ref{fig:minimized_dfa}
-{%- endif %}
+\begin{itemize}[itemsep=0.3em]
+\item \textbf{Correctness:} Two states are merged only if no input string can distinguish them (empty cells in Indis Table)
+\item \textbf{Completeness:} The algorithm exhaustively checks all possible distinguishing strings through iterative refinement
+\item \textbf{Termination:} Guaranteed because cells can only change from \texttt{True} to \texttt{False} (never the reverse) and there are finitely many cells
+\item \textbf{Minimality:} The result has the fewest possible states while preserving the language — merging any states that are marked as distinguishable would change the language
 \end{itemize}

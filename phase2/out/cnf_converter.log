@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  24 SEP 2025 21:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  13 OCT 2025 17:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -559,69 +559,23 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthR=\skip69
 \@temptokenb=\toks43
 )
-(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
-dlayer/tikz/libraries\tikzlibraryautomata.code.tex
-File: tikzlibraryautomata.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
-dlayer/tikz/libraries\tikzlibraryshapes.multipart.code.tex
-File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/librari
-es/shapes\pgflibraryshapes.multipart.code.tex
-File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodepartlowerbox=\box66
-\pgfnodeparttwobox=\box67
-\pgfnodepartthreebox=\box68
-\pgfnodepartfourbox=\box69
-\pgfnodeparttwentybox=\box70
-\pgfnodepartnineteenbox=\box71
-\pgfnodeparteighteenbox=\box72
-\pgfnodepartseventeenbox=\box73
-\pgfnodepartsixteenbox=\box74
-\pgfnodepartfifteenbox=\box75
-\pgfnodepartfourteenbox=\box76
-\pgfnodepartthirteenbox=\box77
-\pgfnodeparttwelvebox=\box78
-\pgfnodepartelevenbox=\box79
-\pgfnodeparttenbox=\box80
-\pgfnodepartninebox=\box81
-\pgfnodeparteightbox=\box82
-\pgfnodepartsevenbox=\box83
-\pgfnodepartsixbox=\box84
-\pgfnodepartfivebox=\box85
-)))
-(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
-dlayer/tikz/libraries\tikzlibrarypositioning.code.tex
-File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\helvet
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\pifont
 .sty
-Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
+Package: pifont 2020/03/25 PSNFSS-v9.3 Pi font support (SPQR) 
+LaTeX Font Info:    Trying to load font information for U+pzd on input line 63.
+
+
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\upzd.f
+d
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
 )
-(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enum
-item.sty
-Package: enumitem 2025/02/06 v3.11 Customized lists
-\labelindent=\skip70
-\enit@outerparindent=\dimen270
-\enit@toks=\toks44
-\enit@inbox=\box86
-\enit@count@id=\count305
-\enitdp@description=\count306
-)
-(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titl
-esec.sty
-Package: titlesec 2025/01/04 v2.17 Sectioning titles
-\ttl@box=\box87
-\beforetitleunit=\skip71
-\aftertitleunit=\skip72
-\ttl@plus=\dimen271
-\ttl@minus=\dimen272
-\ttl@toksa=\toks45
-\titlewidth=\dimen273
-\titlewidthlast=\dimen274
-\titlewidthfirst=\dimen275
-)
+LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
+
+
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\upsy.f
+d
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tcolorbox\tco
 lorbox.sty
 Package: tcolorbox 2024/01/10 version 6.2.0 text color boxes
@@ -629,8 +583,8 @@ Package: tcolorbox 2024/01/10 version 6.2.0 text color boxes
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbati
 m.sty
 Package: verbatim 2023-11-06 v1.5v LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks46
-\verbatim@line=\toks47
+\every@verbatim=\toks44
+\verbatim@line=\toks45
 \verbatim@in@stream=\read3
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/environ\envir
@@ -644,21 +598,84 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoo
 lbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count307
+\etb@tempcnta=\count305
 )
-\tcb@titlebox=\box88
-\tcb@upperbox=\box89
-\tcb@lowerbox=\box90
-\tcb@phantombox=\box91
-\c@tcbbreakpart=\count308
-\c@tcblayer=\count309
-\c@tcolorbox@number=\count310
-\l__tcobox_tmpa_box=\box92
-\l__tcobox_tmpa_dim=\dimen276
-\tcb@temp=\box93
-\tcb@temp=\box94
-\tcb@temp=\box95
-\tcb@temp=\box96
+\tcb@titlebox=\box66
+\tcb@upperbox=\box67
+\tcb@lowerbox=\box68
+\tcb@phantombox=\box69
+\c@tcbbreakpart=\count306
+\c@tcblayer=\count307
+\c@tcolorbox@number=\count308
+\l__tcobox_tmpa_box=\box70
+\l__tcobox_tmpa_dim=\dimen270
+\tcb@temp=\box71
+\tcb@temp=\box72
+\tcb@temp=\box73
+\tcb@temp=\box74
+)
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
+dlayer/tikz/libraries\tikzlibraryautomata.code.tex
+File: tikzlibraryautomata.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
+dlayer/tikz/libraries\tikzlibraryshapes.multipart.code.tex
+File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/librari
+es/shapes\pgflibraryshapes.multipart.code.tex
+File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodepartlowerbox=\box75
+\pgfnodeparttwobox=\box76
+\pgfnodepartthreebox=\box77
+\pgfnodepartfourbox=\box78
+\pgfnodeparttwentybox=\box79
+\pgfnodepartnineteenbox=\box80
+\pgfnodeparteighteenbox=\box81
+\pgfnodepartseventeenbox=\box82
+\pgfnodepartsixteenbox=\box83
+\pgfnodepartfifteenbox=\box84
+\pgfnodepartfourteenbox=\box85
+\pgfnodepartthirteenbox=\box86
+\pgfnodeparttwelvebox=\box87
+\pgfnodepartelevenbox=\box88
+\pgfnodeparttenbox=\box89
+\pgfnodepartninebox=\box90
+\pgfnodeparteightbox=\box91
+\pgfnodepartsevenbox=\box92
+\pgfnodepartsixbox=\box93
+\pgfnodepartfivebox=\box94
+)))
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fronten
+dlayer/tikz/libraries\tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\helvet
+.sty
+Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
+)
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enum
+item.sty
+Package: enumitem 2025/02/06 v3.11 Customized lists
+\labelindent=\skip70
+\enit@outerparindent=\dimen271
+\enit@toks=\toks46
+\enit@inbox=\box95
+\enit@count@id=\count309
+\enitdp@description=\count310
+)
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titl
+esec.sty
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
+\ttl@box=\box96
+\beforetitleunit=\skip71
+\aftertitleunit=\skip72
+\ttl@plus=\dimen272
+\ttl@minus=\dimen273
+\ttl@toksa=\toks47
+\titlewidth=\dimen274
+\titlewidthlast=\dimen275
+\titlewidthfirst=\dimen276
 )
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/tcolorbox\tcb
 theorems.code.tex
@@ -679,20 +696,20 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 ut\cnf_converter.aux)
 \openout1 = `cnf_converter.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -755,269 +772,521 @@ opdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 \c@lstlisting=\count322
-LaTeX Font Info:    Trying to load font information for U+msa on input line 66.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 68.
 
 
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa
 .fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 66.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 68.
 
 
 (C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb
 .fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 69--70
+Underfull \hbox (badness 10000) in paragraph at lines 71--72
 
  []
 
-! Undefined control sequence.
-<recently read> \textbfDirect 
-                              
-l.104   \item \textbfDirect
-                           : Found
-? 
 
-! LaTeX Error: Unicode character ε (U+03B5)
-               not set up for use with LaTeX.
+Overfull \hbox (15.0pt too wide) in paragraph at lines 85--86
+[][][][][][][] 
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.105 ...A\}\). Variables that have an explicit ε
-                                                  -production.
-? 
-! Undefined control sequence.
-<recently read> \textbfIndirect 
-                                
-l.107   \item \textbfIndirect
-                             : Found
-? 
-! Undefined control sequence.
-<recently read> \textbfIndirect 
-                                
-l.110   \item \textbfIndirect
-                             : Found
-? 
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 105--108
+[] 
+ []
+
 [1{C:/Users/william.gregory/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 ]
-[2]
-! Undefined control sequence.
-<argument>  phase2/chomsky_converter/outunit 
-                                             _graph.png 
-l.262 ...e2/chomsky_converter/out\unit_graph.png }
-                                                  
+[2] [3]
+<phase2/chomsky_converter/out/directed_graph.png, id=27, 715.473pt x 570.933pt>
+
+File: phase2/chomsky_converter/out/directed_graph.png Graphic file (type png)
+<use phase2/chomsky_converter/out/directed_graph.png>
+Package pdftex.def Info: phase2/chomsky_converter/out/directed_graph.png  used 
+on input line 319.
+(pdftex.def)             Requested size: 317.07614pt x 253.01462pt.
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 329--336
+[] 
+ []
+
+[4 <./phase2/chomsky_converter/out/directed_graph.png>]
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
 ? 
-! Undefined control sequence.
-<argument> phase2/chomsky_converter/outunit 
-                                            _graph.png 
-l.262 ...e2/chomsky_converter/out\unit_graph.png }
-                                                  
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
 ? 
-! Undefined control sequence.
-<argument> phase2/chomsky_converter/outunit 
-                                            _graph.png
-l.262 ...e2/chomsky_converter/out\unit_graph.png }
-                                                  
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
 ? 
-! Undefined control sequence.
-<write> ...le ` phase2/chomsky_converter/out\unit 
-                                                  _graph.png ' not found\on@...
-l.262 ...e2/chomsky_converter/out\unit_graph.png }
-                                                  
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
 ? 
-
-LaTeX Warning: File ` phase2/chomsky_converter/out_graph.png ' not found on inp
-ut line 262.
-
-
-! Package pdftex.def Error: File `phase2/chomsky_converter/out_graph.png' not f
-ound: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.262 ...e2/chomsky_converter/out\unit_graph.png }
-                                                  
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
 ? 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-! Extra }, or forgotten \endgroup.
-l.283 </itemize}
-                
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
 ? 
-[3]
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 328.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 328.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 335.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 335.
-
-[4]
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 342.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 342.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 352.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 352.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 359.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 359.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 366.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 366.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 373.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 373.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 373.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 373.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 373.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 373.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 383.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 383.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 390.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 390.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 397.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 397.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 404.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 404.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 404.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 404.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 404.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 404.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 414.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 414.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 421.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 421.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 428.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 428.
-
-[5] [6] [7]
-
-! LaTeX Error: \begin{itemize} on input line 269 ended by \end{document}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.573 \end{document}
-                    
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
 ? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing { inserted.
+<inserted text> 
+                {
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing { inserted.
+<inserted text> 
+                {
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing { inserted.
+<inserted text> 
+                {
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.388     \end{align*}
+                      
+? 
+! Misplaced \omit.
+\math@cr@@@ ...@ \@ne \add@amps \maxfields@ \omit 
+                                                  \kern -\alignsep@ \iftag@ ...
+l.388     \end{align*}
+                      
+? 
+! Missing { inserted.
+<inserted text> 
+                {
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.388     \end{align*}
+                      
+? 
+! Misplaced \omit.
+\math@cr@@@ ...@ \@ne \add@amps \maxfields@ \omit 
+                                                  \kern -\alignsep@ \iftag@ ...
+l.388     \end{align*}
+                      
+? 
+! Missing { inserted.
+<inserted text> 
+                {
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.388     \end{align*}
+                      
+? 
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.388     \end{align*}
+                      
+? 
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.388     \end{align*}
+                      
+? 
+! Misplaced \omit.
+\math@cr@@@ ...@ \@ne \add@amps \maxfields@ \omit 
+                                                  \kern -\alignsep@ \iftag@ ...
+l.388     \end{align*}
+                      
+? 
+! Missing { inserted.
+<inserted text> 
+                {
+l.388     \end{align*}
+                      
+? 
+LaTeX Font Info:    Trying to load font information for OT1+phv on input line 4
+02.
 
+(C:\Users\william.gregory\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1phv
+.fd
+File: ot1phv.fd 2020/03/25 scalable font definitions for OT1/phv.
+) [5] [6{C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/enc/dvips
+/base/8r.enc}]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 507--515
+[] 
+ []
+
+[7]
 (C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase2\o
 ut\cnf_converter.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- )
-(\end occurred inside a group at level 1)
-
-### semi simple group (level 1) entered at line 269 (\begingroup)
-### bottom level 
+ ) 
 Here is how much of TeX's memory you used:
- 19258 strings out of 474486
- 402047 string characters out of 5739035
- 1939542 words of memory out of 5000000
- 41249 multiletter control sequences out of 15000+600000
- 567102 words of font info for 71 fonts, out of 8000000 for 9000
+ 19406 strings out of 474486
+ 404242 string characters out of 5739035
+ 1941542 words of memory out of 5000000
+ 41379 multiletter control sequences out of 15000+600000
+ 570950 words of font info for 78 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,12n,107p,426b,550s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\william.gregory\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/william.gregory/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/william.gregory/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users
-/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mex10.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/p
-ublic/amsfonts/cm/cmmi10.pfb><C:/Users/william.gregory/AppData/Local/Programs/M
-iKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/william.gregory/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/wil
-liam.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10
-.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmr12.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/
-fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/william.gregory/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/william.gr
-egory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><
-C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmtt10.pfb>
+ 102i,13n,107p,426b,475s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\william.gregory\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
+pi600\tcrm1000.pk><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/william.gregory/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/william.grego
+ry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/U
+sers/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmmi10.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/amsfonts/cm/cmmi12.pfb><C:/Users/william.gregory/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/william.gregory/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/
+william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+r12.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmr7.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/william.gregory/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/willia
+m.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:
+/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/u
+zdr.pfb>
 Output written on "C:\Users\william.gregory\OneDrive - West Point\Documents\Git
-Hub\CS474\phase2\out\cnf_converter.pdf" (7 pages, 164087 bytes).
+Hub\CS474\phase2\out\cnf_converter.pdf" (7 pages, 327687 bytes).
 PDF statistics:
- 94 PDF objects out of 1000 (max. 8388607)
+ 103 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

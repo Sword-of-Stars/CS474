@@ -6,6 +6,8 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{fancyhdr}
+\usepackage{pifont}
+\usepackage{tcolorbox}
 \usetikzlibrary{automata, positioning}
 \usepackage{helvet} % Match font to reference
 \pagestyle{fancy}
@@ -76,498 +78,438 @@ This conversion has five steps:
 \item RHS is either one terminal or just variables
 \item Ensure RHS has at most two variables
 \end{enumerate}
-Right-hand side will be abbreviated to RHS and left-hand side will be abbreviated to LHS.
+\textbf{Notation:} Right-hand side = RHS, Left-hand side = LHS
+
+\vspace{0.2cm}
+
+\colorbox{yellow!30}{\parbox{\dimexpr\textwidth-2\fboxsep}{\textbf{Visual Guide:} \colorbox{yellow!50}{Rules in yellow} are being modified in this step. \textcolor{orange!80!black}{Rules in dark yellow/orange} were just added. \textcolor{gray}{Rules shown in gray} have just been removed.}}
+
+\vspace{0.5cm}
 
 \section*{Original Grammar}
+
+Let's start with this context-free grammar (CFG):
 \begin{align*}
-    S &\to AaB  | b  | S \\
-    A &\to S  | \varepsilon  | AB \\
-    B &\to bbb  | ASA \\
+    S &\to AaB  \mid b  \mid S \\
+    A &\to S  \mid \varepsilon  \mid AB \\
+    B &\to bbb  \mid ASA \\
     \end{align*}
 
-\section{Ensure the start variable is not on the RHS}
-
-The grammar contains productions with \(S\) on the RHS. To avoid circularity and ensure CNF prerequisites, we add a fresh start variable:
-\[
-S_0 \to S
-\]
-This guarantees that the start variable does not appear on any RHS.
-
-
-\section{Eliminate \(\varepsilon\)-rules}
-
-\subsection*{Step 1: Identify Nullable Variables}
-A variable is \emph{nullable} if it can derive \(\varepsilon\).
-We identify nullable variables iteratively:
+Our goal is to convert this grammar into \textbf{Chomsky Normal Form (CNF)}, which means every production must look like:
 \begin{itemize}
-  
-  \item \textbfDirect: Found
-  \(\{A\}\). Variables that have an explicit ε-production.
-  
-  \item \textbfIndirect: Found
-  \(\{B, S\}\). Variables that derive strings of only nullable variables.
-  
-  \item \textbfIndirect: Found
-  \(\{S0\}\). Variables that derive strings of only nullable variables.
-  
+    \item $A \to a$ (one variable produces one terminal), or
+    \item $A \to BC$ (one variable produces exactly two variables)
 \end{itemize}
-Thus,
-\[
-V_{\varepsilon}=\{A, B, S, S0\}.
-\]
 
-\subsection*{Step 2: Add Productions Erasing Nullable Variables}
-For each \(X\in V_{\varepsilon}\), we add rules where \(X\) is removed from contexts in which it appears (keeping language equivalence).
-We record all additions step-by-step:
+\vspace{0.3cm}
+\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep}{
+\textbf{Why CNF?} CNF is useful because it gives us a standardized form that makes parsing algorithms (like the CYK algorithm) much more efficient. Think of it like converting fractions to a common denominator—it makes everything easier to work with!
+}}
+
+\section{Step 1: Create a New Start Variable}
 
 
-\paragraph{Processing nullable variable \(\mathbf{ A }\).}
+
+  
+    
+  
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+  
+    
+  
+
+  
+    
+  
+    
+      
+    
+  
+
+
+\noindent\textbf{The Problem:} In the original grammar, $S$ appears on the right-hand side of some productions. In CNF, the start variable should never appear on the RHS—it should only be used to "kick off" derivations.
+
+\noindent\textbf{The Solution:} Create a brand new start variable $S_0$ (read as "S sub-zero" or "S naught") that only points to the old start variable:
+
+\begin{align*}
+    \mathbf{S_0} &\to \mathbf{S}\\
+    S &\to AaB  \mid b  \mid S \\
+    A &\to S  \mid \varepsilon  \mid AB \\
+    B &\to bbb  \mid ASA \\
+    \end{align*}
+
+\noindent\textbf{Think of it like this:} $S_0$ is a "wrapper" around our original grammar. It keeps $S$ protected and ensures we can safely modify the rest of the grammar.
+
+\section{Step 2: Eliminate $\varepsilon$-Rules (Epsilon Rules)}
+
+\subsection{Step 2a: Find Nullable Variables}
+
+\noindent\textbf{What's a nullable variable?} A variable is \textit{nullable} if it can eventually produce the empty string $\varepsilon$ (epsilon). This can happen directly (like $A \to \varepsilon$) or indirectly (like $A \to B$ and $B \to \varepsilon$).
+
+\noindent\textbf{In our grammar, these variables are nullable:}
+\begin{align*}
+    V_{\varepsilon}=\{ A\}
+\end{align*}
+
+
+\noindent\textbf{Why does this matter?} Anywhere these variables appear, they might "disappear" (become $\varepsilon$). We need to account for all possibilities.
+
+
+\subsection{Step 2b: Analyze Rules Containing Nullable Variables}
+
+Now we examine \textit{every} rule in the grammar to see which ones contain nullable variables. For each rule that contains nullable variables, we need to generate new rules covering all possible cases where those variables "disappear."
+
+\vspace{0.3cm}
+
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=orange!75!black,title=Analysis of $S \to AaB$]
+
+\textbf{Original Rule:} 
+
+$S \to \colorbox{yellow!50}{$A$}aB$
+
+\vspace{0.2cm}
+\textbf{Nullable Variables in this rule:} $\{A\}$
+
+\vspace{0.2cm}
+\textbf{New Rules Generated:}
 \begin{itemize}
-  
-  \item For \( S \):
-    \[
-      \text{Original: } \{AaB, b, S\}
-    \]
-    \[
-      \text{Added: } \{AaB, aB\}
-    \]
-  
-  \item For \( A \):
-    \[
-      \text{Original: } \{S, \varepsilon, AB\}
-    \]
-    \[
-      \text{Added: } \{AB, B\}
-    \]
-  
-  \item For \( B \):
-    \[
-      \text{Original: } \{bbb, ASA\}
-    \]
-    \[
-      \text{Added: } \{AS, ASA, S, SA\}
-    \]
-  
-\end{itemize}
-After processing \( A \), snapshot:
-\begin{align*}
-    S &\to AaB  | S  | aB  | b \\
-    A &\to AB  | B  | S  | \varepsilon \\
-    B &\to AS  | ASA  | S  | SA  | bbb \\
-    S0 &\to S \\
-    \end{align*}
 
-\paragraph{Processing nullable variable \(\mathbf{ B }\).}
+    \item Remove $\{A\}$: \quad $S \to aB$
+
+
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=orange!75!black,title=Analysis of $A \to AB$]
+
+\textbf{Original Rule:} 
+
+$A \to \colorbox{yellow!50}{$A$}B$
+
+\vspace{0.2cm}
+\textbf{Nullable Variables in this rule:} $\{A\}$
+
+\vspace{0.2cm}
+\textbf{New Rules Generated:}
 \begin{itemize}
-  
-  \item For \( S \):
-    \[
-      \text{Original: } \{AaB, S, aB, b\}
-    \]
-    \[
-      \text{Added: } \{Aa, AaB, a, aB\}
-    \]
-  
-  \item For \( A \):
-    \[
-      \text{Original: } \{AB, B, S, \varepsilon\}
-    \]
-    \[
-      \text{Added: } \{\varepsilon, A, AB, B\}
-    \]
-  
-\end{itemize}
-After processing \( B \), snapshot:
-\begin{align*}
-    S &\to Aa  | AaB  | S  | a  | aB  | b \\
-    A &\to \varepsilon  | A  | AB  | B  | S  | \varepsilon \\
-    B &\to AS  | ASA  | S  | SA  | bbb \\
-    S0 &\to S \\
-    \end{align*}
 
-\paragraph{Processing nullable variable \(\mathbf{ S }\).}
+    \item Remove $\{A\}$: \quad $A \to B$
+
+
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=orange!75!black,title=Analysis of $B \to ASA$]
+
+\textbf{Original Rule:} 
+
+$B \to \colorbox{yellow!50}{$A$}S\colorbox{yellow!50}{$A$}$
+
+\vspace{0.2cm}
+\textbf{Nullable Variables in this rule:} $\{A,A\}$
+
+\vspace{0.2cm}
+\textbf{New Rules Generated:}
 \begin{itemize}
-  
-  \item For \( S \):
-    \[
-      \text{Original: } \{Aa, AaB, S, a, aB, b\}
-    \]
-    \[
-      \text{Added: } \{\varepsilon, S\}
-    \]
-  
-  \item For \( A \):
-    \[
-      \text{Original: } \{, A, AB, B, S, \varepsilon\}
-    \]
-    \[
-      \text{Added: } \{\varepsilon, S\}
-    \]
-  
-  \item For \( B \):
-    \[
-      \text{Original: } \{AS, ASA, S, SA, bbb\}
-    \]
-    \[
-      \text{Added: } \{\varepsilon, A, AA, AS, ASA, S, SA\}
-    \]
-  
-  \item For \( S0 \):
-    \[
-      \text{Original: } \{S\}
-    \]
-    \[
-      \text{Added: } \{\varepsilon, S\}
-    \]
-  
+
+    \item Remove $\{A\}$: \quad $B \to SA$
+
+    \item Remove $\{A\}$: \quad $B \to AS$
+
+    \item Remove $\{A,A\}$: \quad $B \to S$
+
+
 \end{itemize}
-After processing \( S \), snapshot:
+
+\end{tcolorbox}
+
+\vspace{0.3cm}
+\noindent\textbf{Understanding the analysis:}
+\begin{itemize}
+    \item \colorbox{yellow!50}{Variables highlighted in yellow} are nullable
+    \item Each box shows an original rule and all the new rules we must add
+    \item "Remove $\{A\}$" means create a version where $A$ disappears (becomes $\varepsilon$)
+    \item If multiple nullable variables exist, we try all combinations
+\end{itemize}
+
+
+\subsection{Step 2c: Add New Rules for Each Possibility}
+
+For every production that contains a nullable variable, we create additional versions where that variable is "removed" (replaced with nothing). If multiple nullable variables appear, we consider all combinations.
+
+
+\noindent\textbf{Example:} If $A$ is nullable and we have $A \to ABC$, we add the production $A \to BC$ (where $A$ vanished).
+
+
+\noindent\textbf{After adding all these new possibilities:}
 \begin{align*}
-    S &\to \varepsilon  | Aa  | AaB  | S  | a  | aB  | b \\
-    A &\to \varepsilon  | A  | AB  | B  | S  | \varepsilon \\
-    B &\to \varepsilon  | A  | AA  | AS  | ASA  | S  | SA  | bbb \\
-    S0 &\to \varepsilon  | S \\
+    S &\to S
+     \mid \textcolor{orange!80!black}{aB}
+     \mid \colorbox{yellow!50}{$AaB$}
+     \mid b
+    \\
+    A &\to S
+     \mid \colorbox{yellow!50}{$AB$}
+     \mid \textcolor{orange!80!black}{B}
+     \mid \textcolor{gray}{\varepsilon}
+    \\
+    B &\to \colorbox{yellow!50}{$ASA$}
+     \mid \textcolor{orange!80!black}{SA}
+     \mid \textcolor{orange!80!black}{S}
+     \mid \textcolor{orange!80!black}{AS}
+     \mid bbb
+    \\
+    S_0 &\to S
+    \\
     \end{align*}
 
+Notice the rules in yellow contain nullable variables, and the rules in dark yellow/orange are the newly added possibilities!
 
-\subsection*{Step 3: Remove Explicit \(\varepsilon\)-Productions}
-We now delete all explicit \(\varepsilon\)-rules:
+\subsection{Step 2d: Delete All $\varepsilon$-Rules}
 
-Removed from \(\{A\}\).
+Now that we've covered all the cases, we can safely remove every production that directly produces $\varepsilon$ (shown in gray above):
 
-
-\paragraph{Grammar after \(\varepsilon\)-elimination (post-additions, pre-removal).}
 \begin{align*}
-    S &\to \varepsilon  | Aa  | AaB  | S  | a  | aB  | b \\
-    A &\to \varepsilon  | A  | AB  | B  | S  | \varepsilon \\
-    B &\to \varepsilon  | A  | AA  | AS  | ASA  | S  | SA  | bbb \\
-    S0 &\to \varepsilon  | S \\
+    S &\to S  \mid aB  \mid AaB  \mid b \\
+    A &\to S  \mid AB  \mid B \\
+    B &\to ASA  \mid SA  \mid S  \mid AS  \mid bbb \\
+    S_0 &\to S \\
     \end{align*}
 
-\paragraph{Grammar after removing explicit \(\varepsilon\)-rules.}
+\vspace{0.2cm}
+\noindent\textcolor{green!60!black}{\textbf{\ding{51} Eliminate $\varepsilon$-rules}}
+
+\section{Step 3: Eliminate Unit Rules}
+
+
+
+\subsection{Step 3a: What's a Unit Rule?}
+
+\noindent\textbf{What's a unit rule?} A \textbf{unit rule} looks like $A \to B$, where both $A$ and $B$ are single variables (not terminals like $a$ or $b$).
+
+\noindent\textbf{Why are they problematic?} They create unnecessary "middlemen" in derivations. For example:
 \begin{align*}
-    S &\to \varepsilon  | Aa  | AaB  | S  | a  | aB  | b \\
-    A &\to \varepsilon  | A  | AB  | B  | S \\
-    B &\to \varepsilon  | A  | AA  | AS  | ASA  | S  | SA  | bbb \\
-    S0 &\to \varepsilon  | S \\
-    \end{align*}
+    A &\to B \\
+    B &\to abc \mid xyz
+\end{align*}
 
-\section{Eliminate unit rules}
+We can skip the middleman: just let $A \to abc \mid xyz$ directly!
 
-A \emph{unit rule} has the form \(A \to B\), where \(A,B\) are variables. We substitute along reachability so that unit rules become unnecessary.
+\subsection{Step 3b: Visualize the Dependencies}
 
-\subsection*{Step 1: Visualize unit-rule reachability}
+To systematically find all the "middlemen," we draw a graph where each arrow represents a unit rule:
+
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.55\linewidth]{ phase2/chomsky_converter/out\unit_graph.png }
-    \caption{Unit-rule reachability graph (\(A\to B\) edges).}
-    \label{fig:unit_graph}
+    \includegraphics[width=0.7\linewidth]{phase2/chomsky_converter/out/directed_graph.png}
+    \caption{\textbf{Unit Rule Dependency Graph.} Each arrow $A \to B$ means there's a unit rule from $A$ to $B$. If you can follow arrows from $X$ to $Y$, then $X$ can "borrow" all of $Y$'s non-unit productions.}
+    \label{fig:dir_graph}
 \end{figure}
 
-\subsection*{Step 2: Substitute productions along unit paths}
-For each variable \(A\), we add all non-unit productions from variables reachable from \(A\):
-\begin{itemize}
-  
-  \item For \( A \), reachable: \(\{A, B, S\}\).
-        Added: \(\{, AA, AB, AS, ASA, Aa, AaB, SA, a, aB, b, bbb\}\).
-  
-  \item For \( B \), reachable: \(\{A, B, S\}\).
-        Added: \(\{, AA, AB, AS, ASA, Aa, AaB, SA, a, aB, b, bbb\}\).
-  
-  \item For \( S \), reachable: \(\{S\}\).
-        Added: \(\{, Aa, AaB, a, aB, b\}\).
-  
-  \item For \( S0 \), reachable: \(\{S\}\).
-        Added: \(\{, Aa, AaB, a, aB, b\}\).
-  
-</itemize}
+\subsection{Step 3c: Follow All Paths (Using Floyd-Warshall)}
 
-\subsection*{Step 3: Remove unit rules}
+We use the \textbf{All-Pairs Shortest Path (APSP)} algorithm (specifically Floyd-Warshall) to find every pair of variables with a path between them.
 
-Removed unit rules:
+\vspace{0.2cm}
+\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep}{
+\textbf{How it works:} For each pair $(X, Y)$:
 \begin{itemize}
-  
-  \item \(S	o S\)
-  
-  \item \(A	o A\)
-  
-  \item \(A	o B\)
-  
-  \item \(A	o S\)
-  
-  \item \(B	o A\)
-  
-  \item \(B	o S\)
-  
-  \item \(S0	o S\)
-  
+    \item If distance = $\infty$ $\rightarrow$ No path exists $\rightarrow$ Don't add anything
+    \item If distance is finite $\rightarrow$ Path exists $\rightarrow$ Add all non-unit rules from $Y$ to $X$
 \end{itemize}
+}}
+
+\vspace{0.3cm}
+
+\noindent\textbf{Here's what we find by following the paths:}
 
 
-\paragraph{Grammar after unit-rule elimination.}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Path Discovery \#1]
+\textbf{From $A$ to $S$:}
+\begin{itemize}
+    \item \textbf{Path:} $A  \to S$
+    \item \textbf{Distance:} 1 step
+    \item \textbf{Action:} Add these productions to $A$: \quad $aB \mid AaB \mid b$
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Path Discovery \#2]
+\textbf{From $A$ to $B$:}
+\begin{itemize}
+    \item \textbf{Path:} $A  \to B$
+    \item \textbf{Distance:} 1 step
+    \item \textbf{Action:} Add these productions to $A$: \quad $ASA \mid SA \mid AS \mid bbb$
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Path Discovery \#3]
+\textbf{From $B$ to $S$:}
+\begin{itemize}
+    \item \textbf{Path:} $B  \to S$
+    \item \textbf{Distance:} 1 step
+    \item \textbf{Action:} Add these productions to $B$: \quad $aB \mid AaB \mid b$
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Path Discovery \#4]
+\textbf{From $S_0$ to $S$:}
+\begin{itemize}
+    \item \textbf{Path:} $S_0  \to S$
+    \item \textbf{Distance:} 1 step
+    \item \textbf{Action:} Add these productions to $S_0$: \quad $aB \mid AaB \mid b$
+\end{itemize}
+\end{tcolorbox}
+
+
+\subsection{Step 3d: Remove the Unit Rules Themselves}
+
+After "copying over" all the necessary productions, we delete the unit rules themselves (shown in gray below). The dark yellow/orange rules were added from following unit rule paths:
+
 \begin{align*}
-    S &\to   | Aa  | AaB  | a  | aB  | b \\
-    A &\to   | AA  | AB  | AS  | ASA  | Aa  | AaB  | SA  | a  | aB  | b  | bbb \\
-    B &\to   | AA  | AB  | AS  | ASA  | Aa  | AaB  | SA  | a  | aB  | b  | bbb \\
-    S0 &\to   | Aa  | AaB  | a  | aB  | b \\
+    S &\to aB \mid AaB \mid b\\
+    A &\to AB \mid \textcolor{orange!80!black}{$ASA$} \mid \textcolor{orange!80!black}{$AS$} \mid \textcolor{orange!80!black}{$SA$} \mid \textcolor{orange!80!black}{$aB$} \mid \textcolor{orange!80!black}{$AaB$} \mid \textcolor{orange!80!black}{$bbb$} \mid \textcolor{orange!80!black}{$b$}\\
+    B &\to \textcolor{orange!80!black}{$AaB$} \mid ASA \mid SA \mid \textcolor{orange!80!black}{$aB$} \mid AS \mid bbb \mid \textcolor{orange!80!black}{$b$}\\
+    S_0 &\to \textcolor{orange!80!black}{$aB$} \mid \textcolor{orange!80!black}{$AaB$} \mid \textcolor{orange!80!black}{$b$}\\
     \end{align*}
 
-\section{Ensure RHS is either one terminal or just variables}
-If a rule mixes terminals with variables on the RHS (length \(>1\) and contains a terminal), we replace each terminal \(a\) with a variable \(U_a\) (shown as \([Ua]\) internally), adding \(U_a \to a\).
-
-\subsection*{Replacements performed}
-
-\begin{itemize}
-  
-  \item For \( S \):
-    
-    \[
-      S \to Aa
-      \quad\Rightarrow\quad
-      S \to A[Ua]
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      S \to AaB
-      \quad\Rightarrow\quad
-      S \to A[Ua]B
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      S \to aB
-      \quad\Rightarrow\quad
-      S \to [Ua]B
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-  
-  \item For \( A \):
-    
-    \[
-      A \to Aa
-      \quad\Rightarrow\quad
-      A \to A[Ua]
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      A \to AaB
-      \quad\Rightarrow\quad
-      A \to A[Ua]B
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      A \to aB
-      \quad\Rightarrow\quad
-      A \to [Ua]B
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      A \to bbb
-      \quad\Rightarrow\quad
-      A \to [Ub][Ub][Ub]
-      \quad\text{(replaced: }b→[Ub], b→[Ub], b→[Ub]\text{)}
-    \]
-    
-  
-  \item For \( B \):
-    
-    \[
-      B \to Aa
-      \quad\Rightarrow\quad
-      B \to A[Ua]
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      B \to AaB
-      \quad\Rightarrow\quad
-      B \to A[Ua]B
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      B \to aB
-      \quad\Rightarrow\quad
-      B \to [Ua]B
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      B \to bbb
-      \quad\Rightarrow\quad
-      B \to [Ub][Ub][Ub]
-      \quad\text{(replaced: }b→[Ub], b→[Ub], b→[Ub]\text{)}
-    \]
-    
-  
-  \item For \( S0 \):
-    
-    \[
-      S0 \to Aa
-      \quad\Rightarrow\quad
-      S0 \to A[Ua]
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      S0 \to AaB
-      \quad\Rightarrow\quad
-      S0 \to A[Ua]B
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-    \[
-      S0 \to aB
-      \quad\Rightarrow\quad
-      S0 \to [Ua]B
-      \quad\text{(replaced: }a→[Ua]\text{)}
-    \]
-    
-  
-\end{itemize}
-
-\paragraph{New terminal variables created}
-\begin{itemize}
-  
-  \item \( U_a \to a \)
-  
-  \item \( U_b \to b \)
-  
-\end{itemize}
+\vspace{0.2cm}
+\noindent\textcolor{green!60!black}{\textbf{\ding{51} Eliminate unit rules}}
 
 
-\paragraph{Grammar after terminal replacements.}
+
+\section{Step 4: Separate Terminals from Variables}
+
+\subsection{Step 4a: The CNF Requirement}
+
+In CNF, if a production has length greater than 1, it must contain \textit{only} variables—no terminals allowed. Productions like these violate this rule:
 \begin{align*}
-    S &\to   | a  | b  | AU_a  | AU_aB  | U_aB \\
-    A &\to   | AA  | AB  | AS  | ASA  | SA  | a  | b  | AU_a  | AU_aB  | U_aB  | U_bU_bU_b \\
-    B &\to   | AA  | AB  | AS  | ASA  | SA  | a  | b  | AU_a  | AU_aB  | U_aB  | U_bU_bU_b \\
-    S0 &\to   | a  | b  | AU_a  | AU_aB  | U_aB \\
-    [Ua] &\to a \\
-    [Ub] &\to b \\
+    A &\to aBC \quad \textcolor{red}{\textbf{\textsf{X}}} \text{ Mixes terminal $a$ with variables $B$ and $C$}
+\end{align*}
+
+\subsection{Step 4b: The Fix — Create Helper Variables}
+
+\noindent\textbf{The Fix:} For each terminal that appears alongside variables, we create a new variable that "stands in" for that terminal:
+\begin{align*}
+    U_a &\to a \\
+    U_b &\to b \\
+    &\text{etc.}
+\end{align*}
+
+Then we can rewrite $A \to aBC$ as $A \to U_a BC$.
+
+\subsection{Step 4c: After Applying This Transformation}
+
+Rules with mixed terminals and variables are replaced with rules containing only variables. New helper variables $U_x$ are introduced for each terminal:
+
+\begin{align*}
+    S &\to b
+         \mid U_aB
+         \mid AU_aB
+        \\
+    A &\to AB
+         \mid ASA
+         \mid AS
+         \mid SA
+         \mid b
+         \mid U_aB
+         \mid AU_aB
+         \mid U_bU_bU_b
+        \\
+    B &\to ASA
+         \mid SA
+         \mid AS
+         \mid b
+         \mid U_aB
+         \mid AU_aB
+         \mid U_bU_bU_b
+        \\
+    S_0 &\to b
+         \mid U_aB
+         \mid AU_aB
+        \\
+    [Ua] &\to a
+        \\
+    [Ub] &\to b
+        \\
     \end{align*}
 
-\section{Break up long RHS rules}
-If a production has more than two variables on the RHS (by tokens), we systematically break it into binary rules with fresh variables, reusing existing ones when possible.
+\vspace{0.2cm}
+\noindent\textcolor{green!60!black}{\textbf{\ding{51} RHS is either one terminal or all variables}}
 
+\section{Step 5: Break Up Long Productions}
 
-\subsection*{Binary factoring steps}
+\subsection{Step 5a: The Final CNF Requirement}
 
-\paragraph{For \( S \)}
-
-\[
-\text{Original: } S \to A[Ua]B
-\]
-\[
-\text{Sequence: }\big( A[Ua] \to C (new) \big)\]
-\[
-\text{Final: } S \to CB
-\]
-
-
-\paragraph{For \( A \)}
-
-\[
-\text{Original: } A \to ASA
-\]
-\[
-\text{Sequence: }\big( AS \to D (new) \big)\]
-\[
-\text{Final: } A \to DA
-\]
-
-\[
-\text{Original: } A \to A[Ua]B
-\]
-\[
-\text{Sequence: }\big( A[Ua] \to C (reused) \big)\]
-\[
-\text{Final: } A \to CB
-\]
-
-\[
-\text{Original: } A \to [Ub][Ub][Ub]
-\]
-\[
-\text{Sequence: }\big( [Ub][Ub] \to E (new) \big)\]
-\[
-\text{Final: } A \to E[Ub]
-\]
-
-
-\paragraph{For \( B \)}
-
-\[
-\text{Original: } B \to ASA
-\]
-\[
-\text{Sequence: }\big( AS \to D (reused) \big)\]
-\[
-\text{Final: } B \to DA
-\]
-
-\[
-\text{Original: } B \to A[Ua]B
-\]
-\[
-\text{Sequence: }\big( A[Ua] \to C (reused) \big)\]
-\[
-\text{Final: } B \to CB
-\]
-
-\[
-\text{Original: } B \to [Ub][Ub][Ub]
-\]
-\[
-\text{Sequence: }\big( [Ub][Ub] \to E (reused) \big)\]
-\[
-\text{Final: } B \to E[Ub]
-\]
-
-
-\paragraph{For \( S0 \)}
-
-\[
-\text{Original: } S0 \to A[Ua]B
-\]
-\[
-\text{Sequence: }\big( A[Ua] \to C (reused) \big)\]
-\[
-\text{Final: } S0 \to CB
-\]
-
-
-
-\subsection*{New variables created}
-
-\begin{itemize}
-  
-  \item \( C \to A[Ua] \)
-  
-  \item \( D \to AS \)
-  
-  \item \( E \to [Ub][Ub] \)
-  
-\end{itemize}
-
-
-
-\section*{Final Grammar (CNF)}
+Productions with variables must have \textit{exactly two} variables on the RHS. No more, no less. Productions like these violate this rule:
 \begin{align*}
-    S &\to   | a  | b  | AU_a  | U_aB  | CB \\
-    A &\to   | AA  | AB  | AS  | SA  | a  | b  | AU_a  | U_aB  | DA  | CB  | EU_b \\
-    B &\to   | AA  | AB  | AS  | SA  | a  | b  | AU_a  | U_aB  | DA  | CB  | EU_b \\
-    S0 &\to   | a  | b  | AU_a  | U_aB  | CB \\
-    [Ua] &\to a \\
-    [Ub] &\to b \\
-    C &\to AU_a \\
-    D &\to AS \\
-    E &\to U_bU_b \\
+    A &\to BCD \quad \textcolor{red}{\textbf{\textsf{X}}} \text{ Has three variables}
+\end{align*}
+
+\subsection{Step 5b: The Fix — Introduce Intermediate Variables}
+
+\noindent\textbf{The Fix:} We break long productions into chains of two-variable productions:
+\begin{align*}
+    A &\to BCD \quad \text{becomes} \quad A \to BE \text{ and } E \to CD
+\end{align*}
+
+We process from left to right, pairing variables and creating intermediates as needed. If a pairing already exists in the grammar, we reuse it!
+
+\subsection{Step 5c: Final Grammar in Chomsky Normal Form}
+
+\begin{align*}
+    S &\to b \mid U_aB \mid CB\\
+    A &\to AB \mid AS \mid SA \mid b \mid U_aB \mid DA \mid CB \mid EU_b\\
+    B &\to SA \mid AS \mid b \mid U_aB \mid DA \mid CB \mid EU_b\\
+    S_0 &\to b \mid U_aB \mid CB\\
+    [Ua] &\to a\\
+    [Ub] &\to b\\
+    C &\to AU_a\\
+    D &\to AS\\
+    E &\to U_bU_b\\
     \end{align*}
 
-\noindent All productions now have either a single terminal on the RHS or exactly two variables on the RHS; thus the grammar is in Chomsky Normal Form.
+\vspace{0.2cm}
+\noindent\textcolor{green!60!black}{\textbf{\ding{51} RHS has at most two variables}}
+
+\section*{Verification: Is This Really CNF?}
+
+Let's check our work! Every production in the grammar above has one of these forms:
+
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Form} & \textbf{Description} \\
+\hline
+$A \to a$ & Single variable produces single terminal \\
+$A \to BC$ & Single variable produces exactly two variables \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent\textbf{Success!} This grammar is in Chomsky Normal Form and is equivalent to the original grammar.
+
+\vspace{0.3cm}
+\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep}{
+\textbf{What can we do with CNF?} Now that our grammar is in CNF, we can:
+\begin{itemize}
+    \item Use the \textbf{CYK (Cocke-Younger-Kasami) algorithm} to parse strings efficiently
+    \item Easily determine if a string belongs to the language in $O(n^3)$ time
+    \item Analyze the grammar's structure more systematically
+\end{itemize}
+}}
 \end{document}

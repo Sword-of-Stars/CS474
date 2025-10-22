@@ -11,13 +11,9 @@ import pygraphviz as pgv
 from automata.fa.dfa import DFA
 from solution import Solution
 
-# ---------------------------------------------------------------------
-# Setup
-# ---------------------------------------------------------------------
 os.makedirs("out/plots", exist_ok=True)
 os.makedirs("out/plots/pair_steps", exist_ok=True)
 
-# --- Example DFA ---
 dfa = DFA(
     states={"1", "2", "3", "4", "5", "6"},
     input_symbols={"a", "b"},
@@ -33,9 +29,6 @@ dfa = DFA(
     final_states={"3", "5"},
 )
 
-# ---------------------------------------------------------------------
-# Utilities
-# ---------------------------------------------------------------------
 def _sorted_states(states: Set[str]) -> List[str]:
     return sorted(states, key=lambda s: (len(s), s))
 
@@ -78,30 +71,37 @@ def get_equivalence_partition(states: List[str],
     blocks.sort(key=lambda b: (len(b), list(b)))
     return blocks
 
-# ---------------------------------------------------------------------
-# Pygraphviz-based DFA Visualization
-# ---------------------------------------------------------------------
 def create_dfa_visualization_pygraphviz(dfa: DFA, 
                                        table: Dict[Tuple[str, str], bool] = None,
                                        filename: str = None,
                                        title: str = None) -> Optional[str]:
-    """Create DFA visualization using pygraphviz."""
+    """Create clean, modern DFA visualization with dark grid background."""
     
-    # Create the graph
     G = pgv.AGraph(directed=True, strict=False)
     G.graph_attr.update(
         rankdir='LR',
         size='14,10',
         dpi='300',
-        fontsize='18',
+        fontsize='20',
         fontname='Arial',
         labelloc='top',
-        label=title or 'DFA'
+        label=title or 'DFA',
+        bgcolor='#1a1f2e', 
+        pad='0.8',
+        nodesep='1.2',
+        ranksep='1.5'
     )
     
-    # Determine equivalence classes for coloring
-    block_colors = ["lightblue", "lightgreen", "lightyellow", "lightpink", 
-                   "lightcyan", "lavender", "mistyrose", "honeydew"]
+    block_colors = [
+        "#00bcd4", 
+        "#26a69a",
+        "#66bb6a", 
+        "#29b6f6", 
+        "#ab47bc", 
+        "#42a5f5", 
+        "#26c6da",
+        "#00acc1"   
+    ]
     
     if table:
         blocks = get_equivalence_partition(_sorted_states(dfa.states), table)
@@ -112,49 +112,71 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
     else:
         state_to_block = {}
     
-    # Add states
     for state in _sorted_states(dfa.states):
-        # Determine base color from equivalence class
         if state in state_to_block:
-            base_color = block_colors[state_to_block[state] % len(block_colors)]
+            node_color = block_colors[state_to_block[state] % len(block_colors)]
         else:
-            base_color = "lightgray"
+            node_color = "#00bcd4" 
         
-        # Determine shape and style
-        if state == dfa.initial_state and state in dfa.final_states:
+        if state in dfa.final_states:
             shape = 'doublecircle'
-            style = 'bold,filled'
-        elif state == dfa.initial_state:
-            shape = 'circle'
-            style = 'bold,filled'
-        elif state in dfa.final_states:
-            shape = 'doublecircle'
-            style = 'filled'
         else:
             shape = 'circle'
+        
+        if state == dfa.initial_state:
             style = 'filled'
+            penwidth = '3'
+            fontcolor = '#ffffff'
+        else:
+            style = 'filled'
+            penwidth = '2.5'
+            fontcolor = '#ffffff'
         
         G.add_node(state, 
                   shape=shape, 
                   style=style,
-                  fillcolor=base_color,
-                  fontsize='16',
-                  fontname='Arial',
-                  penwidth='2')
+                  fillcolor='#1a1f2e', 
+                  color=node_color,
+                  fontcolor=fontcolor,
+                  fontsize='18',
+                  fontname='Arial Bold',
+                  penwidth=penwidth,
+                  width='0.7',
+                  height='0.7')
     
-    # Add transitions
     for src in _sorted_states(dfa.states):
         for symbol in sorted(dfa.input_symbols):
             tgt = dfa.transitions[src][symbol]
+            
+            if src in state_to_block:
+                edge_color = block_colors[state_to_block[src] % len(block_colors)]
+            else:
+                edge_color = "#00bcd4"
+            
             G.add_edge(src, tgt,
-                      label=f'  {symbol}  ',
-                      fontsize='14',
+                      label=f' {symbol} ',
+                      fontsize='16',
                       fontname='Arial',
-                      penwidth='2')
+                      fontcolor='#ffffff',
+                      color=edge_color,
+                      penwidth='2.5',
+                      arrowsize='1.0')
     
-    # Add initial state arrow
-    G.add_node('start', shape='point', width='0.3')
-    G.add_edge('start', dfa.initial_state, penwidth='3')
+    G.add_node('start', 
+              shape='point', 
+              width='0.01',
+              height='0.01',
+              style='invis')
+    
+    if dfa.initial_state in state_to_block:
+        arrow_color = block_colors[state_to_block[dfa.initial_state] % len(block_colors)]
+    else:
+        arrow_color = "#00bcd4"
+    
+    G.add_edge('start', dfa.initial_state, 
+              penwidth='3',
+              color=arrow_color,
+              arrowsize='1.2')
     
     if filename:
         G.draw(filename, prog='dot')
@@ -168,9 +190,8 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
                                     table: Dict[Tuple[str, str], bool],
                                     step_info: str,
                                     filename: str) -> str:
-    """Create side-by-side analysis using pygraphviz."""
+    """Create side-by-side analysis with clean modern styling."""
     
-    # Create main graph with subgraphs
     G = pgv.AGraph(directed=True, strict=False)
     G.graph_attr.update(
         rankdir='TB',
@@ -180,42 +201,12 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
         fontsize='20',
         fontname='Arial',
         labelloc='top',
-        label=f'DFA Minimization Analysis\\n{step_info}'
+        label=f'DFA Minimization Analysis\\n{step_info}',
+        bgcolor='#1a1f2e',
+        fontcolor='#ffffff'
     )
     
-    # Create analysis table at the top (simplified for pygraphviz compatibility)
-    if current_probe:
-        p, q = focus_pair
-        a = current_probe['a']
-        delta_p = current_probe['delta_p']
-        delta_q = current_probe['delta_q']
-        witness_pair = current_probe['witness_pair']
-        witness_status = "MARKED" if current_probe['witness_marked'] else "unmarked"
-        
-        # Create a simpler text-based analysis summary
-        analysis_text = f"Analyzing Pair ({p}, {q})\\nInput: {a}\\n$\\delta$({p},{a}) = {delta_p}\\n$\\delta$({q},{a}) = {delta_q}\\nWitness: ({witness_pair[0]},{witness_pair[1]})\\nStatus: {witness_status}"
-        
-        G.add_node('analysis_table', 
-                  label=analysis_text, 
-                  shape='rectangle',
-                  style='rounded,filled',
-                  fillcolor='lightyellow',
-                  fontsize='12',
-                  fontname='Arial')
-    
-    # Create left subgraph - Original DFA state  
-    left_subgraph = G.add_subgraph(name='cluster_0')
-    left_subgraph.graph_attr.update(
-        label='DFA State Space (highlighting analyzed pair)',
-        style='rounded', 
-        color='blue',
-        fontsize='20',
-        fontname='Arial',
-        penwidth='2'
-    )
-    
-    # Determine equivalence classes for coloring
-    block_colors = ["lightblue", "lightgreen", "lightyellow", "lightpink"]
+    block_colors = ["#00bcd4", "#26a69a", "#66bb6a", "#29b6f6"]
     if table:
         blocks = get_equivalence_partition(_sorted_states(dfa.states), table)
         state_to_block = {}
@@ -225,120 +216,357 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
     else:
         state_to_block = {}
     
-    # Add states to left subgraph
+    left_subgraph = G.add_subgraph(name='cluster_0')
+    left_subgraph.graph_attr.update(
+        label='DFA State Space (highlighting analyzed pair)',
+        style='rounded,filled',
+        fillcolor='#232938',
+        color='#00bcd4',
+        fontcolor='#ffffff',
+        fontsize='18',
+        fontname='Arial',
+        penwidth='3'
+    )
+    
     for state in _sorted_states(dfa.states):
-        # Base color from equivalence class
         if state in state_to_block:
             base_color = block_colors[state_to_block[state] % len(block_colors)]
         else:
-            base_color = "lightgray"
+            base_color = "#00bcd4"
         
-        # Highlight focus pair
         if focus_pair and state in focus_pair:
-            base_color = "yellow"
+            base_color = "#ffeb3b"
         
-        # Determine shape and style
-        if state == dfa.initial_state and state in dfa.final_states:
+        if state in dfa.final_states:
             shape = 'doublecircle'
-            style = 'bold,filled'
-        elif state == dfa.initial_state:
-            shape = 'circle' 
-            style = 'bold,filled'
-        elif state in dfa.final_states:
-            shape = 'doublecircle'
-            style = 'filled'
         else:
             shape = 'circle'
+        
+        if state == dfa.initial_state:
             style = 'filled'
+            penwidth = '3'
+        else:
+            style = 'filled'
+            penwidth = '2.5'
         
         left_subgraph.add_node(f'orig_{state}', 
+                              label=state,
                               shape=shape,
                               style=style,
-                              fillcolor=base_color,
-                              penwidth='2')
+                              fillcolor='#1a1f2e',
+                              color=base_color,
+                              fontcolor='#ffffff',
+                              penwidth=penwidth)
     
-    # Add all transitions to left subgraph
-    for src in _sorted_states(dfa.states):
-        for symbol in sorted(dfa.input_symbols):
-            tgt = dfa.transitions[src][symbol]
-            left_subgraph.add_edge(f'orig_{src}', f'orig_{tgt}', 
-                                  label=f' {symbol} ', penwidth='2')
-    
-    # Add initial state arrow to left
-    left_subgraph.add_node('orig_start', shape='point', width='0.3')
-    left_subgraph.add_edge('orig_start', f'orig_{dfa.initial_state}', penwidth='3')
-    
-    # Create right subgraph - Transition Analysis
-    right_subgraph = G.add_subgraph(name='cluster_1')
-    right_subgraph.graph_attr.update(
-        label="Transition Analysis (probing specific input)", 
-        style='rounded', 
-        color='red',
-        fontsize='20',
-        fontname='Arial',
-        penwidth='2'
-    )
-    
-    # Add states to right subgraph with special highlighting for probe targets
-    for state in _sorted_states(dfa.states):
-        base_color = "lightgray"
-        
-        if focus_pair and state in focus_pair:
-            base_color = "orange"  # Source states
-        elif current_probe and state in [current_probe.get('delta_p'), current_probe.get('delta_q')]:
-            base_color = "lightgreen"  # Target states
-        
-        # Determine shape and style
-        if state == dfa.initial_state and state in dfa.final_states:
-            shape = 'doublecircle'
-            style = 'bold,filled'
-        elif state == dfa.initial_state:
-            shape = 'circle'
-            style = 'bold,filled'
-        elif state in dfa.final_states:
-            shape = 'doublecircle'
-            style = 'filled'
-        else:
-            shape = 'circle'
-            style = 'filled'
-        
-        right_subgraph.add_node(f'probe_{state}',
-                               shape=shape,
-                               style=style,
-                               fillcolor=base_color,
-                               penwidth='2')
-    
-    # Add transitions to right subgraph with highlighting for the probe
     for src in _sorted_states(dfa.states):
         for symbol in sorted(dfa.input_symbols):
             tgt = dfa.transitions[src][symbol]
             
-            # Highlight the specific probe transition
+            if src in state_to_block:
+                edge_color = block_colors[state_to_block[src] % len(block_colors)]
+            else:
+                edge_color = "#00bcd4"
+            
+            left_subgraph.add_edge(f'orig_{src}', f'orig_{tgt}', 
+                                  label=f' {symbol} ',
+                                  fontcolor='#ffffff',
+                                  color=edge_color,
+                                  penwidth='2')
+    
+    left_subgraph.add_node('orig_start', shape='point', width='0.01', style='invis')
+    
+    if dfa.initial_state in state_to_block:
+        arrow_color = block_colors[state_to_block[dfa.initial_state] % len(block_colors)]
+    else:
+        arrow_color = "#00bcd4"
+    
+    left_subgraph.add_edge('orig_start', f'orig_{dfa.initial_state}', 
+                          penwidth='3',
+                          color=arrow_color)
+    
+    right_subgraph = G.add_subgraph(name='cluster_1')
+    right_subgraph.graph_attr.update(
+        label="Transition Analysis (probing specific input)", 
+        style='rounded,filled',
+        fillcolor='#232938',
+        color='#ff5252',
+        fontcolor='#ffffff',
+        fontsize='18',
+        fontname='Arial',
+        penwidth='3'
+    )
+    
+    for state in _sorted_states(dfa.states):
+        base_color = "#00bcd4"
+        
+        if focus_pair and state in focus_pair:
+            base_color = "#ff9800"
+        elif current_probe and state in [current_probe.get('delta_p'), current_probe.get('delta_q')]:
+            base_color = "#66bb6a"  
+        
+        if state in dfa.final_states:
+            shape = 'doublecircle'
+        else:
+            shape = 'circle'
+        
+        if state == dfa.initial_state:
+            style = 'filled'
+            penwidth = '3'
+        else:
+            style = 'filled'
+            penwidth = '2.5'
+        
+        right_subgraph.add_node(f'probe_{state}',
+                               label=state,
+                               shape=shape,
+                               style=style,
+                               fillcolor='#1a1f2e',
+                               color=base_color,
+                               fontcolor='#ffffff',
+                               penwidth=penwidth)
+    
+    for src in _sorted_states(dfa.states):
+        for symbol in sorted(dfa.input_symbols):
+            tgt = dfa.transitions[src][symbol]
+            
             if (current_probe and 
                 focus_pair and src in focus_pair and 
                 symbol == current_probe.get('a')):
                 right_subgraph.add_edge(f'probe_{src}', f'probe_{tgt}',
                                        label=f' {symbol} ',
-                                       color='red',
-                                       fontcolor='red',
+                                       color='#ff5252',
+                                       fontcolor='#ff5252',
                                        style='bold',
                                        penwidth='4')
             else:
+                if src in state_to_block:
+                    edge_color = block_colors[state_to_block[src] % len(block_colors)]
+                else:
+                    edge_color = "#00bcd4"
+                
                 right_subgraph.add_edge(f'probe_{src}', f'probe_{tgt}',
                                        label=f' {symbol} ',
+                                       fontcolor='#ffffff',
+                                       color=edge_color,
                                        penwidth='2')
     
-    # Add initial state arrow to right
-    right_subgraph.add_node('probe_start', shape='point', width='0.3')
-    right_subgraph.add_edge('probe_start', f'probe_{dfa.initial_state}', penwidth='3')
+    right_subgraph.add_node('probe_start', shape='point', width='0.01', style='invis')
     
-    # Render the graph
+    if dfa.initial_state in state_to_block:
+        arrow_color = block_colors[state_to_block[dfa.initial_state] % len(block_colors)]
+    else:
+        arrow_color = "#00bcd4"
+    
+    right_subgraph.add_edge('probe_start', f'probe_{dfa.initial_state}', 
+                           penwidth='3',
+                           color=arrow_color)
+    
     G.draw(filename, prog='dot')
     return filename
 
-# ---------------------------------------------------------------------
-# Enhanced Table-filling with Cumulative Step 1
-# ---------------------------------------------------------------------
+def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]], 
+                               filename: str = None, title: str = None) -> str:
+    """Create enhanced partition visualization with clean modern styling."""
+    
+    G = pgv.AGraph(directed=True, strict=False)
+    G.graph_attr.update(
+        rankdir='LR',
+        size='16,12',
+        dpi='300',
+        fontsize='24',
+        fontname='Arial Bold',
+        labelloc='top',
+        labeljust='center',
+        label=title or 'State Partition',
+        bgcolor='#1a1f2e',
+        fontcolor='#ffffff',
+        pad='0.5',
+        nodesep='0.8',
+        ranksep='1.2'
+    )
+    
+    block_colors = [
+        "#00bcd4", 
+        "#26a69a", 
+        "#66bb6a",  
+        "#29b6f6", 
+        "#ab47bc", 
+        "#42a5f5",  
+        "#26c6da",  
+        "#00acc1"  
+    ]
+    
+    state_to_block = {}
+    for i, block in enumerate(blocks):
+        for state in block:
+            state_to_block[state] = i
+    
+    for block_idx, block in enumerate(blocks):
+        block_name = f'cluster_{block_idx}'
+        subgraph = G.add_subgraph(name=block_name)
+        
+        block_label = f'Equivalence Class {block_idx + 1}\\n{{ {", ".join(sorted(block))} }}'
+        
+        color = block_colors[block_idx % len(block_colors)]
+        
+        subgraph.graph_attr.update(
+            label=block_label,
+            style='rounded,filled',
+            fillcolor='#232938',
+            color=color,
+            penwidth='3',
+            fontsize='18',
+            fontname='Arial Bold',
+            fontcolor='#ffffff',
+            labeljust='center',
+            margin='20'
+        )
+        
+        for state in sorted(block):
+            node_color = color
+            
+            if state in dfa.final_states:
+                shape = 'doublecircle'
+            else:
+                shape = 'circle'
+            
+            if state == dfa.initial_state:
+                style = 'filled'
+                penwidth = '4'
+            else:
+                style = 'filled'
+                penwidth = '3'
+            
+            subgraph.add_node(state,
+                            shape=shape,
+                            style=style,
+                            fillcolor='#1a1f2e',
+                            color=node_color,
+                            fontcolor='#ffffff',
+                            fontsize='20',
+                            fontname='Arial Bold',
+                            penwidth=penwidth,
+                            width='0.8',
+                            height='0.8')
+    
+    for src in _sorted_states(dfa.states):
+        for symbol in sorted(dfa.input_symbols):
+            tgt = dfa.transitions[src][symbol]
+            
+            src_block = state_to_block[src]
+            tgt_block = state_to_block[tgt]
+            
+            edge_color = block_colors[src_block % len(block_colors)]
+            
+            if src_block != tgt_block:
+                edge_penwidth = '3.5'
+                edge_style = 'bold'
+            else:
+                edge_penwidth = '2.5'
+                edge_style = 'solid'
+            
+            G.add_edge(src, tgt,
+                      label=f'  {symbol}  ',
+                      fontsize='16',
+                      fontname='Arial Bold',
+                      fontcolor='#ffffff',
+                      color=edge_color,
+                      style=edge_style,
+                      penwidth=edge_penwidth,
+                      arrowsize='1.2')
+    
+    G.add_node('start', 
+              shape='point', 
+              width='0.01',
+              style='invis')
+    
+    init_color = block_colors[state_to_block[dfa.initial_state] % len(block_colors)]
+    
+    G.add_edge('start', dfa.initial_state, 
+              penwidth='4',
+              color=init_color,
+              arrowsize='1.5')
+    
+    if filename:
+        G.draw(filename, prog='dot')
+        return filename
+    else:
+        return str(G)
+
+def create_minimized_dfa_pygraphviz(dfa: DFA, filename: str = None) -> str:
+    """Create minimized DFA visualization with clean modern styling."""
+    
+    G = pgv.AGraph(directed=True, strict=False)
+    G.graph_attr.update(
+        rankdir='LR',
+        size='12,8',
+        dpi='300',
+        fontsize='24',
+        fontname='Arial Bold',
+        labelloc='top',
+        label='Minimized DFA',
+        bgcolor='#1a1f2e',
+        fontcolor='#ffffff',
+        pad='0.8',
+        nodesep='1.2',
+        ranksep='1.5'
+    )
+    
+    colors = ["#00bcd4", "#26a69a", "#66bb6a", "#29b6f6"]
+    
+    for idx, state in enumerate(_sorted_states(dfa.states)):
+        node_color = colors[idx % len(colors)]
+        
+        if state in dfa.final_states:
+            shape = 'doublecircle'
+        else:
+            shape = 'circle'
+        
+        if state == dfa.initial_state:
+            style = 'filled'
+            penwidth = '4'
+        else:
+            style = 'filled'
+            penwidth = '3'
+        
+        G.add_node(state,
+                  shape=shape,
+                  style=style,
+                  fillcolor='#1a1f2e',
+                  color=node_color,
+                  fontcolor='#ffffff',
+                  fontsize='22',
+                  fontname='Arial Bold',
+                  penwidth=penwidth,
+                  width='0.9',
+                  height='0.9')
+    
+    for idx, src in enumerate(_sorted_states(dfa.states)):
+        edge_color = colors[idx % len(colors)]
+        
+        for symbol in sorted(dfa.input_symbols):
+            tgt = dfa.transitions[src][symbol]
+            G.add_edge(src, tgt,
+                      label=f'  {symbol}  ',
+                      fontsize='18',
+                      fontname='Arial Bold',
+                      fontcolor='#ffffff',
+                      color=edge_color,
+                      penwidth='3',
+                      arrowsize='1.2')
+    
+    G.add_node('start', shape='point', width='0.01', style='invis')
+    G.add_edge('start', dfa.initial_state, 
+              penwidth='4',
+              color='#00bcd4',
+              arrowsize='1.5')
+    
+    if filename:
+        G.draw(filename, prog='dot')
+        return filename
+    else:
+        return str(G)
+
 def record_indis_details_with_cumulative_step1(dfa: DFA):
     """Enhanced algorithm with cumulative Step 1 approach."""
     states = _sorted_states(dfa.states)
@@ -346,13 +574,12 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
     finals = set(dfa.final_states)
     total_pairs = len(pairs)
 
-    # Step 0: Initial markings - CUMULATIVE APPROACH
+    # Step 0: Initial markings
     table: Dict[Tuple[str, str], bool] = {pair: False for pair in pairs}
     initial_reasons = []
     
     print(f"Processing Step 1 - Cumulative initial finality checks...")
     
-    # Build cumulative narrative for all initial checks
     finality_analysis = []
     marked_pairs = []
     
@@ -362,12 +589,14 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
         finality_status_p = "final" if p in finals else "non-final"
         finality_status_q = "final" if q in finals else "non-final"
         
+        analysis_text = f"({p}, {q}): {p} is {finality_status_p}, {q} is {finality_status_q}"
+        
         finality_analysis.append({
             "pair": (p, q),
             "p_final": p in finals,
             "q_final": q in finals,
             "mismatch": is_mismatch,
-            "analysis": f"({p}, {q}): {p} is {finality_status_p}, {q} is {finality_status_q}"
+            "analysis": analysis_text
         })
         
         if is_mismatch:
@@ -381,28 +610,31 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
     tables = [table.copy()]
     cumulative_marked = sum(1 for v in table.values() if v)
 
-    # Create cumulative narrative
     cumulative_narrative = (
-        f"We systematically examine all {total_pairs} state pairs to identify those that differ in finality. "
-        f"The final states are F = {{{', '.join(sorted(finals))}}}. "
-        f"For each pair (p, q), we check whether exactly one of p or q is final. "
+        f"\\textbf{{Initialization Strategy:}} We systematically examine all {total_pairs} state pairs "
+        f"to identify those that differ in finality (the base case for distinguishability). "
+        f"The final states are $F = \\{{ {', '.join(sorted(finals))} \\}}$. "
     )
     
-    if finality_analysis:
-        cumulative_narrative += "Our analysis proceeds as follows: "
-        for analysis in finality_analysis:
-            p, q = analysis["pair"]
-            cumulative_narrative += f"{analysis['analysis']}{'→ MARK' if analysis['mismatch'] else ''}; "
-        cumulative_narrative = cumulative_narrative.rstrip("; ") + ". "
+    if not finals:
+        cumulative_narrative += "Since there are no final states, no pairs can be marked initially. "
+    elif len(finals) == len(states):
+        cumulative_narrative += "Since all states are final, no pairs can be marked initially. "
+    else:
+        cumulative_narrative += (
+            f"For each pair $(p, q)$, we check whether exactly one of $p$ or $q$ is final. "
+            f"Such pairs are immediately distinguishable because the empty string $\\varepsilon$ "
+            f"is accepted from one state but rejected from the other. "
+        )
     
     if marked_pairs:
         cumulative_narrative += (
-            f"Therefore, we mark {len(marked_pairs)} pairs as distinguishable: "
-            f"{', '.join(f'({p}, {q})' for p, q in marked_pairs)}. "
-            f"These receive X marks in our indistinguishability table."
+            f"\\\\[0.3em]\\textbf{{Result:}} We mark {len(marked_pairs)} pairs as distinguishable: "
+            f"${', '.join(f'({p}, {q})' for p, q in marked_pairs)}$. "
+            f"These receive ``X'' marks in our indistinguishability table."
         )
     else:
-        cumulative_narrative += "No pairs differ in finality, so no initial markings are made."
+        cumulative_narrative += "\\\\[0.3em]\\textbf{Result:} No pairs differ in finality, so no initial markings are made."
 
     details = [{
         "step": 0,
@@ -423,7 +655,6 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
         "final_states_list": sorted(list(finals))
     }]
 
-    # Refinement rounds (unchanged from before)
     step_num = 1
     while True:
         print(f"Processing Step {step_num + 1} - Refinement round...")
@@ -433,27 +664,28 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
         newly: Set[Tuple[str, str]] = set()
         reasons: Dict[Tuple[str, str], List[Dict[str, Any]]] = {}
         pair_substeps: List[Dict[str, Any]] = []
+        
+        unmarked_count = sum(1 for v in prev.values() if not v)
 
         for i, (p, q) in enumerate(pairs):
             if curr[(p, q)]:
-                # Already marked - just note it
                 pair_substeps.append({
                     "idx": i,
                     "label": _sublabel(i),
                     "pair": [p, q],
                     "kind": "refine",
-                    "narrative": (f"Pair ( {p}, {q} ) was already marked before this step; "
-                                  f"no further probing is needed."),
+                    "narrative": (f"This pair was already marked in a previous iteration, "
+                                  f"so no further analysis is needed."),
                     "finality": None,
                     "decision": "already-marked",
                     "probes": []
                 })
                 continue
 
-            # Probe each symbol
             probes_for_pair = []
             decision = "keep-unmarked"
-            narrative = f"Analyze pair ( {p}, {q} ) by probing input symbols."
+            narrative = (f"This pair is currently unmarked. We test each input symbol to see if "
+                        f"$({p}, {q})$ can be distinguished based on where they transition.")
 
             for probe_idx, a in enumerate(sorted(dfa.input_symbols)):
                 tp = dfa.transitions[p][a]
@@ -470,19 +702,18 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
                     "decision": "continue"
                 }
                 
-                # Create side-by-side analysis for this probe
-                step_info = f"Step {step_num + 1}.{_sublabel(i)}.{probe_idx+1}: Probing '{a}'"
+                step_info = f"Iteration {step_num}, Pair {_sublabel(i)}, Input '{a}'"
                 visual_path = create_side_by_side_dfa_analysis(
                     dfa,
                     focus_pair=(p, q),
                     current_probe=probe_entry,
                     table=prev,
                     step_info=step_info,
-                    filename=f"out/plots/pair_steps/step{step_num + 1}_{_sublabel(i)}_probe{probe_idx+1}.png"
+                    filename=f"out/plots/pair_steps/iter{step_num}_pair{_sublabel(i)}_input{probe_idx+1}.png"
                 )
                 
-                probe_entry["visual_path"] = f"pair_steps/step{step_num + 1}_{_sublabel(i)}_probe{probe_idx+1}.png"
-                probe_entry["figure_label"] = f"fig:step{step_num + 1}_{_sublabel(i)}_probe{probe_idx+1}"
+                probe_entry["visual_path"] = f"pair_steps/iter{step_num}_pair{_sublabel(i)}_input{probe_idx+1}.png"
+                probe_entry["figure_label"] = f"fig:iter{step_num}_pair{_sublabel(i)}_input{probe_idx+1}"
 
                 if witness_is_marked:
                     curr[(p, q)] = True
@@ -492,16 +723,21 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
                     reasons.setdefault((p, q), []).append({
                         "a": a, "tp": tp, "tq": tq, "witness_pair": key
                     })
-                    narrative = (f"Found witness on input {a}: $\\delta$({p},{a})={tp}, $\\delta$({q},{a})={tq}. "
-                                 f"Since ( {key[0]}, {key[1]} ) is already marked, "
-                                 f"we mark ( {p}, {q} ).")
+                    narrative = (f"On input ${a}$: State ${p}$ transitions to ${tp}$ and state ${q}$ "
+                                f"transitions to ${tq}$. The witness pair $({key[0]}, {key[1]})$ "
+                                f"is already marked as distinguishable. Therefore, $({p}, {q})$ must "
+                                f"also be distinguishable.")
                     decision = "mark"
                     break
                 else:
                     probes_for_pair.append(probe_entry)
 
             if decision != "mark":
-                narrative += " No probe led to a marked witness pair; remain unmarked this round."
+                if len(probes_for_pair) > 0:
+                    narrative += (f" After checking all {len(probes_for_pair)} input symbols, no probe "
+                                f"revealed a marked witness pair. This pair remains unmarked this iteration.")
+                else:
+                    narrative += " No distinguishing evidence found."
 
             pair_substeps.append({
                 "idx": i,
@@ -518,12 +754,14 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
         step_num += 1
 
         if not newly:
-            # Fixed point
             cm = sum(1 for v in curr.values() if v)
+            remaining_unmarked = sum(1 for v in curr.values() if not v)
             details.append({
                 "step": len(tables) - 1,
                 "stage": "refine",
-                "description": "No new pairs marked; reached a fixed point.",
+                "description": (f"\\textbf{{Fixed point reached:}} After examining all {unmarked_count} unmarked pairs, "
+                               f"no new pairs could be marked. The algorithm terminates. "
+                               f"{remaining_unmarked} pairs remain unmarked, indicating they are indistinguishable."),
                 "newly": [],
                 "reasons": {},
                 "initial_reasons": [],
@@ -542,7 +780,9 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
             details.append({
                 "step": len(tables) - 1,
                 "stage": "refine", 
-                "description": "Pairs marked this round because their transitions reach marked witnesses.",
+                "description": (f"In this iteration, we examined {unmarked_count} unmarked pairs and found "
+                               f"{len(newly)} that could now be marked as distinguishable. "
+                               f"Since changes were made, we continue to the next iteration."),
                 "newly": [list(x) for x in sorted(newly)],
                 "reasons": { (p,q): reasons[(p,q)] for (p,q) in sorted(newly) },
                 "initial_reasons": [],
@@ -558,9 +798,6 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
 
     return states, tables, details
 
-# ---------------------------------------------------------------------
-# Enhanced Table Plot with Progressive Marking Colors
-# ---------------------------------------------------------------------
 def plot_indis_step_enhanced(states: List[str],
                            table: Dict[Tuple[str, str], bool],
                            newly_pairs: Set[Tuple[str, str]],
@@ -581,7 +818,6 @@ def plot_indis_step_enhanced(states: List[str],
                                        edgecolor='black', linewidth=1.2))
             
             if table[pair]:
-                # Color coding: new marks are bright red, old marks are darker
                 if pair in newly_pairs:
                     color = 'red'
                     weight = 'bold'
@@ -603,11 +839,10 @@ def plot_indis_step_enhanced(states: List[str],
     ax.set_yticklabels(states[1:], fontsize=14)
     ax.yaxis.tick_left()
 
-    ax.set_title(f"Indistinguishability Table – Step {step_idx + 1}", fontsize=20, pad=20)
+    ax.set_title(f"Indistinguishability Table — Step {step_idx + 1}", fontsize=20, pad=20)
     ax.invert_yaxis()
     ax.tick_params(length=0)
     
-    # Add legend for mark colors
     if step_idx > 0:
         legend_elements = [
             plt.Line2D([0], [0], marker='X', color='red', linestyle='None',
@@ -623,78 +858,6 @@ def plot_indis_step_enhanced(states: List[str],
     fig.savefig(filename, dpi=150, bbox_inches='tight')
     plt.close()
     return filename
-
-# Rest of the visualization functions using pygraphviz...
-def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]], 
-                               filename: str = None, title: str = None) -> str:
-    """Create partition visualization using pygraphviz."""
-    
-    G = pgv.AGraph(directed=True, strict=False)
-    G.graph_attr.update(
-        rankdir='LR',
-        size='14,10',
-        dpi='300',
-        fontsize='18',
-        fontname='Arial',
-        labelloc='top',
-        label=title or 'State Partition'
-    )
-    
-    # Colors for blocks
-    block_colors = ["lightblue", "lightgreen", "lightyellow", "lightpink", 
-                   "lightcyan", "lavender", "mistyrose", "honeydew"]
-    
-    # Determine which block each state belongs to
-    state_to_block = {}
-    for i, block in enumerate(blocks):
-        for state in block:
-            state_to_block[state] = i
-    
-    # Add states
-    for state in _sorted_states(dfa.states):
-        color = block_colors[state_to_block.get(state, 0) % len(block_colors)]
-        
-        # Determine shape and style
-        if state == dfa.initial_state and state in dfa.final_states:
-            shape = 'doublecircle'
-            style = 'bold,filled'
-        elif state == dfa.initial_state:
-            shape = 'circle'
-            style = 'bold,filled'
-        elif state in dfa.final_states:
-            shape = 'doublecircle'
-            style = 'filled'
-        else:
-            shape = 'circle'
-            style = 'filled'
-        
-        G.add_node(state,
-                  shape=shape,
-                  style=style,
-                  fillcolor=color,
-                  fontsize='16',
-                  fontname='Arial',
-                  penwidth='2')
-    
-    # Add transitions
-    for src in _sorted_states(dfa.states):
-        for symbol in sorted(dfa.input_symbols):
-            tgt = dfa.transitions[src][symbol]
-            G.add_edge(src, tgt,
-                      label=f'  {symbol}  ',
-                      fontsize='14',
-                      fontname='Arial',
-                      penwidth='2')
-    
-    # Add initial state arrow
-    G.add_node('start', shape='point', width='0.3')
-    G.add_edge('start', dfa.initial_state, penwidth='3')
-    
-    if filename:
-        G.draw(filename, prog='dot')
-        return filename
-    else:
-        return str(G)
 
 def build_minimized_dfa(dfa: DFA, partition: List[Set[str]]):
     """Build minimized DFA from equivalence partition."""
@@ -719,90 +882,19 @@ def build_minimized_dfa(dfa: DFA, partition: List[Set[str]]):
         final_states=new_finals
     )
 
-def create_minimized_dfa_pygraphviz(dfa: DFA, filename: str = None) -> str:
-    """Create minimized DFA visualization using pygraphviz."""
-    
-    G = pgv.AGraph(directed=True, strict=False)
-    G.graph_attr.update(
-        rankdir='LR',
-        size='12,8',
-        dpi='300',
-        fontsize='20',
-        fontname='Arial',
-        labelloc='top',
-        label='Minimized DFA'
-    )
-    
-    # Add states
-    for state in _sorted_states(dfa.states):
-        # Determine color and shape
-        if state == dfa.initial_state:
-            color = "lightblue"
-        elif state in dfa.final_states:
-            color = "lightgreen"
-        else:
-            color = "lightgray"
-        
-        if state == dfa.initial_state and state in dfa.final_states:
-            shape = 'doublecircle'
-            style = 'bold,filled'
-        elif state == dfa.initial_state:
-            shape = 'circle'
-            style = 'bold,filled'
-        elif state in dfa.final_states:
-            shape = 'doublecircle'
-            style = 'filled'
-        else:
-            shape = 'circle'
-            style = 'filled'
-        
-        G.add_node(state,
-                  shape=shape,
-                  style=style,
-                  fillcolor=color,
-                  fontsize='18',
-                  fontname='Arial',
-                  penwidth='3')
-    
-    # Add transitions
-    for src in _sorted_states(dfa.states):
-        for symbol in sorted(dfa.input_symbols):
-            tgt = dfa.transitions[src][symbol]
-            G.add_edge(src, tgt,
-                      label=f'  {symbol}  ',
-                      fontsize='16',
-                      fontname='Arial',
-                      penwidth='3')
-    
-    # Add initial state arrow
-    G.add_node('start', shape='point', width='0.3')
-    G.add_edge('start', dfa.initial_state, penwidth='4')
-    
-    if filename:
-        G.draw(filename, prog='dot')
-        return filename
-    else:
-        return str(G)
-
-# ---------------------------------------------------------------------
-# Main execution with pygraphviz visualizations
-# ---------------------------------------------------------------------
 def main():
-    print("Starting DFA minimization with pygraphviz visualizations...")
+    print("Starting")
     
-    # Generate detailed analysis using pygraphviz with cumulative Step 1
     indis_states, indis_tables, indis_details = record_indis_details_with_cumulative_step1(dfa)
     
-    # Create table plots (keep matplotlib for these)
-    print("Creating indistinguishability table plots...")
+    print("Creating indis table")
     indis_plot_paths = []
     for idx, tbl in enumerate(indis_tables):
         newly = set(map(tuple, indis_details[idx]["newly"])) if indis_details[idx]["newly"] else set()
         path = plot_indis_step_enhanced(indis_states, tbl, newly, idx)
         indis_plot_paths.append(path)
     
-    # Create partition timeline using pygraphviz
-    print("Creating partition timeline...")
+    print("Creating partition")
     blocks_plot_paths = []
     for i, tbl in enumerate(indis_tables):
         blocks = get_equivalence_partition(indis_states, tbl)
@@ -811,14 +903,12 @@ def main():
         path = create_partition_pygraphviz(dfa, blocks, filename=filename, title=title)
         blocks_plot_paths.append(path)
     
-    # Create minimized DFA using pygraphviz
-    print("Creating minimized DFA...")
+    print("Creating minimized DFA")
     final_partition = get_equivalence_partition(indis_states, indis_tables[-1])
     min_dfa = build_minimized_dfa(dfa, final_partition)
     final_min_png = create_minimized_dfa_pygraphviz(min_dfa, filename="out/minimized_dfa.png")
     
-    # Package data for LaTeX
-    print("Preparing data for LaTeX generation...")
+    print("Preparing data for LaTeX generation")
     data = {
         "indis_plots": [path.replace("out/plots/", "plots/") for path in indis_plot_paths],
         "blocks_plots": [path.replace("out/plots/", "plots/") for path in blocks_plot_paths],
@@ -827,7 +917,6 @@ def main():
         "minimized_dfa_png": final_min_png.replace("out/", "") if final_min_png else None
     }
     
-    # Generate LaTeX and PDF
     try:
         print("Generating LaTeX document...")
         my_Solution = Solution()
@@ -837,9 +926,8 @@ def main():
         print("Generating PDF...")
         my_Solution.generate_pdf()
         
-        print("✓ Enhanced DFA minimization visualization complete!")
+        print("✓ Clean modern DFA minimization visualization complete!")
         
-        # Summary statistics
         total_pair_visuals = sum(len(detail.get('pair_substeps', [])) for detail in indis_details)
         total_probe_visuals = sum(
             len(ps.get('probes', [])) for detail in indis_details
