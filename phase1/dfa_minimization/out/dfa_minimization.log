@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  22 OCT 2025 13:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.16)  26 OCT 2025 23:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -836,73 +836,70 @@ Underfull \hbox (badness 10000) in paragraph at lines 73--74
 
  []
 
+<plots/original_dfa.png, id=4, 3431.82124pt x 2900.8375pt>
+File: plots/original_dfa.png Graphic file (type png)
+<use plots/original_dfa.png>
+Package pdftex.def Info: plots/original_dfa.png  used on input line 108.
+(pdftex.def)             Requested size: 317.07195pt x 268.01343pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 [1{C:/Users/william.gregory/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 ]
-<plots/indis_step1.png, id=16, 570.4512pt x 425.9112pt>
+[2 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
+1/dfa_minimization/out/plots/original_dfa.png>]
+<plots/indis_step1.png, id=26, 570.4512pt x 425.9112pt>
 File: plots/indis_step1.png Graphic file (type png)
 <use plots/indis_step1.png>
-Package pdftex.def Info: plots/indis_step1.png  used on input line 207.
+Package pdftex.def Info: plots/indis_step1.png  used on input line 214.
 (pdftex.def)             Requested size: 217.42653pt x 162.33534pt.
-<plots/blocks_step1.png, id=18, 689.9376pt x 711.6186pt>
+<plots/blocks_step1.png, id=27, 4215.75pt x 2874.74pt>
 File: plots/blocks_step1.png Graphic file (type png)
 <use plots/blocks_step1.png>
-Package pdftex.def Info: plots/blocks_step1.png  used on input line 213.
-(pdftex.def)             Requested size: 165.51471pt x 170.71594pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[2] [3 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/p
-hase1/dfa_minimization/out/plots/indis_step1.png> <C:/Users/william.gregory/One
-Drive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/blo
-cks_step1.png>] [4
+Package pdftex.def Info: plots/blocks_step1.png  used on input line 220.
+(pdftex.def)             Requested size: 217.3612pt x 148.21964pt.
+ [3 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phas
+e1/dfa_minimization/out/plots/indis_step1.png> <C:/Users/william.gregory/OneDri
+ve - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/blocks
+_step1.png>] [4
 
 ]
-
-LaTeX Warning: File `plots/pair_steps/iter1_paira_input2.png' not found on inpu
-t line 291.
-
-
-! Package pdftex.def Error: File `plots/pair_steps/iter1_paira_input2.png' not 
-found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.291 ...plots/pair_steps/iter1_paira_input2.png}}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-<plots/indis_step2.png, id=37, 570.4512pt x 425.9112pt>
+<plots/pair_steps/iter1_paira_input2.png, id=38, 3119.655pt x 2002.48125pt>
+File: plots/pair_steps/iter1_paira_input2.png Graphic file (type png)
+<use plots/pair_steps/iter1_paira_input2.png>
+Package pdftex.def Info: plots/pair_steps/iter1_paira_input2.png  used on input
+ line 298.
+(pdftex.def)             Requested size: 339.68817pt x 218.04308pt.
+<plots/indis_step2.png, id=39, 570.4512pt x 425.9112pt>
 File: plots/indis_step2.png Graphic file (type png)
 <use plots/indis_step2.png>
-Package pdftex.def Info: plots/indis_step2.png  used on input line 304.
+Package pdftex.def Info: plots/indis_step2.png  used on input line 311.
 (pdftex.def)             Requested size: 217.42653pt x 162.33534pt.
-<plots/blocks_step2.png, id=38, 689.9376pt x 711.6186pt>
+<plots/blocks_step2.png, id=40, 4215.75pt x 2879.75874pt>
 File: plots/blocks_step2.png Graphic file (type png)
 <use plots/blocks_step2.png>
-Package pdftex.def Info: plots/blocks_step2.png  used on input line 310.
-(pdftex.def)             Requested size: 165.51471pt x 170.71594pt.
+Package pdftex.def Info: plots/blocks_step2.png  used on input line 317.
+(pdftex.def)             Requested size: 217.3612pt x 148.47841pt.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[5] [6 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/p
-hase1/dfa_minimization/out/plots/indis_step2.png> <C:/Users/william.gregory/One
-Drive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/blo
-cks_step2.png>]
-<plots/indis_step3.png, id=47, 570.4512pt x 425.9112pt>
+[5 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase
+1/dfa_minimization/out/plots/pair_steps/iter1_paira_input2.png>] [6 <C:/Users/w
+illiam.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase1/dfa_minimiza
+tion/out/plots/indis_step2.png> <C:/Users/william.gregory/OneDrive - West Point
+/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/blocks_step2.png>]
+<plots/indis_step3.png, id=50, 570.4512pt x 425.9112pt>
 File: plots/indis_step3.png Graphic file (type png)
 <use plots/indis_step3.png>
-Package pdftex.def Info: plots/indis_step3.png  used on input line 365.
+Package pdftex.def Info: plots/indis_step3.png  used on input line 372.
 (pdftex.def)             Requested size: 217.42653pt x 162.33534pt.
-<plots/blocks_step3.png, id=48, 689.9376pt x 711.6186pt>
+<plots/blocks_step3.png, id=51, 4215.75pt x 2879.75874pt>
 File: plots/blocks_step3.png Graphic file (type png)
 <use plots/blocks_step3.png>
-Package pdftex.def Info: plots/blocks_step3.png  used on input line 371.
-(pdftex.def)             Requested size: 165.51471pt x 170.71594pt.
+Package pdftex.def Info: plots/blocks_step3.png  used on input line 378.
+(pdftex.def)             Requested size: 217.3612pt x 148.47841pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -913,19 +910,15 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 se1/dfa_minimization/out/plots/indis_step3.png> <C:/Users/william.gregory/OneDr
 ive - West Point/Documents/GitHub/CS474/phase1/dfa_minimization/out/plots/block
 s_step3.png>]
-<minimized_dfa.png, id=58, 660.5478pt x 569.9694pt>
+<minimized_dfa.png, id=61, 2960.05875pt x 1771.61874pt>
 File: minimized_dfa.png Graphic file (type png)
 <use minimized_dfa.png>
-Package pdftex.def Info: minimized_dfa.png  used on input line 416.
-(pdftex.def)             Requested size: 317.0795pt x 273.5996pt.
+Package pdftex.def Info: minimized_dfa.png  used on input line 423.
+(pdftex.def)             Requested size: 317.07094pt x 189.76949pt.
+ [9
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[9
-
-] [10 <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/ph
-ase1/dfa_minimization/out/minimized_dfa.png>]
+ <C:/Users/william.gregory/OneDrive - West Point/Documents/GitHub/CS474/phase1/
+dfa_minimization/out/minimized_dfa.png>] [10]
 (C:\Users\william.gregory\OneDrive - West Point\Documents\GitHub\CS474\phase1\d
 fa_minimization\out\dfa_minimization.aux)
  ***********
@@ -934,10 +927,10 @@ L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 20894 strings out of 474486
- 433514 string characters out of 5739035
- 1946542 words of memory out of 5000000
- 42864 multiletter control sequences out of 15000+600000
+ 20879 strings out of 474486
+ 432581 string characters out of 5739035
+ 1940542 words of memory out of 5000000
+ 42849 multiletter control sequences out of 15000+600000
  568843 words of font info for 78 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  102i,11n,107p,478b,430s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -961,10 +954,10 @@ gory/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C
 ts/cm/cmtt10.pfb><C:/Users/william.gregory/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmtt9.pfb>
 Output written on "C:\Users\william.gregory\OneDrive - West Point\Documents\Git
-Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (10 pages, 556288 b
-ytes).
+Hub\CS474\phase1\dfa_minimization\out\dfa_minimization.pdf" (10 pages, 1595976 
+bytes).
 PDF statistics:
- 130 PDF objects out of 1000 (max. 8388607)
+ 132 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 

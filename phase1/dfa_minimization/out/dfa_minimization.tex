@@ -103,6 +103,13 @@ The minimization of a DFA entails computing an equivalent DFA with the fewest po
 
 We will use the DFA shown below to illustrate the minimization process. As we work through the algorithm to determine which pairs of states are indistinguishable from each other, we will fill in the Indis Table. Note that the table only includes the cells below the diagonal, because we only need one cell comparing $p$ and $q$ (the order is irrelevant) and there is no need to compare a state with itself.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{plots/original_dfa.png}
+\caption{The original DFA to be minimized}
+\label{fig:original_dfa}
+\end{figure}
+
 \subsection*{Transition Function}
 
 \begin{center}
@@ -137,9 +144,9 @@ We will use the DFA shown below to illustrate the minimization process. As we wo
 \end{itemize}
 
 \section{Indistinguishability Algorithm}
-\subsection*{Initialization — Lines 5--7}
+\subsection*{Initialization}
 
-The algorithm implements the base cases in the definition of distinguishable states by setting the $\text{Indis}(p, q)$ value to \texttt{False} for those pairs of states that are an accepting state paired with a non-accepting state (lines 5 thru 7).
+The algorithm implements the base cases in the definition of distinguishable states by setting the $\text{Indis}(p, q)$ value to \texttt{False} for those pairs of states that are an accepting state paired with a non-accepting state.
 
 \textbf{Why?} If one state is accepting and the other is non-accepting, they are immediately distinguishable: the empty string $\varepsilon$ is accepted from one state but rejected from the other. This is the simplest way two states can differ.
 \begin{table}[h!]
@@ -210,23 +217,23 @@ Since states 3 and 5 are accepting and all other states are non-accepting, we fi
 \end{minipage}\hfill
 \begin{minipage}{0.48\linewidth}
     \centering
-    \fbox{\includegraphics[width=0.95\linewidth,height=6cm,keepaspectratio]{plots/blocks_step1.png}}
-    \caption{Current equivalence partition afterinitialization. Dark theme visualization: States with the same color are potentially indistinguishable. Note the cyan/teal color scheme highlighting equivalence classes.}
+    \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{plots/blocks_step1.png}
+    \caption{Current equivalence partition afterinitialization. States with the same color are potentially indistinguishable.}
     \label{fig:partition_step1}
 \end{minipage}
 \end{figure}
 \noindent\textbf{Current equivalence classes:}
 \[
-\left\{\{ 5, 3 \}, \{ 2, 1, 6, 4 \}\right\}
+\left\{\{ 5, 3 \}, \{ 1, 4, 6, 2 \}\right\}
 \]
 
 \clearpage
 \subsection*{Iteration 1}
 
-After initialization we enter the while loop. Line 9 tells us to scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have 7 cells to process.
+We now scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have 7 cells to process.
 
 \textbf{Strategy:} For each unmarked pair $(p, q)$, we test all input symbols. If we find \emph{any} input $a$ where $\delta(p, a)$ and $\delta(q, a)$ lead to states that are already marked as distinguishable, then $(p, q)$ must also be distinguishable.
-\paragraph{$(1, 2)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(1, 2)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 
 \item \textbf{Input $b$:} Here we see that $\delta(1, b)$ leads to state $4$ and $\delta(2, b)$ leads to state $3$.
@@ -236,7 +243,7 @@ After initialization we enter the while loop. Line 9 tells us to scan through al
   
   \textbf{Explanation:} If states $3$ and $4$ are distinguishable (we already marked them), and we can reach them from states $1$ and $2$ using input $b$, then states $1$ and $2$ must also be distinguishable. Any string that distinguishes $3$ from $4$ can be prepended with $b$ to distinguish $1$ from $2$.
 \end{itemize}
-\paragraph{$(1, 4)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(1, 4)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 
 \item \textbf{Input $b$:} Here we see that $\delta(1, b)$ leads to state $4$ and $\delta(4, b)$ leads to state $5$.
@@ -246,7 +253,7 @@ After initialization we enter the while loop. Line 9 tells us to scan through al
   
   \textbf{Explanation:} If states $4$ and $5$ are distinguishable (we already marked them), and we can reach them from states $1$ and $4$ using input $b$, then states $1$ and $4$ must also be distinguishable. Any string that distinguishes $4$ from $5$ can be prepended with $b$ to distinguish $1$ from $4$.
 \end{itemize}
-\paragraph{$(1, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(1, 6)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 
 \item \textbf{Input $b$:} Here we see that $\delta(1, b)$ leads to state $4$ and $\delta(6, b)$ leads to state $5$.
@@ -256,28 +263,28 @@ After initialization we enter the while loop. Line 9 tells us to scan through al
   
   \textbf{Explanation:} If states $4$ and $5$ are distinguishable (we already marked them), and we can reach them from states $1$ and $6$ using input $b$, then states $1$ and $6$ must also be distinguishable. Any string that distinguishes $4$ from $5$ can be prepended with $b$ to distinguish $1$ from $6$.
 \end{itemize}
-\paragraph{$(2, 4)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(2, 4)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 \item \textbf{Input $a$:} Here we see that $\delta(2, a)$ leads to state $4$ and $\delta(4, a)$ leads to state $4$.
   Both states transition to the same state, so $\text{Indis}(2, 4)$ will never change based on $a$. This input provides no distinguishing information.
 \item \textbf{Input $b$:} Here we see that $\delta(2, b)$ leads to state $3$ and $\delta(4, b)$ leads to state $5$.
   Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 4)$. We continue checking other inputs.
 \end{itemize}
-\paragraph{$(2, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(2, 6)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 \item \textbf{Input $a$:} Here we see that $\delta(2, a)$ leads to state $4$ and $\delta(6, a)$ leads to state $6$.
   Since $\text{Indis}(4, 6)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 6)$. We continue checking other inputs.
 \item \textbf{Input $b$:} Here we see that $\delta(2, b)$ leads to state $3$ and $\delta(6, b)$ leads to state $5$.
   Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 6)$. We continue checking other inputs.
 \end{itemize}
-\paragraph{$(3, 5)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(3, 5)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 \item \textbf{Input $a$:} Here we see that $\delta(3, a)$ leads to state $3$ and $\delta(5, a)$ leads to state $5$.
   Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(3, 5)$. We continue checking other inputs.
 \item \textbf{Input $b$:} Here we see that $\delta(3, b)$ leads to state $3$ and $\delta(5, b)$ leads to state $5$.
   Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(3, 5)$. We continue checking other inputs.
 \end{itemize}
-\paragraph{$(4, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(4, 6)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 \item \textbf{Input $a$:} Here we see that $\delta(4, a)$ leads to state $4$ and $\delta(6, a)$ leads to state $6$.
   Since $\text{Indis}(4, 6)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(4, 6)$. We continue checking other inputs.
@@ -288,8 +295,8 @@ After initialization we enter the while loop. Line 9 tells us to scan through al
 
 \begin{figure}[h!]
 \centering
-\fbox{\includegraphics[width=0.75\linewidth,height=8cm,keepaspectratio]{plots/pair_steps/iter1_paira_input2.png}}
-\caption{Visual analysis for pair $(1, 2)$: On input $b$, transitions lead to the already-marked pair $(3, 4)$, forcing Indis$(1, 2)$ to become \texttt{False}. (Note: Modern dark theme visualization with colored equivalence classes)}
+\includegraphics[width=0.75\linewidth,height=8cm,keepaspectratio]{plots/pair_steps/iter1_paira_input2.png}
+\caption{Visual analysis for pair $(1, 2)$: On input $b$, transitions lead to the already-marked pair $(3, 4)$, forcing Indis$(1, 2)$ to become \texttt{False}.}
 \label{fig:iter1_paira_input2}
 \end{figure}
 \vspace{0.5em}
@@ -307,44 +314,44 @@ After initialization we enter the while loop. Line 9 tells us to scan through al
 \end{minipage}\hfill
 \begin{minipage}{0.48\linewidth}
     \centering
-    \fbox{\includegraphics[width=0.95\linewidth,height=6cm,keepaspectratio]{plots/blocks_step2.png}}
-    \caption{Current equivalence partition afteriteration 1. Dark theme visualization: States with the same color are potentially indistinguishable. Note the cyan/teal color scheme highlighting equivalence classes.}
+    \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{plots/blocks_step2.png}
+    \caption{Current equivalence partition afteriteration 1. States with the same color are potentially indistinguishable.}
     \label{fig:partition_step2}
 \end{minipage}
 \end{figure}
 \noindent\textbf{Current equivalence classes:}
 \[
-\left\{\{ 1 \}, \{ 5, 3 \}, \{ 2, 6, 4 \}\right\}
+\left\{\{ 1 \}, \{ 5, 3 \}, \{ 4, 6, 2 \}\right\}
 \]
 
 \clearpage
 \subsection*{Iteration 2}
 
-After the previous iteration, line 9 tells us to scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have 4 cells to process.
+We
 
 \textbf{Strategy:} For each unmarked pair $(p, q)$, we test all input symbols. If we find \emph{any} input $a$ where $\delta(p, a)$ and $\delta(q, a)$ lead to states that are already marked as distinguishable, then $(p, q)$ must also be distinguishable.
-\paragraph{$(2, 4)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(2, 4)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 \item \textbf{Input $a$:} Here we see that $\delta(2, a)$ leads to state $4$ and $\delta(4, a)$ leads to state $4$.
   Both states transition to the same state, so $\text{Indis}(2, 4)$ will never change based on $a$. This input provides no distinguishing information.
 \item \textbf{Input $b$:} Here we see that $\delta(2, b)$ leads to state $3$ and $\delta(4, b)$ leads to state $5$.
   Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 4)$. We continue checking other inputs.
 \end{itemize}
-\paragraph{$(2, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(2, 6)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 \item \textbf{Input $a$:} Here we see that $\delta(2, a)$ leads to state $4$ and $\delta(6, a)$ leads to state $6$.
   Since $\text{Indis}(4, 6)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 6)$. We continue checking other inputs.
 \item \textbf{Input $b$:} Here we see that $\delta(2, b)$ leads to state $3$ and $\delta(6, b)$ leads to state $5$.
   Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(2, 6)$. We continue checking other inputs.
 \end{itemize}
-\paragraph{$(3, 5)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(3, 5)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 \item \textbf{Input $a$:} Here we see that $\delta(3, a)$ leads to state $3$ and $\delta(5, a)$ leads to state $5$.
   Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(3, 5)$. We continue checking other inputs.
 \item \textbf{Input $b$:} Here we see that $\delta(3, b)$ leads to state $3$ and $\delta(5, b)$ leads to state $5$.
   Since $\text{Indis}(3, 5)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(3, 5)$. We continue checking other inputs.
 \end{itemize}
-\paragraph{$(4, 6)$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$(4, 6)$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 \begin{itemize}[itemsep=0.3em]
 \item \textbf{Input $a$:} Here we see that $\delta(4, a)$ leads to state $4$ and $\delta(6, a)$ leads to state $6$.
   Since $\text{Indis}(4, 6)$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}(4, 6)$. We continue checking other inputs.
@@ -354,7 +361,7 @@ After the previous iteration, line 9 tells us to scan through all empty cells (i
 
 
 \vspace{0.5em}
-\noindent This pass through the 4 remaining cells did not cause a change. Thus, in line 18 we break out of the while loop and we are finished finding all indistinguishable pairs of states.
+\noindent This pass through the 4 remaining cells did not cause a change. We now break out of our loop and we are finished finding all indistinguishable pairs of states.
 
 \textbf{Why stop?} If a full iteration produces no new markings, it means we've found all distinguishable pairs. The remaining empty cells represent states that truly cannot be distinguished by any input string — these are the indistinguishable pairs we will merge.
 
@@ -368,14 +375,14 @@ After the previous iteration, line 9 tells us to scan through all empty cells (i
 \end{minipage}\hfill
 \begin{minipage}{0.48\linewidth}
     \centering
-    \fbox{\includegraphics[width=0.95\linewidth,height=6cm,keepaspectratio]{plots/blocks_step3.png}}
-    \caption{Current equivalence partition afteriteration 2. Dark theme visualization: States with the same color are potentially indistinguishable. Note the cyan/teal color scheme highlighting equivalence classes.}
+    \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{plots/blocks_step3.png}
+    \caption{Current equivalence partition afteriteration 2. States with the same color are potentially indistinguishable.}
     \label{fig:partition_step3}
 \end{minipage}
 \end{figure}
 \noindent\textbf{Current equivalence classes:}
 \[
-\left\{\{ 1 \}, \{ 5, 3 \}, \{ 2, 6, 4 \}\right\}
+\left\{\{ 1 \}, \{ 5, 3 \}, \{ 4, 6, 2 \}\right\}
 \]
 
 \clearpage
@@ -391,14 +398,14 @@ After the algorithm terminates, all \textbf{empty cells} in the Indis Table (tho
 \textbf{Key insight:} If Indis$(p, q)$ = \texttt{True} at the end, then for \emph{every possible input string} $w$, either both $p$ and $q$ accept $w$ or both reject $w$. Since they're functionally equivalent, we can merge them into a single state.
 \noindent\textbf{Final equivalence classes (states to be merged):}
 \[
-\left\{\{ 1 \}, \{ 5, 3 \}, \{ 2, 6, 4 \}\right\}
+\left\{\{ 1 \}, \{ 5, 3 \}, \{ 4, 6, 2 \}\right\}
 \]
 
 \noindent Each equivalence class becomes a single state in the minimized DFA:
 \begin{itemize}[itemsep=0.2em]
 \item States $\{ 1 \}$ merge into state $1$
 \item States $\{ 5, 3 \}$ merge into state $53$
-\item States $\{ 2, 6, 4 \}$ merge into state $264$
+\item States $\{ 4, 6, 2 \}$ merge into state $462$
 \end{itemize}
 
 \subsection*{Constructing the Minimized DFA}
@@ -413,8 +420,8 @@ After the algorithm terminates, all \textbf{empty cells} in the Indis Table (tho
 \subsection*{Result}
 \begin{figure}[h!]
 \centering
-\fbox{\includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{minimized_dfa.png}}
-\caption{The minimized DFA with merged indistinguishable states. Modern dark theme visualization with cyan/teal color scheme emphasizes the clean, merged structure.}
+\includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{minimized_dfa.png}
+\caption{The minimized DFA with merged indistinguishable states}
 \label{fig:minimized_dfa}
 \end{figure}
 
@@ -427,15 +434,5 @@ The minimized DFA accepts exactly the same language as the original DFA but uses
 \item \textbf{Completeness:} The algorithm exhaustively checks all possible distinguishing strings through iterative refinement
 \item \textbf{Termination:} Guaranteed because cells can only change from \texttt{True} to \texttt{False} (never the reverse) and there are finitely many cells
 \item \textbf{Minimality:} The result has the fewest possible states while preserving the language — merging any states that are marked as distinguishable would change the language
-\end{itemize}
-
-\subsection*{Visual Design Notes}
-
-The DFA visualizations in this document use a modern dark theme with a cyan/teal color palette. This design choice:
-\begin{itemize}[itemsep=0.2em]
-\item Enhances visual clarity by providing strong contrast between components
-\item Uses color-coding to group states in equivalence classes throughout the minimization process
-\item Highlights important transitions and states (e.g., initial states with thicker borders, accepting states with double circles)
-\item Makes it easier to track how equivalence classes evolve across iterations
 \end{itemize}
 \end{document}

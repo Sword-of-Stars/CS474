@@ -2,6 +2,13 @@
 
 We will use the DFA shown below to illustrate the minimization process. As we work through the algorithm to determine which pairs of states are indistinguishable from each other, we will fill in the Indis Table. Note that the table only includes the cells below the diagonal, because we only need one cell comparing $p$ and $q$ (the order is irrelevant) and there is no need to compare a state with itself.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{{ "{" }}{{ original_dfa_png }}{{ "}" }}
+\caption{The original DFA to be minimized}
+\label{fig:original_dfa}
+\end{figure}
+
 \subsection*{Transition Function}
 
 \begin{center}
@@ -82,7 +89,11 @@ Since states {{ indis_details[0].final_states_list|join(" and ") }} are acceptin
 {%- else %}
 \subsection*{Iteration {{ step_idx }}}
 
-After {%- if step_idx == 1 %} initialization we enter the while loop. Line 9{%- else %} the previous iteration, line 9{%- endif %} tells us to scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have {{ indis_details[step_idx].pair_substeps | selectattr('decision', 'in', ['mark', 'keep-unmarked']) | list | length }} cells to process.
+We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have {{ 
+  (indis_details[step_idx].pair_substeps | selectattr('decision','equalto','mark') | list | length) 
+  + 
+  (indis_details[step_idx].pair_substeps | selectattr('decision','equalto','keep-unmarked') | list | length) 
+}} cells to process.{% endif %}
 
 \textbf{Strategy:} For each unmarked pair $(p, q)$, we test all input symbols. If we find \emph{any} input $a$ where $\delta(p, a)$ and $\delta(q, a)$ lead to states that are already marked as distinguishable, then $(p, q)$ must also be distinguishable.
 
@@ -92,7 +103,7 @@ After {%- if step_idx == 1 %} initialization we enter the while loop. Line 9{%- 
 {%- if pairs_to_show %}
 
 {%- for ps in pairs_to_show %}
-\paragraph{$({{ ps.pair[0] }}, {{ ps.pair[1] }})$} In line 10 we consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$({{ ps.pair[0] }}, {{ ps.pair[1] }})$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
 
 {%- if ps.probes and ps.probes|length > 0 %}
 \begin{itemize}[itemsep=0.3em]
@@ -135,7 +146,7 @@ After {%- if step_idx == 1 %} initialization we enter the while loop. Line 9{%- 
 {%- set ps, probe = marked_pairs_with_visuals[0] %}
 \begin{figure}[h!]
 \centering
-\fbox{\includegraphics[width=0.75\linewidth,height=8cm,keepaspectratio]{plots/{{ probe.visual_path }}}}
+\includegraphics[width=0.75\linewidth,height=8cm,keepaspectratio]{plots/{{ probe.visual_path }}}
 \caption{Visual analysis for pair $({{ ps.pair[0] }}, {{ ps.pair[1] }})$: On input ${{ probe.a }}$, transitions lead to the already-marked pair $({{ probe.witness_pair[0] }}, {{ probe.witness_pair[1] }})$, forcing Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ to become \texttt{False}.}
 \label{{ "{" }}{{ probe.figure_label }}{{ "}" }}
 \end{figure}
@@ -151,7 +162,7 @@ After {%- if step_idx == 1 %} initialization we enter the while loop. Line 9{%- 
 \textbf{Progress check:} Since we made changes, we must continue to the next iteration. The newly marked pairs might help us identify additional distinguishable pairs in the next round.
 {%- else %}
 \vspace{0.5em}
-\noindent This pass through the {{ pairs_to_show|length }} remaining cells did not cause a change. Thus, in line 18 we break out of the while loop and we are finished finding all indistinguishable pairs of states.
+\noindent This pass through the {{ pairs_to_show|length }} remaining cells did not cause a change. We now break out of our loop and we are finished finding all indistinguishable pairs of states.
 
 \textbf{Why stop?} If a full iteration produces no new markings, it means we've found all distinguishable pairs. The remaining empty cells represent states that truly cannot be distinguished by any input string — these are the indistinguishable pairs we will merge.
 {%- endif %}
@@ -170,8 +181,8 @@ After {%- if step_idx == 1 %} initialization we enter the while loop. Line 9{%- 
 {%- if blocks_plots and step_idx < blocks_plots|length and blocks_plots[step_idx] %}
 \begin{minipage}{0.48\linewidth}
     \centering
-    \fbox{\includegraphics[width=0.95\linewidth,height=6cm,keepaspectratio]{{ "{" }}{{ blocks_plots[step_idx] }}{{ "}" }}}
-    \caption{Current equivalence partition after {%- if step_idx == 0 %}initialization{%- else %}iteration {{ step_idx }}{%- endif %}.}
+    \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{{ "{" }}{{ blocks_plots[step_idx] }}{{ "}" }}
+    \caption{Current equivalence partition after {%- if step_idx == 0 %}initialization{%- else %}iteration {{ step_idx }}{%- endif %}. States with the same color are potentially indistinguishable.}
     \label{{ "{" }}fig:partition_step{{ step_idx+1 }}{{ "}" }}
 \end{minipage}
 {%- endif %}
@@ -236,14 +247,10 @@ After the algorithm terminates, all \textbf{empty cells} in the Indis Table (tho
 {%- if minimized_dfa_png %}
 \begin{figure}[h!]
 \centering
-\fbox{\includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{{ "{" }}{{ minimized_dfa_png }}{{ "}" }}}
-\caption{The minimized DFA with merged indistinguishable states.}
+\includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{{ "{" }}{{ minimized_dfa_png }}{{ "}" }}
+\caption{The minimized DFA with merged indistinguishable states}
 \label{{ "{" }}fig:minimized_dfa{{ "}" }}
 \end{figure}
-{%- else %}
-\begin{center}
-\textit{Note: Minimized DFA visualization not available. Please check that pygraphviz is properly installed and configured.}
-\end{center}
 {%- endif %}
 
 The minimized DFA accepts exactly the same language as the original DFA but uses the minimum number of states possible. States that could not be distinguished by any input string have been merged while preserving the transition structure and accepting behavior.
