@@ -287,7 +287,7 @@ def generate_training_data(num_examples=1000):
     successful = 0
     failed = 0
     
-    for i in range(69, num_examples):
+    for i in range(192, num_examples):
         # Generate DFA (vary types for diversity)
         if i % 3 == 0:
             dfa = generator.generate_minimizable_dfa()
