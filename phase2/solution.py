@@ -40,7 +40,18 @@ class Solution():
     def generate_pdf(self):
         if not self.has_generated_latex:
             self.generate_latex()
-        
-        subprocess.run(["pdflatex",
-                 "-output-directory=" + self.OUTPUT_PATH,
-                 self.OUT_FILE])
+        # Run pdflatex in nonstop mode to avoid interactive prompts
+        cmd = [
+            "pdflatex",
+            "-interaction=nonstopmode",
+            "-halt-on-error",
+            "-output-directory=" + self.OUTPUT_PATH,
+            self.OUT_FILE,
+        ]
+        try:
+            subprocess.run(cmd, check=True)
+            # Second pass for references if needed
+            subprocess.run(cmd, check=True)
+        except subprocess.CalledProcessError as e:
+            print("pdflatex encountered errors. See the generated .log file for details.")
+            raise

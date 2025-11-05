@@ -10,6 +10,12 @@ q_{ {{- state[1:] -}} }
 {%- endif -%}
 {%- endmacro -%}
 
+{%- macro header_sym(s) -%}
+{%- if s == "#" -%}\#{%-
+ elif s == "\\#" or s == "\\\\#" -%}\#{%-
+ elif s == "\\sqcup" or s == "\\\\sqcup" -%}\sqcup{%-
+ else -%}{{ s }}{%- endif -%}
+{%- endmacro -%}
 {%- macro format_symbol(sym, blank) -%}
 {%- if sym == '#' -%}
 \Sym{\#}
@@ -39,7 +45,7 @@ The transition function $\delta$ is defined in the following table. Each cell sh
 \small
 \begin{tabular}{|c|{% for col in transition_table.columns[1:] %}c|{% endfor %}}
 \hline
-\textbf{State} {% for col in transition_table.columns[1:] %}& \textbf{ ${{ col }}$ } {% endfor %}\\ \hline
+\textbf{State} {% for col in transition_table.columns[1:] %}& \textbf{ $ {{ header_sym(col) }} $ } {% endfor %}\\ \hline
 {%- for idx, row in transition_table.iterrows() %}
 ${{ row['State'] }}$ {% for col in transition_table.columns[1:] %}& ${{ row[col] }}$ {% endfor %}\\ \hline
 {%- endfor %}
@@ -63,9 +69,9 @@ The simulation produced the following sequence of transitions. For each transiti
 {%- set current_state_formatted = format_state(details[idx].current_state_raw) -%}
 {%- set current_symbol = details[idx].current_transition[1] -%}
 {%- if current_symbol == '#' -%}
-  {%- set current_symbol_col = '\\#' -%}
+  {%- set current_symbol_col = '\#' -%}
 {%- elif current_symbol == blank -%}
-  {%- set current_symbol_col = '\\sqcup' -%}
+  {%- set current_symbol_col = '\sqcup' -%}
 {%- else -%}
   {%- set current_symbol_col = current_symbol -%}
 {%- endif -%}
@@ -74,11 +80,11 @@ The simulation produced the following sequence of transitions. For each transiti
 \footnotesize
 \begin{tabular}{|c|{% for col in transition_table.columns[1:] %}c|{% endfor %}}
 \hline
-\textbf{State} {% for col in transition_table.columns[1:] %}& \textbf{ ${{ col }}$ } {% endfor %}\\ \hline
+\textbf{State} {% for col in transition_table.columns[1:] %}& \textbf{ $ {{ header_sym(col) }} $ } {% endfor %}\\ \hline
 {%- for idx2, row in transition_table.iterrows() %}
 {%- if row['State'] == current_state_formatted %}
 \rowcolor{yellow}
-${{ row['State'] }}$ {% for col in transition_table.columns[1:] %}&{% if col == current_symbol_col %} \cellcolor{LightGreen}{% endif %} ${{ row[col] }}$ {% endfor %}\\ \hline
+${{ row['State'] }}$ {% for col in transition_table.columns[1:] %}&{% if header_sym(col) == header_sym(current_symbol_col) %} \cellcolor{LightGreen}{% endif %} ${{ row[col] }}$ {% endfor %}\\ \hline
 {%- else -%}
 ${{ row['State'] }}$ {% for col in transition_table.columns[1:] %}& ${{ row[col] }}$ {% endfor %}\\ \hline
 {%- endif -%}
@@ -107,7 +113,7 @@ The \textbf{Before} tape shows the configuration prior to this transition, and t
 
 \begin{center}
     {% set caption_text = "Initial configuration" if idx == 0 else "Before and after Transition " ~ (idx+1)|string %}
-    \includegraphics[width=0.9\linewidth]{out/plots/plot{{ idx+1 }}.png}
+    \includegraphics[width=0.9\linewidth]{plots/plot{{ idx+1 }}.png}
     \captionof{figure}{ {{ caption_text }} }
 \end{center}
 

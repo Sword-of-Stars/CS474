@@ -9,7 +9,7 @@ from matplotlib.patches import FancyBboxPatch, ConnectionPatch
 import pygraphviz as pgv
 
 from automata.fa.dfa import DFA
-from solution import Solution
+from .solution import Solution
 
 # ---------------------------------------------------------------------
 # Setup

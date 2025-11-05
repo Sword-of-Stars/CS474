@@ -1,1 +1,1 @@
-import solution
+from . import solution  # noqa: F401

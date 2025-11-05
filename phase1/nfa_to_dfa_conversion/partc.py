@@ -5,8 +5,23 @@ from typing import Dict, Set, Any, Optional
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from part_a.solution import Solution
-from part_a.solution import create_latex_solution, create_markdown_solution, create_html_solution
+# Prefer absolute package import; fall back to path trick if needed
+try:
+    from phase1.part_a.solution import Solution
+    from phase1.part_a.solution import (
+        create_latex_solution,
+        create_markdown_solution,
+        create_html_solution,
+    )
+except Exception:
+    # Fallback for direct script usage
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+    from part_a.solution import Solution
+    from part_a.solution import (
+        create_latex_solution,
+        create_markdown_solution,
+        create_html_solution,
+    )
 import pandas as pd
 
 OUT_PATH = "phase1/part_c/out/figures"

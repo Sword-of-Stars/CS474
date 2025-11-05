@@ -42,7 +42,25 @@ class Solution():
     def generate_pdf(self):
         if not self.has_generated_latex:
             self.generate_latex()
-        
-        subprocess.run(["pdflatex",
-                 "-output-directory=" + self.OUTPUT_PATH,
-                 self.OUT_FILE, "-interaction=nonstopmode"])
+
+        # Compile inside the `out/` folder so relative graphics
+        # paths like `plots/plot1.png` resolve.
+        compile_dir = self.OUTPUT_PATH  # .../phase3/turing_machines/out
+        tex_basename = os.path.basename(self.OUT_FILE)  # tm_steps.tex
+        cmd = [
+            'pdflatex',
+            '-interaction=nonstopmode',
+            '-halt-on-error',
+            tex_basename,
+        ]
+        try:
+            # First pass
+            subprocess.run(cmd, check=True, cwd=compile_dir)
+            # Second pass for references
+            subprocess.run(cmd, check=True, cwd=compile_dir)
+        except subprocess.CalledProcessError as e:
+            log_path = os.path.join(compile_dir, os.path.splitext(tex_basename)[0] + '.log')
+            print(f"pdflatex failed: {e}")
+            if os.path.exists(log_path):
+                print(f"See LaTeX log: {log_path}")
+            raise

@@ -258,20 +258,20 @@ For every production that contains a nullable variable, we create additional ver
 
 \noindent\textbf{After adding all these new possibilities:}
 \begin{align*}
-    S &\to S
-     \mid \textcolor{orange!80!black}{aB}
-     \mid \colorbox{yellow!50}{$AaB$}
+    S &\to \textcolor{orange!80!black}{aB}
+     \mid S
      \mid b
+     \mid \colorbox{yellow!50}{AaB}
     \\
-    A &\to S
-     \mid \colorbox{yellow!50}{$AB$}
+    A &\to \textcolor{gray}{\varepsilon}
+     \mid \colorbox{yellow!50}{AB}
+     \mid S
      \mid \textcolor{orange!80!black}{B}
-     \mid \textcolor{gray}{\varepsilon}
     \\
-    B &\to \colorbox{yellow!50}{$ASA$}
+    B &\to \textcolor{orange!80!black}{AS}
      \mid \textcolor{orange!80!black}{SA}
+     \mid \colorbox{yellow!50}{ASA}
      \mid \textcolor{orange!80!black}{S}
-     \mid \textcolor{orange!80!black}{AS}
      \mid bbb
     \\
     S_0 &\to S
@@ -285,9 +285,9 @@ Notice the rules in yellow contain nullable variables, and the rules in dark yel
 Now that we've covered all the cases, we can safely remove every production that directly produces $\varepsilon$ (shown in gray above):
 
 \begin{align*}
-    S &\to S  \mid aB  \mid AaB  \mid b \\
-    A &\to S  \mid AB  \mid B \\
-    B &\to ASA  \mid SA  \mid S  \mid AS  \mid bbb \\
+    S &\to aB  \mid S  \mid b  \mid AaB \\
+    A &\to AB  \mid S  \mid B \\
+    B &\to AS  \mid SA  \mid ASA  \mid S  \mid bbb \\
     S_0 &\to S \\
     \end{align*}
 
@@ -344,7 +344,7 @@ We use the \textbf{All-Pairs Shortest Path (APSP)} algorithm (specifically Floyd
 \begin{itemize}
     \item \textbf{Path:} $A  \to S$
     \item \textbf{Distance:} 1 step
-    \item \textbf{Action:} Add these productions to $A$: \quad $aB \mid AaB \mid b$
+    \item \textbf{Action:} Add these productions to $A$: \quad $aB \mid b \mid AaB$
 \end{itemize}
 \end{tcolorbox}
 
@@ -353,7 +353,7 @@ We use the \textbf{All-Pairs Shortest Path (APSP)} algorithm (specifically Floyd
 \begin{itemize}
     \item \textbf{Path:} $A  \to B$
     \item \textbf{Distance:} 1 step
-    \item \textbf{Action:} Add these productions to $A$: \quad $ASA \mid SA \mid AS \mid bbb$
+    \item \textbf{Action:} Add these productions to $A$: \quad $AS \mid SA \mid ASA \mid bbb$
 \end{itemize}
 \end{tcolorbox}
 
@@ -362,7 +362,7 @@ We use the \textbf{All-Pairs Shortest Path (APSP)} algorithm (specifically Floyd
 \begin{itemize}
     \item \textbf{Path:} $B  \to S$
     \item \textbf{Distance:} 1 step
-    \item \textbf{Action:} Add these productions to $B$: \quad $aB \mid AaB \mid b$
+    \item \textbf{Action:} Add these productions to $B$: \quad $aB \mid b \mid AaB$
 \end{itemize}
 \end{tcolorbox}
 
@@ -371,7 +371,7 @@ We use the \textbf{All-Pairs Shortest Path (APSP)} algorithm (specifically Floyd
 \begin{itemize}
     \item \textbf{Path:} $S_0  \to S$
     \item \textbf{Distance:} 1 step
-    \item \textbf{Action:} Add these productions to $S_0$: \quad $aB \mid AaB \mid b$
+    \item \textbf{Action:} Add these productions to $S_0$: \quad $aB \mid b \mid AaB$
 \end{itemize}
 \end{tcolorbox}
 
@@ -381,10 +381,10 @@ We use the \textbf{All-Pairs Shortest Path (APSP)} algorithm (specifically Floyd
 After "copying over" all the necessary productions, we delete the unit rules themselves (shown in gray below). The dark yellow/orange rules were added from following unit rule paths:
 
 \begin{align*}
-    S &\to aB \mid AaB \mid b\\
-    A &\to AB \mid \textcolor{orange!80!black}{$ASA$} \mid \textcolor{orange!80!black}{$AS$} \mid \textcolor{orange!80!black}{$SA$} \mid \textcolor{orange!80!black}{$aB$} \mid \textcolor{orange!80!black}{$AaB$} \mid \textcolor{orange!80!black}{$bbb$} \mid \textcolor{orange!80!black}{$b$}\\
-    B &\to \textcolor{orange!80!black}{$AaB$} \mid ASA \mid SA \mid \textcolor{orange!80!black}{$aB$} \mid AS \mid bbb \mid \textcolor{orange!80!black}{$b$}\\
-    S_0 &\to \textcolor{orange!80!black}{$aB$} \mid \textcolor{orange!80!black}{$AaB$} \mid \textcolor{orange!80!black}{$b$}\\
+    S &\to aB \mid b \mid AaB\\
+    A &\to \textcolor{orange!80!black}{AS} \mid \textcolor{orange!80!black}{SA} \mid \textcolor{orange!80!black}{ASA} \mid \textcolor{orange!80!black}{b} \mid \textcolor{orange!80!black}{AaB} \mid AB \mid \textcolor{orange!80!black}{aB} \mid \textcolor{orange!80!black}{bbb}\\
+    B &\to AS \mid SA \mid ASA \mid \textcolor{orange!80!black}{b} \mid \textcolor{orange!80!black}{AaB} \mid \textcolor{orange!80!black}{aB} \mid bbb\\
+    S_0 &\to \textcolor{orange!80!black}{aB} \mid \textcolor{orange!80!black}{b} \mid \textcolor{orange!80!black}{AaB}\\
     \end{align*}
 
 \vspace{0.2cm}
@@ -421,30 +421,30 @@ Rules with mixed terminals and variables are replaced with rules containing only
          \mid U_aB
          \mid AU_aB
         \\
-    A &\to AB
+    A &\to AS
+         \mid SA
          \mid ASA
-         \mid AS
-         \mid SA
          \mid b
+         \mid AB
          \mid U_aB
-         \mid AU_aB
          \mid U_bU_bU_b
+         \mid AU_aB
         \\
-    B &\to ASA
+    B &\to AS
          \mid SA
-         \mid AS
+         \mid ASA
          \mid b
          \mid U_aB
-         \mid AU_aB
          \mid U_bU_bU_b
+         \mid AU_aB
         \\
     S_0 &\to b
          \mid U_aB
          \mid AU_aB
         \\
-    [Ua] &\to a
+    U_{a} &\to a
         \\
-    [Ub] &\to b
+    U_{b} &\to b
         \\
     \end{align*}
 
@@ -473,11 +473,11 @@ We process from left to right, pairing variables and creating intermediates as n
 
 \begin{align*}
     S &\to b \mid U_aB \mid CB\\
-    A &\to AB \mid AS \mid SA \mid b \mid U_aB \mid DA \mid CB \mid EU_b\\
-    B &\to SA \mid AS \mid b \mid U_aB \mid DA \mid CB \mid EU_b\\
+    A &\to AS \mid SA \mid b \mid AB \mid U_aB \mid DA \mid EU_b \mid CB\\
+    B &\to AS \mid SA \mid b \mid U_aB \mid DA \mid EU_b \mid CB\\
     S_0 &\to b \mid U_aB \mid CB\\
-    [Ua] &\to a\\
-    [Ub] &\to b\\
+    U_{a} &\to a\\
+    U_{b} &\to b\\
     C &\to AU_a\\
     D &\to AS\\
     E &\to U_bU_b\\

@@ -128,11 +128,11 @@ For every production that contains a nullable variable, we create additional ver
 \noindent\textbf{After adding all these new possibilities:}
 \begin{align*}
     {% for variable, rules in e_removal_1_grammar.items() -%}
-    {{variable}} &\to {% for rule in rules -%}
+    {{variable.replace('S0', 'S_0').replace('[U', 'U_{').replace(']', '}')}} &\to {% for rule in rules -%}
     {% if rule == 'e' -%}
         {{ "\\textcolor{gray}{\\varepsilon}" }}
     {% elif rule in rules_with_nullable.get(variable, []) -%}
-        \colorbox{yellow!50}{${{- rule -}}$}
+        \colorbox{yellow!50}{ {{- rule -}} }
     {% elif rule in initial_grammar.get(variable, []) or (variable == 'S_0' and rule == 'S') -%}
         {{ rule }}
     {% else -%}
@@ -220,10 +220,10 @@ After "copying over" all the necessary productions, we delete the unit rules the
 
 \begin{align*}
     {% for variable, rules in unit_removed_grammar.items() -%}
-    {%- set formatted_var = variable.replace('S0', 'S_0') -%}
+    {%- set formatted_var = variable.replace('S0', 'S_0').replace('[U', 'U_{').replace(']', '}') -%}
     {{formatted_var}} &\to {% for rule in rules -%}
     {%- if rule in unit_rules_marked.get(variable, []) -%}
-        \textcolor{gray}{${{- rule -}}$}
+        \textcolor{gray}{ {{- rule -}} }
     {%- elif rule == 'e' -%}
         \varepsilon
     {%- else -%}
@@ -232,7 +232,7 @@ After "copying over" all the necessary productions, we delete the unit rules the
             {%- set is_new_rule = false -%}
         {%- endif -%}
         {%- if is_new_rule -%}
-            \textcolor{orange!80!black}{${{- rule -}}$}
+            \textcolor{orange!80!black}{ {{- rule -}} }
         {%- else -%}
             {{- rule -}}
         {%- endif -%}
@@ -279,7 +279,7 @@ Rules with mixed terminals and variables are replaced with rules containing only
 
 \begin{align*}
     {% for variable, rules in one_term_or_var_grammar.items() -%}
-    {{variable.replace('S0', 'S_0')}} &\to {% for rule in rules -%}
+    {{variable.replace('S0', 'S_0').replace('[U', 'U_{').replace(']', '}')}} &\to {% for rule in rules -%}
     {% if rule == 'e' -%}
         \varepsilon
     {% else -%}
@@ -319,7 +319,7 @@ We process from left to right, pairing variables and creating intermediates as n
 
 \begin{align*}
     {% for variable, rules in final_grammar.items() -%}
-    {{variable.replace('S0', 'S_0')}} &\to {% for rule in rules -%}{{- "\\varepsilon" if rule == 'e' else rule -}}{% if not loop.last %} \mid {% endif %}{%- endfor -%}\\
+    {{variable.replace('S0', 'S_0').replace('[U', 'U_{').replace(']', '}')}} &\to {% for rule in rules -%}{{- "\\varepsilon" if rule == 'e' else rule -}}{% if not loop.last %} \mid {% endif %}{%- endfor -%}\\
     {% endfor -%}
 \end{align*}
 

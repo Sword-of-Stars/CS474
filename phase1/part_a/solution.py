@@ -230,21 +230,31 @@ class Solution:
             self._generate_pdf_from_html(try_alternative)
     
     def _generate_pdf_from_latex(self, latex_file):
-        """Generate PDF from LaTeX file."""
+        """Generate PDF from LaTeX file in nonstop mode and halt on error."""
         try:
             print("Generating PDF from LaTeX using pdflatex...")
-            result = subprocess.run([
+            latex_basename = os.path.basename(latex_file)
+            cmd = [
                 "pdflatex",
+                "-interaction=nonstopmode",
+                "-halt-on-error",
                 f"-output-directory={self.OUTPUT_PATH}",
-                latex_file
-            ], capture_output=True, text=True, check=True)
-            
+                latex_basename,
+            ]
+            # First pass
+            subprocess.run(cmd, check=True, cwd=self.OUTPUT_PATH)
+            # Second pass for references
+            subprocess.run(cmd, check=True, cwd=self.OUTPUT_PATH)
+
             pdf_name = os.path.splitext(os.path.basename(latex_file))[0] + ".pdf"
             pdf_path = os.path.join(self.OUTPUT_PATH, pdf_name)
             print(f"[SOLUTION] PDF generated successfully: {pdf_path}")
-            
+
         except (subprocess.CalledProcessError, FileNotFoundError) as e:
+            log_path = os.path.join(self.OUTPUT_PATH, os.path.splitext(os.path.basename(latex_file))[0] + ".log")
             print(f"pdflatex failed: {e}")
+            if os.path.exists(log_path):
+                print(f"See LaTeX log: {log_path}")
             self._print_pdflatex_installation()
             raise
     
@@ -327,7 +337,23 @@ class Solution:
         except subprocess.CalledProcessError as e:
             print(f"wkhtmltopdf failed: {e}")
             return False
-    
+
+    # ----------------------- Helper Guidance -----------------------
+    def _print_pdflatex_installation(self):
+        print("pdflatex not found or failed. Ensure a LaTeX distribution is installed and on PATH.")
+        print("- Windows: install MiKTeX (https://miktex.org/download) and enable 'install missing packages on-the-fly'.")
+        print("- macOS: install MacTeX (https://www.tug.org/mactex/).")
+        print("- Linux: install TeX Live (e.g., sudo apt-get install texlive-full).")
+        print("After installation, reopen your terminal so PATH updates take effect.")
+
+    def _print_plastex_installation(self):
+        print("plasTeX is required for LaTeX→HTML. Install via: pip install plasTeX")
+        print("If using a virtual environment, make sure it is active when running the tool.")
+
+    def _print_pandoc_installation(self):
+        print("pandoc is required for LaTeX/Markdown conversions. Install from https://pandoc.org/installing.html")
+        print("On Windows/macOS use the installer; on Linux use your package manager or the tarball.")
+
     
     def check_dependencies(self) -> dict:
         """Check if conversion tools are available."""

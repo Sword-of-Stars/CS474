@@ -8,10 +8,13 @@ import os
 import sys
 import shutil
 import random
+import matplotlib
+# Use a non-interactive backend to avoid GUI/thread warnings in GUI wrapper
+matplotlib.use("Agg")
 from automata.fa.dfa import DFA
 
 # Import all functions from main.py
-from main import (
+from .main import (
     _sorted_states, get_equivalence_partition,
     create_dfa_visualization_pygraphviz,
     create_side_by_side_dfa_analysis,
@@ -21,7 +24,7 @@ from main import (
     plot_indis_step_enhanced,
     build_minimized_dfa
 )
-from solution import Solution
+from .solution import Solution
 
 # ---------------------------------------------------------------------
 # DFA Generator
@@ -125,6 +128,37 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
         
         # Run minimization
         indis_states, indis_tables, indis_details = record_indis_details_with_cumulative_step1(dfa)
+
+        # Copy any generated pair-step visuals from the default out folder
+        # into this example's local plots directory so LaTeX can resolve
+        # paths like plots/pair_steps/iter*_pair*_input*.png
+        try:
+            repo_pair_dir = os.path.join(os.path.dirname(__file__), 'out', 'plots', 'pair_steps')
+            dest_pair_dir = os.path.join(plots_dir, 'pair_steps')
+            os.makedirs(dest_pair_dir, exist_ok=True)
+            def _maybe_copy(rel_path: str):
+                if not rel_path:
+                    return
+                # rel_path is like 'pair_steps/iter1_paira_input1.png'
+                rel_path = rel_path.replace('\\', '/')
+                if not rel_path.startswith('pair_steps/'):
+                    return
+                fname = os.path.basename(rel_path)
+                src = os.path.join(repo_pair_dir, fname)
+                dst = os.path.join(dest_pair_dir, fname)
+                if os.path.exists(src):
+                    try:
+                        shutil.copyfile(src, dst)
+                    except Exception:
+                        pass
+            # Walk indis_details to find probe visuals
+            for step in indis_details:
+                for ps in step.get('pair_substeps', []):
+                    for probe in ps.get('probes', []):
+                        _maybe_copy(probe.get('visual_path'))
+        except Exception:
+            # Non-fatal; if images are missing LaTeX will warn and the log will show it
+            pass
         
         # Create indis tables
         indis_plot_paths = []
@@ -214,8 +248,9 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
         # Generate PDF with custom Solution that uses local paths
         tex_file = f"dfa_minimization_{example_id:04d}.tex"
         
-        # Create a custom Solution instance pointing to the main templates
-        template_path = os.path.join(original_cwd, "phase1/dfa_minimization/templates")
+        # Create a custom Solution instance pointing to the local templates
+        # Resolve relative to this file to be robust no matter the CWD
+        template_path = os.path.join(os.path.dirname(__file__), "templates")
         solution = Solution(
             format_path=template_path,
             outfile=tex_file
