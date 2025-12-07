@@ -5,7 +5,6 @@ We will use the DFA shown below to illustrate the minimization process. As we wo
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{{ "{" }}{{ original_dfa_png }}{{ "}" }}
-\caption{The original DFA to be minimized}
 \label{fig:original_dfa}
 \end{figure}
 
@@ -103,7 +102,7 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
 {%- if pairs_to_show %}
 
 {%- for ps in pairs_to_show %}
-\paragraph{$({{ ps.pair[0] }}, {{ ps.pair[1] }})$} We now consider both possible inputs to see if these two states are distinguishable given what we know so far.
+\paragraph{$({{ ps.pair[0] }}, {{ ps.pair[1] }})$} Check inputs for distinguishability.
 
 {%- if ps.probes and ps.probes|length > 0 %}
 \begin{itemize}[itemsep=0.3em]
@@ -111,7 +110,7 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
 {%- if ps.decision == 'mark' and r.decision != 'mark' %}
 {# Skip probes after we found the marking one #}
 {%- else %}
-\item \textbf{Input ${{ r.a }}$:} Here we see that $\delta({{ ps.pair[0] }}, {{ r.a }})$ leads to state ${{ r.delta_p }}$ and $\delta({{ ps.pair[1] }}, {{ r.a }})$ leads to state ${{ r.delta_q }}$.
+\item \textbf{Input ${{ r.a }}$:} $\delta({{ ps.pair[0] }}, {{ r.a }}) = {{ r.delta_p }}$, $\delta({{ ps.pair[1] }}, {{ r.a }}) = {{ r.delta_q }}$.
 {%- if r.witness_pair[0] == r.witness_pair[1] %}
   Both states transition to the same state, so $\text{Indis}({{ ps.pair[0] }}, {{ ps.pair[1] }})$ will never change based on ${{ r.a }}$. This input provides no distinguishing information.
 {%- elif r.witness_marked %}
@@ -119,7 +118,7 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
   
   \textcolor{red}{\textbf{→ We set Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ = False}}
   
-  \textbf{Explanation:} If states ${{ r.witness_pair[0] }}$ and ${{ r.witness_pair[1] }}$ are distinguishable (we already marked them), and we can reach them from states ${{ ps.pair[0] }}$ and ${{ ps.pair[1] }}$ using input ${{ r.a }}$, then states ${{ ps.pair[0] }}$ and ${{ ps.pair[1] }}$ must also be distinguishable. Any string that distinguishes ${{ r.witness_pair[0] }}$ from ${{ r.witness_pair[1] }}$ can be prepended with ${{ r.a }}$ to distinguish ${{ ps.pair[0] }}$ from ${{ ps.pair[1] }}$.
+  \textbf{Reason:} A marked witness pair $( {{ r.witness_pair[0] }}, {{ r.witness_pair[1] }} )$ reachable on input ${{ r.a }}$ implies $( {{ ps.pair[0] }}, {{ ps.pair[1] }} )$ is distinguishable.
 {%- else %}
   Since $\text{Indis}({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}({{ ps.pair[0] }}, {{ ps.pair[1] }})$. We continue checking other inputs.
 {%- endif %}
@@ -147,7 +146,6 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.75\linewidth,height=8cm,keepaspectratio]{plots/{{ probe.visual_path }}}
-\caption{Visual analysis for pair $({{ ps.pair[0] }}, {{ ps.pair[1] }})$: On input ${{ probe.a }}$, transitions lead to the already-marked pair $({{ probe.witness_pair[0] }}, {{ probe.witness_pair[1] }})$, forcing Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ to become \texttt{False}.}
 \label{{ "{" }}{{ probe.figure_label }}{{ "}" }}
 \end{figure}
 {%- endif %}
@@ -174,15 +172,12 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
 \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{{ "{" }}{{ indis_plots[step_idx] }}{{ "}" }}
-    \caption{Indis Table after {%- if step_idx == 0 %}initialization{%- else %}iteration {{ step_idx }}{%- endif %}.
-    {%- if step_idx > 0 %} Bright red ``X'': newly marked; dark red ``X'': previously marked.{%- endif %}}
     \label{{ "{" }}fig:indis_table_step{{ step_idx+1 }}{{ "}" }}
 \end{minipage}\hfill
 {%- if blocks_plots and step_idx < blocks_plots|length and blocks_plots[step_idx] %}
 \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{{ "{" }}{{ blocks_plots[step_idx] }}{{ "}" }}
-    \caption{Current equivalence partition after {%- if step_idx == 0 %}initialization{%- else %}iteration {{ step_idx }}{%- endif %}. States with the same color are potentially indistinguishable.}
     \label{{ "{" }}fig:partition_step{{ step_idx+1 }}{{ "}" }}
 \end{minipage}
 {%- endif %}

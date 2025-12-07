@@ -577,9 +577,9 @@ class AutoExplainerGUI(tk.Tk):
                     )
                     handle_tm(args)
                 self._append_status("Done.\n")
-            except Exception as e:
-                self._append_status("Error: " + str(e) + "\n")
-                self._append_status(traceback.format_exc() + "\n")
+            except Exception:
+                # Show only a concise message in the GUI; suppress stack traces
+                self._append_status("An error occurred.\n")
             finally:
                 self._set_running(False)
 

@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-import os
+﻿import os
 from itertools import combinations
 from typing import Dict, List, Set, Tuple, Any, Optional
 import numpy as np
@@ -11,13 +10,9 @@ import pygraphviz as pgv
 from automata.fa.dfa import DFA
 from .solution import Solution
 
-# ---------------------------------------------------------------------
-# Setup
-# ---------------------------------------------------------------------
 os.makedirs("phase1/dfa_minimization/out/plots", exist_ok=True)
 os.makedirs("phase1/dfa_minimization/out/plots/pair_steps", exist_ok=True)
 
-# --- Example DFA ---
 dfa = DFA(
     states={"1", "2", "3", "4", "5", "6"},
     input_symbols={"a", "b"},
@@ -33,9 +28,6 @@ dfa = DFA(
     final_states={"3", "5"},
 )
 
-# ---------------------------------------------------------------------
-# Utilities
-# ---------------------------------------------------------------------
 def _sorted_states(states: Set[str]) -> List[str]:
     return sorted(states, key=lambda s: (len(s), s))
 
@@ -78,9 +70,6 @@ def get_equivalence_partition(states: List[str],
     blocks.sort(key=lambda b: (len(b), list(b)))
     return blocks
 
-# ---------------------------------------------------------------------
-# Clean Modern DFA Visualization (Dark Grid Style)
-# ---------------------------------------------------------------------
 def create_dfa_visualization_pygraphviz(dfa: DFA, 
                                        table: Dict[Tuple[str, str], bool] = None,
                                        filename: str = None,
@@ -102,7 +91,6 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
         ranksep='1.5'
     )
     
-    # Color scheme for equivalence classes (cyan/teal theme)
     block_colors = [
         "#00bcd4",  # Cyan
         "#26a69a",  # Teal
@@ -114,7 +102,6 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
         "#00acc1"   # Dark Cyan
     ]
     
-    # Determine equivalence classes for coloring
     if table:
         blocks = get_equivalence_partition(_sorted_states(dfa.states), table)
         state_to_block = {}
@@ -124,21 +111,17 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
     else:
         state_to_block = {}
     
-    # Add states with clean modern styling
     for state in _sorted_states(dfa.states):
-        # Determine color from equivalence class
         if state in state_to_block:
             node_color = block_colors[state_to_block[state] % len(block_colors)]
         else:
             node_color = "#00bcd4"  # Default cyan
         
-        # Determine shape based on accepting status
         if state in dfa.final_states:
             shape = 'doublecircle'
         else:
             shape = 'circle'
         
-        # Enhanced styling for initial state
         if state == dfa.initial_state:
             style = 'filled'
             penwidth = '3'
@@ -160,12 +143,10 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
                   width='0.7',
                   height='0.7')
     
-    # Add transitions with clean styling
     for src in _sorted_states(dfa.states):
         for symbol in sorted(dfa.input_symbols):
             tgt = dfa.transitions[src][symbol]
             
-            # Get edge color based on source state's equivalence class
             if src in state_to_block:
                 edge_color = block_colors[state_to_block[src] % len(block_colors)]
             else:
@@ -180,7 +161,6 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
                       penwidth='2.5',
                       arrowsize='1.0')
     
-    # Add initial state arrow
     G.add_node('start', 
               shape='point', 
               width='0.01',
@@ -225,7 +205,6 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
         fontcolor='#ffffff'
     )
     
-    # Determine equivalence classes for coloring
     block_colors = ["#00bcd4", "#26a69a", "#66bb6a", "#29b6f6"]
     if table:
         blocks = get_equivalence_partition(_sorted_states(dfa.states), table)
@@ -236,7 +215,6 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
     else:
         state_to_block = {}
     
-    # Create left subgraph - Original DFA state  
     left_subgraph = G.add_subgraph(name='cluster_0')
     left_subgraph.graph_attr.update(
         label='DFA State Space (highlighting analyzed pair)',
@@ -249,25 +227,20 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
         penwidth='3'
     )
     
-    # Add states to left subgraph
     for state in _sorted_states(dfa.states):
-        # Base color from equivalence class
         if state in state_to_block:
             base_color = block_colors[state_to_block[state] % len(block_colors)]
         else:
             base_color = "#00bcd4"
         
-        # Highlight focus pair with brighter color
         if focus_pair and state in focus_pair:
             base_color = "#ffeb3b"  # Bright yellow for focus
         
-        # Determine shape
         if state in dfa.final_states:
             shape = 'doublecircle'
         else:
             shape = 'circle'
         
-        # Enhanced styling for initial state
         if state == dfa.initial_state:
             style = 'filled'
             penwidth = '3'
@@ -284,7 +257,6 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
                               fontcolor='#ffffff',
                               penwidth=penwidth)
     
-    # Add transitions to left subgraph
     for src in _sorted_states(dfa.states):
         for symbol in sorted(dfa.input_symbols):
             tgt = dfa.transitions[src][symbol]
@@ -300,7 +272,6 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
                                   color=edge_color,
                                   penwidth='2')
     
-    # Add initial state arrow to left
     left_subgraph.add_node('orig_start', shape='point', width='0.01', style='invis')
     
     if dfa.initial_state in state_to_block:
@@ -312,7 +283,6 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
                           penwidth='3',
                           color=arrow_color)
     
-    # Create right subgraph - Transition Analysis
     right_subgraph = G.add_subgraph(name='cluster_1')
     right_subgraph.graph_attr.update(
         label="Transition Analysis (probing specific input)", 
@@ -325,7 +295,6 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
         penwidth='3'
     )
     
-    # Add states to right subgraph
     for state in _sorted_states(dfa.states):
         base_color = "#00bcd4"
         
@@ -334,7 +303,6 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
         elif current_probe and state in [current_probe.get('delta_p'), current_probe.get('delta_q')]:
             base_color = "#66bb6a"  # Green for target states
         
-        # Determine shape
         if state in dfa.final_states:
             shape = 'doublecircle'
         else:
@@ -356,12 +324,10 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
                                fontcolor='#ffffff',
                                penwidth=penwidth)
     
-    # Add transitions to right subgraph
     for src in _sorted_states(dfa.states):
         for symbol in sorted(dfa.input_symbols):
             tgt = dfa.transitions[src][symbol]
             
-            # Highlight the specific probe transition
             if (current_probe and 
                 focus_pair and src in focus_pair and 
                 symbol == current_probe.get('a')):
@@ -383,7 +349,6 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
                                        color=edge_color,
                                        penwidth='2')
     
-    # Add initial state arrow to right
     right_subgraph.add_node('probe_start', shape='point', width='0.01', style='invis')
     
     if dfa.initial_state in state_to_block:
@@ -395,13 +360,9 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
                            penwidth='3',
                            color=arrow_color)
     
-    # Render the graph
     G.draw(filename, prog='dot')
     return filename
 
-# ---------------------------------------------------------------------
-# Enhanced Partition Visualization
-# ---------------------------------------------------------------------
 def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]], 
                                filename: str = None, title: str = None) -> str:
     """Create partition visualization as regular DFA with color-coded equivalence classes."""
@@ -423,7 +384,6 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
         ranksep='1.5'
     )
     
-    # Enhanced color palette for equivalence classes
     block_colors = [
         "#00bcd4",  # Cyan
         "#26a69a",  # Teal
@@ -435,25 +395,20 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
         "#00acc1"   # Dark Cyan
     ]
     
-    # Determine which block each state belongs to
     state_to_block = {}
     for i, block in enumerate(blocks):
         for state in block:
             state_to_block[state] = i
     
-    # Add all states with color coding by equivalence class
     for state in _sorted_states(dfa.states):
-        # Get color from equivalence class
         block_idx = state_to_block.get(state, 0)
         node_color = block_colors[block_idx % len(block_colors)]
         
-        # Determine shape based on accepting status
         if state in dfa.final_states:
             shape = 'doublecircle'
         else:
             shape = 'circle'
         
-        # Enhanced styling for initial state
         if state == dfa.initial_state:
             style = 'filled'
             penwidth = '4'
@@ -473,12 +428,10 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
                   width='0.8',
                   height='0.8')
     
-    # Add all transitions
     for src in _sorted_states(dfa.states):
         for symbol in sorted(dfa.input_symbols):
             tgt = dfa.transitions[src][symbol]
             
-            # Get edge color from source state's equivalence class
             src_block = state_to_block.get(src, 0)
             edge_color = block_colors[src_block % len(block_colors)]
             
@@ -491,7 +444,6 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
                       penwidth='2.5',
                       arrowsize='1.2')
     
-    # Add initial state arrow
     G.add_node('start', 
               shape='point', 
               width='0.01',
@@ -505,13 +457,11 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
               color=arrow_color,
               arrowsize='1.5')
     
-    # Add legend showing equivalence classes
     legend_label = "Equivalence Classes:\\n"
     for i, block in enumerate(blocks):
         color_name = ["Cyan", "Teal", "Green", "Light Blue", "Purple", "Blue", "Light Cyan", "Dark Cyan"][i % 8]
         legend_label += f"Class {i+1} ({color_name}): {{ {', '.join(sorted(block))} }}\\n"
     
-    # Add legend as a separate node
     G.add_node('legend',
               shape='box',
               style='rounded,filled',
@@ -548,14 +498,11 @@ def create_minimized_dfa_pygraphviz(dfa: DFA, filename: str = None) -> str:
         ranksep='1.5'
     )
     
-    # Color scheme
     colors = ["#00bcd4", "#26a69a", "#66bb6a", "#29b6f6"]
     
-    # Add states
     for idx, state in enumerate(_sorted_states(dfa.states)):
         node_color = colors[idx % len(colors)]
         
-        # Determine shape
         if state in dfa.final_states:
             shape = 'doublecircle'
         else:
@@ -580,7 +527,6 @@ def create_minimized_dfa_pygraphviz(dfa: DFA, filename: str = None) -> str:
                   width='0.9',
                   height='0.9')
     
-    # Add transitions
     for idx, src in enumerate(_sorted_states(dfa.states)):
         edge_color = colors[idx % len(colors)]
         
@@ -595,7 +541,6 @@ def create_minimized_dfa_pygraphviz(dfa: DFA, filename: str = None) -> str:
                       penwidth='3',
                       arrowsize='1.2')
     
-    # Add initial state arrow
     G.add_node('start', shape='point', width='0.01', style='invis')
     G.add_edge('start', dfa.initial_state, 
               penwidth='4',
@@ -608,9 +553,6 @@ def create_minimized_dfa_pygraphviz(dfa: DFA, filename: str = None) -> str:
     else:
         return str(G)
 
-# ---------------------------------------------------------------------
-# Enhanced Table-filling with Cumulative Step 1
-# ---------------------------------------------------------------------
 def record_indis_details_with_cumulative_step1(dfa: DFA):
     """Enhanced algorithm with cumulative Step 1 approach."""
     states = _sorted_states(dfa.states)
@@ -618,13 +560,11 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
     finals = set(dfa.final_states)
     total_pairs = len(pairs)
 
-    # Step 0: Initial markings
     table: Dict[Tuple[str, str], bool] = {pair: False for pair in pairs}
     initial_reasons = []
     
     print(f"Processing Step 1 - Cumulative initial finality checks...")
     
-    # Build cumulative narrative for all initial checks
     finality_analysis = []
     marked_pairs = []
     
@@ -700,7 +640,6 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
         "final_states_list": sorted(list(finals))
     }]
 
-    # Refinement rounds
     step_num = 1
     while True:
         print(f"Processing Step {step_num + 1} - Refinement round...")
@@ -844,9 +783,6 @@ def record_indis_details_with_cumulative_step1(dfa: DFA):
 
     return states, tables, details
 
-# ---------------------------------------------------------------------
-# Enhanced Table Plot with Progressive Marking Colors
-# ---------------------------------------------------------------------
 def plot_indis_step_enhanced(states: List[str],
                            table: Dict[Tuple[str, str], bool],
                            newly_pairs: Set[Tuple[str, str]],
@@ -888,7 +824,7 @@ def plot_indis_step_enhanced(states: List[str],
     ax.set_yticklabels(states[1:], fontsize=14)
     ax.yaxis.tick_left()
 
-    ax.set_title(f"Indistinguishability Table — Step {step_idx + 1}", fontsize=20, pad=20)
+    ax.set_title(f"Indistinguishability Table â€” Step {step_idx + 1}", fontsize=20, pad=20)
     ax.invert_yaxis()
     ax.tick_params(length=0)
     
@@ -931,22 +867,16 @@ def build_minimized_dfa(dfa: DFA, partition: List[Set[str]]):
         final_states=new_finals
     )
 
-# ---------------------------------------------------------------------
-# Main execution
-# ---------------------------------------------------------------------
 def main():
     print("Starting DFA minimization with clean modern visualizations...")
     
-    # Create original DFA visualization FIRST
     print("Creating original DFA visualization...")
     create_dfa_visualization_pygraphviz(dfa, table=None, 
                                        filename="phase1/dfa_minimization/out/plots/original_dfa.png",
                                        title="Original DFA")
     
-    # Generate detailed analysis
     indis_states, indis_tables, indis_details = record_indis_details_with_cumulative_step1(dfa)
     
-    # Create table plots
     print("Creating indistinguishability table plots...")
     indis_plot_paths = []
     for idx, tbl in enumerate(indis_tables):
@@ -954,7 +884,6 @@ def main():
         path = plot_indis_step_enhanced(indis_states, tbl, newly, idx)
         indis_plot_paths.append(path)
     
-    # Create partition timeline using new dark style
     print("Creating partition timeline...")
     blocks_plot_paths = []
     for i, tbl in enumerate(indis_tables):
@@ -964,13 +893,11 @@ def main():
         path = create_partition_pygraphviz(dfa, blocks, filename=filename, title=title)
         blocks_plot_paths.append(path)
     
-    # Create minimized DFA using new dark style
     print("Creating minimized DFA...")
     final_partition = get_equivalence_partition(indis_states, indis_tables[-1])
     min_dfa = build_minimized_dfa(dfa, final_partition)
     final_min_png = create_minimized_dfa_pygraphviz(min_dfa, filename="phase1/dfa_minimization/out/minimized_dfa.png")
     
-    # Package data for LaTeX
     print("Preparing data for LaTeX generation...")
     data = {
         "indis_plots": [path.replace("phase1/dfa_minimization/out/plots/", "plots/") for path in indis_plot_paths],
@@ -981,7 +908,6 @@ def main():
         "original_dfa_png": "plots/original_dfa.png"
     }
     
-    # Generate LaTeX and PDF
     try:
         print("Generating LaTeX document...")
         my_Solution = Solution()
@@ -991,9 +917,8 @@ def main():
         print("Generating PDF...")
         my_Solution.generate_pdf()
         
-        print("✓ Clean modern DFA minimization visualization complete!")
+        print("âœ“ Clean modern DFA minimization visualization complete!")
         
-        # Summary statistics
         total_pair_visuals = sum(len(detail.get('pair_substeps', [])) for detail in indis_details)
         total_probe_visuals = sum(
             len(ps.get('probes', [])) for detail in indis_details

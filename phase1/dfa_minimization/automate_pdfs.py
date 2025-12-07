@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
+﻿"""
 Automated DFA Training Data Generator
 Generates 1000+ DFA minimization examples as PDFs
 """
@@ -9,11 +8,9 @@ import sys
 import shutil
 import random
 import matplotlib
-# Use a non-interactive backend to avoid GUI/thread warnings in GUI wrapper
 matplotlib.use("Agg")
 from automata.fa.dfa import DFA
 
-# Import all functions from main.py
 from .main import (
     _sorted_states, get_equivalence_partition,
     create_dfa_visualization_pygraphviz,
@@ -26,9 +23,6 @@ from .main import (
 )
 from .solution import Solution
 
-# ---------------------------------------------------------------------
-# DFA Generator
-# ---------------------------------------------------------------------
 class DFAGenerator:
     """Generate random DFAs for training data."""
     
@@ -47,11 +41,9 @@ class DFAGenerator:
         
         initial_state = "1"
         
-        # Pick final states
         num_finals = random.randint(1, max(1, num_states // 2))
         final_states = set(random.sample(list(states), num_finals))
         
-        # Generate complete transitions
         transitions = {}
         for state in states:
             transitions[state] = {}
@@ -68,11 +60,9 @@ class DFAGenerator:
     
     def generate_minimizable_dfa(self):
         """Generate a DFA guaranteed to have redundant states."""
-        # Start with smaller DFA
         base_size = random.randint(3, 5)
         base_dfa = self.generate_random_dfa(num_states=base_size, num_symbols=2)
         
-        # Duplicate some states
         states = list(base_dfa.states)
         num_duplicates = random.randint(1, 3)
         
@@ -98,14 +88,10 @@ class DFAGenerator:
             final_states=new_finals
         )
 
-# ---------------------------------------------------------------------
-# Processing Pipeline
-# ---------------------------------------------------------------------
 
 def process_single_dfa(dfa, example_id, base_dir="training_data"):
     """Process one DFA and generate its PDF."""
     
-    # Setup directories
     example_dir = os.path.join(base_dir, f"example_{example_id:04d}")
     plots_dir = os.path.join(example_dir, "plots")
     pair_steps_dir = os.path.join(plots_dir, "pair_steps")
@@ -113,25 +99,19 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
     for d in [example_dir, plots_dir, pair_steps_dir]:
         os.makedirs(d, exist_ok=True)
     
-    # Save current directory
     original_cwd = os.getcwd()
     
     try:
         print(f"[{example_id:04d}] Processing DFA with {len(dfa.states)} states...", end=" ")
         
-        # Generate original DFA visualization
         create_dfa_visualization_pygraphviz(
             dfa, table=None,
             filename=os.path.join(plots_dir, "original_dfa.png"),
             title=f"DFA Example {example_id}"
         )
         
-        # Run minimization
         indis_states, indis_tables, indis_details = record_indis_details_with_cumulative_step1(dfa)
 
-        # Copy any generated pair-step visuals from the default out folder
-        # into this example's local plots directory so LaTeX can resolve
-        # paths like plots/pair_steps/iter*_pair*_input*.png
         try:
             repo_pair_dir = os.path.join(os.path.dirname(__file__), 'out', 'plots', 'pair_steps')
             dest_pair_dir = os.path.join(plots_dir, 'pair_steps')
@@ -139,7 +119,6 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
             def _maybe_copy(rel_path: str):
                 if not rel_path:
                     return
-                # rel_path is like 'pair_steps/iter1_paira_input1.png'
                 rel_path = rel_path.replace('\\', '/')
                 if not rel_path.startswith('pair_steps/'):
                     return
@@ -151,21 +130,17 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
                         shutil.copyfile(src, dst)
                     except Exception:
                         pass
-            # Walk indis_details to find probe visuals
             for step in indis_details:
                 for ps in step.get('pair_substeps', []):
                     for probe in ps.get('probes', []):
                         _maybe_copy(probe.get('visual_path'))
         except Exception:
-            # Non-fatal; if images are missing LaTeX will warn and the log will show it
             pass
         
-        # Create indis tables
         indis_plot_paths = []
         for idx, tbl in enumerate(indis_tables):
             newly = set(map(tuple, indis_details[idx]["newly"])) if indis_details[idx]["newly"] else set()
             
-            # Create indistinguishability table plot
             import matplotlib.pyplot as plt
             n = len(indis_states)
             fig, ax = plt.subplots(figsize=(max(8, n * 1.2), max(6, n)))
@@ -194,7 +169,7 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
             ax.set_yticks([n - 1 - i + 0.5 for i in range(1, n)])
             ax.set_yticklabels(indis_states[1:], fontsize=14)
             ax.yaxis.tick_left()
-            ax.set_title(f"Indistinguishability Table — Step {idx + 1}", fontsize=20, pad=20)
+            ax.set_title(f"Indistinguishability Table â€” Step {idx + 1}", fontsize=20, pad=20)
             ax.invert_yaxis()
             ax.tick_params(length=0)
             
@@ -213,7 +188,6 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
             plt.close()
             indis_plot_paths.append(filename)
         
-        # Create partitions
         blocks_plot_paths = []
         for i, tbl in enumerate(indis_tables):
             blocks = get_equivalence_partition(indis_states, tbl)
@@ -224,7 +198,6 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
             )
             blocks_plot_paths.append(path)
         
-        # Create minimized DFA
         final_partition = get_equivalence_partition(indis_states, indis_tables[-1])
         min_dfa = build_minimized_dfa(dfa, final_partition)
         final_min_png = create_minimized_dfa_pygraphviz(
@@ -232,7 +205,6 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
             filename=os.path.join(plots_dir, "minimized_dfa.png")
         )
         
-        # Prepare data with CORRECT relative paths (from where the .tex file will be)
         data = {
             "indis_plots": [f"plots/indis_step{i+1}.png" for i in range(len(indis_plot_paths))],
             "blocks_plots": [f"plots/blocks_step{i+1}.png" for i in range(len(blocks_plot_paths))],
@@ -242,14 +214,10 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
             "original_dfa_png": "plots/original_dfa.png"
         }
         
-        # Change to example directory so relative paths work
         os.chdir(example_dir)
         
-        # Generate PDF with custom Solution that uses local paths
         tex_file = f"dfa_minimization_{example_id:04d}.tex"
         
-        # Create a custom Solution instance pointing to the local templates
-        # Resolve relative to this file to be robust no matter the CWD
         template_path = os.path.join(os.path.dirname(__file__), "templates")
         solution = Solution(
             format_path=template_path,
@@ -258,7 +226,6 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
         solution.add_dynamic_content("body.tex", data)
         solution.generate_latex()
         
-        # Generate PDF (this will create it in current directory = example_dir)
         import subprocess
         subprocess.run([
             "pdflatex",
@@ -266,45 +233,37 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
             tex_file
         ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
-        # Run twice for references
         subprocess.run([
             "pdflatex",
             "-interaction=nonstopmode",
             tex_file
         ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
-        # Cleanup auxiliary files
         for ext in ['.aux', '.log', '.out', '.toc']:
             aux_file = f"dfa_minimization_{example_id:04d}{ext}"
             if os.path.exists(aux_file):
                 os.remove(aux_file)
         
-        # Remove tex file
         if os.path.exists(tex_file):
             os.remove(tex_file)
         
-        # Rename PDF to simpler name
         pdf_old = f"dfa_minimization_{example_id:04d}.pdf"
         pdf_new = f"example_{example_id:04d}.pdf"
         if os.path.exists(pdf_old):
             os.rename(pdf_old, pdf_new)
         
-        # Return to original directory
         os.chdir(original_cwd)
         
-        print("✓")
+        print("âœ“")
         return True
         
     except Exception as e:
         os.chdir(original_cwd)  # Make sure we return to original directory
-        print(f"✗ Error: {e}")
+        print(f"âœ— Error: {e}")
         import traceback
         traceback.print_exc()
         return False
 
-# ---------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------
 
 def generate_training_data(num_examples=1000):
     """Generate training dataset."""
@@ -323,23 +282,19 @@ def generate_training_data(num_examples=1000):
     failed = 0
     
     for i in range(192, num_examples):
-        # Generate DFA (vary types for diversity)
         if i % 3 == 0:
             dfa = generator.generate_minimizable_dfa()
         else:
             dfa = generator.generate_random_dfa()
         
-        # Process
         if process_single_dfa(dfa, i + 1, base_dir):
             successful += 1
         else:
             failed += 1
         
-        # Progress update
         if (i + 1) % 50 == 0:
             print(f"\nProgress: {i+1}/{num_examples} | Success: {successful} | Failed: {failed}\n")
     
-    # Summary
     print(f"\n{'='*80}")
     print(f"COMPLETE!")
     print(f"Total: {num_examples} | Success: {successful} | Failed: {failed}")

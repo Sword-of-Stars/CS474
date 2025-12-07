@@ -16,17 +16,28 @@
         \}
     {%- endif %}
 {% endmacro %}
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.47\linewidth}
+        \centering
+        \includegraphics[width=0.95\linewidth]{phase1/part_c/out/figures/original.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.47\linewidth}
+        \centering
+        \includegraphics[width=0.95\linewidth]{phase1/part_c/out/figures/final_no_epsilon.png}
+    \end{minipage}
+\end{figure}
 
 
 {% for state, closure in e_closure_table.items() %}
 \subsection*{Handling State ${{ state }}$}
 
-\begin{enumerate}
+\begin{enumerate}[itemsep=0.3em]
     \item \textcolor{gray}{Calculate the $\epsilon$-closure of the state in M; call the result $S$.} 
     From the $\epsilon$-closure table, we know that $E(\{ {{state}} \})=\{ {{closure}} \}$. 
     
     \item \textcolor{gray}{Calculate the transitions in $M$ from each state in $R$ on each input character.} 
-    \begin{itemize}
+    \begin{itemize}[itemsep=0.2em]
         {% for character, value in transitions.get(state, 'ERROR').items() %}
             \item [{{bold_red(character)}}] 
             Here we must collect all places we can get to when reading an {{bold_red(character)}}
@@ -42,7 +53,7 @@
     \end{itemize}
 
     \item \textcolor{gray}{For each input character, calculate the $\epsilon$-closure of the resulting set of states.}   
-    \begin{itemize}
+    \begin{itemize}[itemsep=0.2em]
     {% for character, value in transitions.get(state, 'ERROR').items() %}
             \item [{{bold_red(character)}}] 
             Merging the relevant rows in the table for $E(\{ {{partial_closure.get(state, empty_set).get(character, empty_set) }} \})$, 
@@ -51,11 +62,12 @@
     \end{itemize}
 \end{enumerate}
 
-After processing state {{state}}, we add these new transitions to $M'$, shown below
-%This is depicted below with the original NFA $M$ on the left and $M'$ on the right.
+After processing state {{state}}, we add these new transitions to $M'$, shown below.
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.5\linewidth]{phase1/part_c/out/figures/step_{{state}}.png}
+    \vspace{0.3em}
+    \includegraphics[width=0.82\linewidth]{phase1/part_c/out/figures/step_{{state}}.png}
+    \vspace{0.3em}
     \label{fig:M_after_step_{{state}}}
 \end{figure}
 
