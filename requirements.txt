@@ -6,3 +6,4 @@ pandas
 pygraphviz
 graphviz
 automata-lib
+coloraide
