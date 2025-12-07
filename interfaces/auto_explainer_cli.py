@@ -159,27 +159,21 @@ def handle_nfa_eps(args: argparse.Namespace):
     out_tex = args.out or os.path.join(repo_root, "phase1", "nfa_to_dfa_conversion", "out", "e_removal.tex")
     os.makedirs(os.path.dirname(out_tex), exist_ok=True)
 
-    # If output is outside the repo root, copy figures next to the .tex using the
-    # same relative structure the LaTeX template expects (phase1/part_c/out/figures)
+    # Ensure figures are reachable from the LaTeX output directory by mirroring
+    # them into the path expected by the template: phase1/part_c/out/figures
     try:
         out_dir = os.path.dirname(out_tex)
-        # Normalize paths for robust comparison on Windows
-        norm_repo = os.path.normcase(os.path.abspath(repo_root))
-        norm_out = os.path.normcase(os.path.abspath(out_dir))
-        base = os.path.commonpath([norm_repo, norm_out])
-        if base != norm_repo:
-            target_fig_dir = os.path.join(out_dir, "phase1", "part_c", "out", "figures")
-            os.makedirs(target_fig_dir, exist_ok=True)
-            for name in os.listdir(figures_dir):
-                if name.lower().endswith((".png", ".jpg", ".jpeg", ".pdf")):
-                    src = os.path.join(figures_dir, name)
-                    dst = os.path.join(target_fig_dir, name)
-                    try:
-                        shutil.copyfile(src, dst)
-                    except Exception:
-                        pass
+        target_fig_dir = os.path.join(out_dir, "phase1", "part_c", "out", "figures")
+        os.makedirs(target_fig_dir, exist_ok=True)
+        for name in os.listdir(figures_dir):
+            if name.lower().endswith((".png", ".jpg", ".jpeg", ".pdf")):
+                src = os.path.join(figures_dir, name)
+                dst = os.path.join(target_fig_dir, name)
+                try:
+                    shutil.copyfile(src, dst)
+                except Exception:
+                    pass
     except Exception:
-        # Non-fatal; LaTeX may still find figures if paths are resolvable
         pass
     templates = os.path.join(repo_root, "phase1", "nfa_to_dfa_conversion", "templates")
     sol = create_latex_solution(format_path=templates, outfile=out_tex)
