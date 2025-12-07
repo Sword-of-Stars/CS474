@@ -26,11 +26,12 @@ RUN pip install --no-cache-dir -r requirements.txt || true \
     && pip install --no-cache-dir \
        streamlit \
         jinja2 \
-        matplotlib \
-        networkx \
-        pandas \
-        pygraphviz \
-        automata-lib
+       matplotlib \
+       networkx \
+       pandas \
+       pygraphviz \
+       graphviz \
+       automata-lib
 
 RUN mkdir -p /app/out
 
