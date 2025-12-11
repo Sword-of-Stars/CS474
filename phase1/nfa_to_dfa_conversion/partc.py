@@ -5,7 +5,6 @@ from typing import Dict, Set, Any, Optional
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Prefer absolute package import; fall back to path trick if needed
 try:
     from phase1.part_a.solution import Solution
     from phase1.part_a.solution import (
@@ -14,7 +13,6 @@ try:
         create_html_solution,
     )
 except Exception:
-    # Fallback for direct script usage
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
     from part_a.solution import Solution
     from part_a.solution import (
@@ -279,9 +277,7 @@ def remove_e_transitions_from_state(state, nfa, table):
     for char in nfa.input_symbols: 
         M[char] = set()
         for _state in closure:
-            # if that transition exists on that state
             if char in nfa.transitions[_state]: 
-                # add all transitions 
                 M[char] = M[char].union(set(nfa.transitions[_state][char]))
 
     E = M.copy()

@@ -11,7 +11,6 @@ class Solution():
 
         self.has_generated_latex = False
 
-        #=== Static Files ===#
         with open(f"{self.FORMAT_PATH}/format.tex", "r", encoding="utf-8") as f:
             self.format = f.read()
         with open(f"{self.FORMAT_PATH}/introduction.tex", "r", encoding="utf-8") as f:
@@ -19,7 +18,6 @@ class Solution():
         with open(f"{self.FORMAT_PATH}/conclusion.tex", "r", encoding="utf-8") as f:
             self.conclusion = f.read()
 
-        #=== Dynamic Content ===#
         self.dynamic_content = ""
 
     def add_dynamic_content(self, template, data):
@@ -43,10 +41,8 @@ class Solution():
         if not self.has_generated_latex:
             self.generate_latex()
 
-        # Compile inside the `out/` folder so relative graphics
-        # paths like `plots/plot1.png` resolve.
-        compile_dir = self.OUTPUT_PATH  # .../phase3/turing_machines/out
-        tex_basename = os.path.basename(self.OUT_FILE)  # tm_steps.tex
+        compile_dir = self.OUTPUT_PATH 
+        tex_basename = os.path.basename(self.OUT_FILE)  
         cmd = [
             'pdflatex',
             '-interaction=nonstopmode',

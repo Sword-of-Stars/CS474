@@ -12,12 +12,10 @@ class Solution():
 
         self.has_generated_latex = False
 
-        #=== Static Files ===#
         self.format = open(f"{self.FORMAT_PATH}/format.tex", "r").read()
         self.introduction = open(f"{self.FORMAT_PATH}/introduction.tex", "r").read()
         self.conclusion = open(f"{self.FORMAT_PATH}/conclusion.tex", "r").read()
 
-        #=== Dynamic Content ===#
         self.dynamic_content = ""
 
 

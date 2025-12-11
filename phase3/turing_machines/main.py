@@ -264,8 +264,6 @@ def plot_all_configurations_with_transitions(configs, details, fixed_left, fixed
     return figs
 
 
-# --- TM Definition ---
-
 blank = '⊔'
 transition_function = {
     ('q1', '0'): ('x', 'R', 'q2'),

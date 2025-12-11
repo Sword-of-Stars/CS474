@@ -85,21 +85,21 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
         fontname='Arial',
         labelloc='top',
         label=title or '',
-        bgcolor='#1a1f2e',  # Dark blue-gray background
+        bgcolor='#1a1f2e', 
         pad='0.8',
         nodesep='1.2',
         ranksep='1.5'
     )
     
     block_colors = [
-        "#00bcd4",  # Cyan
-        "#26a69a",  # Teal
-        "#66bb6a",  # Green
-        "#29b6f6",  # Light Blue
-        "#ab47bc",  # Purple
-        "#42a5f5",  # Blue
-        "#26c6da",  # Light Cyan
-        "#00acc1"   # Dark Cyan
+        "#00bcd4",  
+        "#26a69a",  
+        "#66bb6a",  
+        "#29b6f6",  
+        "#ab47bc",  
+        "#42a5f5",  
+        "#26c6da",  
+        "#00acc1"   
     ]
     
     if table:
@@ -115,7 +115,7 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
         if state in state_to_block:
             node_color = block_colors[state_to_block[state] % len(block_colors)]
         else:
-            node_color = "#00bcd4"  # Default cyan
+            node_color = "#00bcd4" 
         
         if state in dfa.final_states:
             shape = 'doublecircle'
@@ -134,7 +134,7 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
         G.add_node(state, 
                   shape=shape, 
                   style=style,
-                  fillcolor='#1a1f2e',  # Dark fill to match background
+                  fillcolor='#1a1f2e', 
                   color=node_color,
                   fontcolor=fontcolor,
                   fontsize='18',
@@ -165,7 +165,7 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
               shape='point', 
               width='0.01',
               height='0.01',
-              style='invis')  # Invisible start node
+              style='invis')
     
     if dfa.initial_state in state_to_block:
         arrow_color = block_colors[state_to_block[dfa.initial_state] % len(block_colors)]
@@ -234,7 +234,7 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
             base_color = "#00bcd4"
         
         if focus_pair and state in focus_pair:
-            base_color = "#ffeb3b"  # Bright yellow for focus
+            base_color = "#ffeb3b" 
         
         if state in dfa.final_states:
             shape = 'doublecircle'
@@ -299,9 +299,9 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
         base_color = "#00bcd4"
         
         if focus_pair and state in focus_pair:
-            base_color = "#ff9800"  # Orange for source states
+            base_color = "#ff9800" 
         elif current_probe and state in [current_probe.get('delta_p'), current_probe.get('delta_q')]:
-            base_color = "#66bb6a"  # Green for target states
+            base_color = "#66bb6a" 
         
         if state in dfa.final_states:
             shape = 'doublecircle'
@@ -385,14 +385,14 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
     )
     
     block_colors = [
-        "#00bcd4",  # Cyan
-        "#26a69a",  # Teal
-        "#66bb6a",  # Green
-        "#29b6f6",  # Light Blue
-        "#ab47bc",  # Purple
-        "#42a5f5",  # Blue
-        "#26c6da",  # Light Cyan
-        "#00acc1"   # Dark Cyan
+        "#00bcd4", 
+        "#26a69a", 
+        "#66bb6a",
+        "#29b6f6", 
+        "#ab47bc", 
+        "#42a5f5", 
+        "#26c6da", 
+        "#00acc1"  
     ]
     
     state_to_block = {}

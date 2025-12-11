@@ -258,7 +258,7 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
         return True
         
     except Exception as e:
-        os.chdir(original_cwd)  # Make sure we return to original directory
+        os.chdir(original_cwd)
         print(f"âœ— Error: {e}")
         import traceback
         traceback.print_exc()

@@ -28,6 +28,17 @@
     \end{minipage}
 \end{figure}
 
+{%- if e_closure_table %}
+\begin{center}
+\begin{tabular}{c|l}
+\textbf{State} & $\epsilon$-closure \\\hline
+{%- for state, closure in e_closure_table.items() %}
+{{ state }} & $\{ {{ closure }} \}$ \\\hline
+{%- endfor %}
+\end{tabular}
+\end{center}
+{%- endif %}
+
 
 {% for state, closure in e_closure_table.items() %}
 \subsection*{Handling State ${{ state }}$}

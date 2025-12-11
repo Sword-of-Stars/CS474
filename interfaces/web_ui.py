@@ -55,6 +55,13 @@ def _json_text_or_file(kind: str, preset_filename: str, upload_label: str):
 
     Returns a tuple (json_file_path, used_text) where exactly one is set when valid.
     """
+    st.markdown(
+        "Need JSON from a photo or PDF? You can prompt ChatGPT (or another model) to extract the problem into the exact schema below. "
+        "Example prompt:\n\n"
+        f"```\nPlease extract the automaton/grammar/TM in this image to valid JSON for {kind.upper()} "
+        "(matching the sample provided on this page). Return JSON only, no extra text.\n```",
+        help="Upload the problem image to the model, paste this prompt, then copy the JSON here."
+    )
     mode = st.radio(f"{kind.upper()} Source", ["Upload file", "Paste JSON"], horizontal=True, key=f"{kind}_src")
     file_path = None
     text_used = None
