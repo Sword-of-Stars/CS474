@@ -457,10 +457,6 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
               color=arrow_color,
               arrowsize='1.5')
     
-    legend_label = "Equivalence Classes:\\n"
-    for i, block in enumerate(blocks):
-        color_name = ["Cyan", "Teal", "Green", "Light Blue", "Purple", "Blue", "Light Cyan", "Dark Cyan"][i % 8]
-        legend_label += f"Class {i+1} ({color_name}): {{ {', '.join(sorted(block))} }}\\n"
     
     G.add_node('legend',
               shape='box',
@@ -470,7 +466,6 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
               fontcolor='#ffffff',
               fontsize='14',
               fontname='Arial',
-              label=legend_label,
               penwidth='2')
     
     if filename:
