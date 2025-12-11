@@ -5,6 +5,7 @@ We will use the DFA shown below to illustrate the minimization process. As we wo
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.7\linewidth,height=10cm,keepaspectratio]{{ "{" }}{{ original_dfa_png }}{{ "}" }}
+\caption{Original DFA to be minimized}
 \label{fig:original_dfa}
 \end{figure}
 
@@ -146,6 +147,7 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.75\linewidth,height=8cm,keepaspectratio]{plots/{{ probe.visual_path }}}
+\caption{Probe visualization for pair $({{ ps.pair[0] }}, {{ ps.pair[1] }})$ on input ${{ probe.a }}$}
 \label{{ "{" }}{{ probe.figure_label }}{{ "}" }}
 \end{figure}
 {%- endif %}
@@ -172,6 +174,7 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
 \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=\linewidth,height=6cm,keepaspectratio]{{ "{" }}{{ indis_plots[step_idx] }}{{ "}" }}
+    \caption{Indistinguishability table after {%- if step_idx == 0 %}initialization{%- else %}iteration {{ step_idx }}{%- endif %}}
     \label{{ "{" }}fig:indis_table_step{{ step_idx+1 }}{{ "}" }}
 \end{minipage}\hfill
 {%- if blocks_plots and step_idx < blocks_plots|length and blocks_plots[step_idx] %}

@@ -91,16 +91,7 @@ def create_dfa_visualization_pygraphviz(dfa: DFA,
         ranksep='1.5'
     )
     
-    block_colors = [
-        "#00bcd4",  
-        "#26a69a",  
-        "#66bb6a",  
-        "#29b6f6",  
-        "#ab47bc",  
-        "#42a5f5",  
-        "#26c6da",  
-        "#00acc1"   
-    ]
+    block_colors = ["#00bcd4", "#26a69a", "#42a5f5", "#ab47bc"]
     
     if table:
         blocks = get_equivalence_partition(_sorted_states(dfa.states), table)
@@ -456,17 +447,6 @@ def create_partition_pygraphviz(dfa: DFA, blocks: List[Set[str]],
               penwidth='4',
               color=arrow_color,
               arrowsize='1.5')
-    
-    
-    G.add_node('legend',
-              shape='box',
-              style='rounded,filled',
-              fillcolor='#232938',
-              color='#ffffff',
-              fontcolor='#ffffff',
-              fontsize='14',
-              fontname='Arial',
-              penwidth='2')
     
     if filename:
         G.draw(filename, prog='dot')
