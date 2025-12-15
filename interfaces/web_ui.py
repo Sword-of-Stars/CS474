@@ -204,7 +204,8 @@ elif tab == "nfa-eps":
     mode = st.radio("Input Mode", ["Preset", "From JSON"], horizontal=True)
     gen_pdf = st.checkbox("Generate PDF", value=True)
     out_name = st.text_input("Output filename (no extension)", value="e_removal")
-    out_tex = os.path.join(OUT_BASE, f"{out_name}.tex")
+    out_dir = OUT_BASE
+    out_tex = os.path.join(out_dir, f"{out_name}.tex")
 
     nfa_file = None
     if mode == "From JSON":
