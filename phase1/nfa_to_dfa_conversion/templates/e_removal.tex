@@ -19,16 +19,9 @@
 
 \section{Removing $\epsilon$-Transitions}
 
-Our goal in this section is to eliminate all $\epsilon$-transitions from the given NFA while preserving the
-language it accepts. Intuitively, an $\epsilon$-transition allows the automaton to change states without
-consuming any input symbol. While this is convenient for construction, it complicates execution and
-analysis.  
+Our goal in this section is to eliminate all $\epsilon$-transitions from the given NFA while preserving the language it accepts. Intuitively, an $\epsilon$-transition allows the automaton to change states without consuming any input symbol. While this is convenient for construction, it complicates execution and analysis. To address this, we construct a new automaton $M'$ that has no $\epsilon$-transitions but behaves \emph{exactly the same} as the original automaton $M$ on every input string.
 
-To address this, we construct a new automaton $M'$ that has no $\epsilon$-transitions but behaves
-\emph{exactly the same} as the original automaton $M$ on every input string.
-
-\textbf{Key idea:} Any time the original NFA could take one or more $\epsilon$-transitions before or after
-reading an input character, we explicitly encode that behavior using ordinary transitions in $M'$.
+\textbf{Key idea:} Any time the original NFA could take one or more $\epsilon$-transitions before or after reading an input character, we explicitly encode that behavior using ordinary transitions in $M'$.
 
 \begin{figure}[h!]
     \centering
@@ -43,18 +36,11 @@ reading an input character, we explicitly encode that behavior using ordinary tr
     \caption{Original NFA (Left) And NFA Without $\epsilon$-Transitions (Right)}
 \end{figure}
 
-The automaton on the right has no $\epsilon$-transitions, but every path that was possible in the original
-automaton is still represented.
+The automaton on the right has no $\epsilon$-transitions, but every path that was possible in the original automaton is still represented.
 
 \subsection*{$\epsilon$-Closure Intuition}
 
-When starting from a state in an NFA, it is often possible to reach several other states without reading
-any input symbols by following $\epsilon$-transitions. This means that the automaton may \emph{effectively}
-be in multiple states at once before reading the next character.
-
-To capture this behavior, we use the concept of the \textbf{$\epsilon$-closure}. The $\epsilon$-closure of a
-set of states consists of all states that can be reached from that set by following zero or more
-$\epsilon$-transitions.
+When starting from a state in an NFA, it is often possible to reach several other states without reading any input symbols by following $\epsilon$-transitions. This means that the automaton may \emph{effectively} be in multiple states at once before reading the next character. To capture this behavior, we use the concept of the \textbf{$\epsilon$-closure}. The $\epsilon$-closure of a set of states consists of all states that can be reached from that set by following zero or more $\epsilon$-transitions.
 
 \textbf{Important observations:}
 \begin{itemize}[itemsep=0.3em]
@@ -76,8 +62,7 @@ $\epsilon$-transitions.
 \end{center}
 {%- endif %}
 
-The table above shows the $\epsilon$-closure for each state. For example, if $E(\{q\}) = \{q, r, s\}$,
-then starting in $q$ the automaton could silently move to $r$ or $s$ before consuming any input.
+The table above shows the $\epsilon$-closure for each state. For example, if $E(\{q\}) = \{q, r, s\}$, then starting in $q$ the automaton could silently move to $r$ or $s$ before consuming any input.
 
 ---
 

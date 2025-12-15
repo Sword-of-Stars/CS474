@@ -24,7 +24,7 @@ Our goal is to convert this grammar into \textbf{Chomsky Normal Form (CNF)}, whi
 
 \vspace{0.3cm}
 \noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep}{
-\textbf{Why CNF?} CNF is useful because it gives us a standardized form that makes parsing algorithms (like the CYK algorithm) much more efficient. Think of it like converting fractions to a common denominator—it makes everything easier to work with!
+\textbf{Why CNF?} CNF is useful because it gives us a standardized form that makes parsing algorithms (like the CYK algorithm) much more efficient. Think of it like converting fractions to a common denominator - it makes everything easier to work with!
 }}
 
 \section{Step 1: Create a New Start Variable}
@@ -38,7 +38,7 @@ Our goal is to convert this grammar into \textbf{Chomsky Normal Form (CNF)}, whi
   {% endfor %}
 {% endfor %}
 
-\noindent\textbf{The Problem:} {% if ns.s_found %}In the original grammar, $S$ appears on the right-hand side of some productions. In CNF, the start variable should never appear on the RHS—it should only be used to "kick off" derivations.{% else %}Even though $S$ doesn't appear on any RHS in this grammar, we still follow the standard procedure.{% endif %}
+\noindent\textbf{The Problem:} {% if ns.s_found %}In the original grammar, $S$ appears on the right-hand side of some productions. In CNF, the start variable should never appear on the RHS - it should only be used to "kick off" derivations.{% else %}Even though $S$ doesn't appear on any RHS in this grammar, we still follow the standard procedure.{% endif %}
 
 \noindent\textbf{The Solution:} Create a brand new start variable $S_0$ (read as "S sub-zero" or "S naught") that only points to the old start variable:
 
@@ -257,12 +257,12 @@ After "copying over" all the necessary productions, we delete the unit rules the
 
 \subsection{Step 4a: The CNF Requirement}
 
-In CNF, if a production has length greater than 1, it must contain \textit{only} variables—no terminals allowed. Productions like these violate this rule:
+In CNF, if a production has length greater than 1, it must contain \textit{only} variables - no terminals allowed. Productions like these violate this rule:
 \begin{align*}
     A &\to aBC \quad \textcolor{red}{\textbf{\textsf{X}}} \text{ Mixes terminal $a$ with variables $B$ and $C$}
 \end{align*}
 
-\subsection{Step 4b: The Fix — Create Helper Variables}
+\subsection{Step 4b: The Fix - Create Helper Variables}
 
 \noindent\textbf{The Fix:} For each terminal that appears alongside variables, we create a new variable that "stands in" for that terminal:
 \begin{align*}
@@ -306,7 +306,7 @@ Productions with variables must have \textit{exactly two} variables on the RHS. 
     A &\to BCD \quad \textcolor{red}{\textbf{\textsf{X}}} \text{ Has three variables}
 \end{align*}
 
-\subsection{Step 5b: The Fix — Introduce Intermediate Variables}
+\subsection{Step 5b: The Fix - Introduce Intermediate Variables}
 
 \noindent\textbf{The Fix:} We break long productions into chains of two-variable productions:
 \begin{align*}
