@@ -39,6 +39,32 @@ class Solution():
         if not self.has_generated_latex:
             self.generate_latex()
         
-        subprocess.run(["pdflatex",
-                 "-output-directory=" + self.OUTPUT_PATH,
-                 self.OUT_FILE,  "-interaction=nonstopmode"])
+        cmd = [
+            "pdflatex",
+            "-halt-on-error",
+            "-file-line-error",
+            "-interaction=nonstopmode",
+            "-output-directory=" + self.OUTPUT_PATH,
+            self.OUT_FILE,
+        ]
+        print(f"[SOLUTION] Running: {' '.join(cmd)}")
+        try:
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=120,
+                check=True,
+            )
+            if result.stdout:
+                print(result.stdout)
+            if result.stderr:
+                print(result.stderr)
+        except subprocess.TimeoutExpired as e:
+            print(e.stdout or "")
+            print(e.stderr or "")
+            raise
+        except subprocess.CalledProcessError as e:
+            print(e.stdout or "")
+            print(e.stderr or "")
+            raise
