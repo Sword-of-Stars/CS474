@@ -23,15 +23,15 @@ Our goal in this section is to eliminate all $\epsilon$-transitions from the giv
 
 \textbf{Key idea:} Any time the original NFA could take one or more $\epsilon$-transitions before or after reading an input character, we explicitly encode that behavior using ordinary transitions in $M'$.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{minipage}{0.47\linewidth}
         \centering
-        \includegraphics[width=0.95\linewidth]{phase1/part_c/out/figures/original.png}
+        \includegraphics[width=0.95\linewidth]{figures/original.png}
     \end{minipage}\hfill
     \begin{minipage}{0.47\linewidth}
         \centering
-        \includegraphics[width=0.95\linewidth]{phase1/part_c/out/figures/final_no_epsilon.png}
+        \includegraphics[width=0.95\linewidth]{figures/final_no_epsilon.png}
     \end{minipage}
     \caption{Original NFA (Left) And NFA Without $\epsilon$-Transitions (Right)}
 \end{figure}
@@ -132,10 +132,10 @@ all possible behaviors involving $\epsilon$-transitions in $M$ are faithfully si
 
 After processing state {{state}}, we add these transitions to $M'$. The updated automaton is shown below.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \vspace{0.3em}
-    \includegraphics[width=0.82\linewidth]{phase1/part_c/out/figures/step_{{state}}.png}
+    \includegraphics[width=0.82\linewidth]{figures/step_{{state}}.png}
     \vspace{0.3em}
     \caption{Updated Automaton After Handling State ${{ state }}$}
     \label{fig:M_after_step_{{state}}}

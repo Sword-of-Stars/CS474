@@ -159,22 +159,19 @@ def handle_nfa_eps(args: argparse.Namespace):
     out_tex = args.out or os.path.join(repo_root, "phase1", "nfa_to_dfa_conversion", "out", "e_removal.tex")
     os.makedirs(os.path.dirname(out_tex), exist_ok=True)
 
-    # Ensure figures are reachable from the LaTeX output directory by mirroring
-    # them into the path expected by the template: phase1/part_c/out/figures
-    try:
-        out_dir = os.path.dirname(out_tex)
-        target_fig_dir = os.path.join(out_dir, "phase1", "part_c", "out", "figures")
-        os.makedirs(target_fig_dir, exist_ok=True)
-        for name in os.listdir(figures_dir):
-            if name.lower().endswith((".png", ".jpg", ".jpeg", ".pdf")):
-                src = os.path.join(figures_dir, name)
-                dst = os.path.join(target_fig_dir, name)
-                try:
-                    shutil.copyfile(src, dst)
-                except Exception:
-                    pass
-    except Exception:
-        pass
+    # Mirror figures to the LaTeX output folder under a simple `figures/` directory
+    # so the template can find them relative to the generated .tex file.
+    out_dir = os.path.dirname(out_tex)
+    target_fig_dir = os.path.join(out_dir, "figures")
+    os.makedirs(target_fig_dir, exist_ok=True)
+    for name in os.listdir(figures_dir):
+        if name.lower().endswith((".png", ".jpg", ".jpeg", ".pdf")):
+            src = os.path.join(figures_dir, name)
+            dst = os.path.join(target_fig_dir, name)
+            try:
+                shutil.copyfile(src, dst)
+            except Exception:
+                pass
     templates = os.path.join(repo_root, "phase1", "nfa_to_dfa_conversion", "templates")
     sol = create_latex_solution(format_path=templates, outfile=out_tex)
     sol.add_dynamic_content("e_removal.tex", data)
