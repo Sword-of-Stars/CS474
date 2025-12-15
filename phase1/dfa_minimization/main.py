@@ -276,7 +276,7 @@ def create_side_by_side_dfa_analysis(dfa: DFA,
     
     right_subgraph = G.add_subgraph(name='cluster_1')
     right_subgraph.graph_attr.update(
-        label="Transition Analysis (probing specific input)", 
+        label="", 
         style='rounded,filled',
         fillcolor='#232938',
         color='#ff5252',

@@ -1,6 +1,9 @@
 \section{DFA Specification}
 
-We will use the DFA shown below to illustrate the minimization process. As we work through the algorithm to determine which pairs of states are indistinguishable from each other, we will fill in the Indis Table. Note that the table only includes the cells below the diagonal, because we only need one cell comparing $p$ and $q$ (the order is irrelevant) and there is no need to compare a state with itself.
+We will use the DFA shown below to illustrate the minimization process. As we work through the
+Distinguish function to determine which pairs of states are indistinguishable from each other, we will fill
+in the Indis Table. Note that the table only includes the cells below the diagonal, because we only need
+one cell comparing $p$ and $q$ (the order is irrelevant) and there is no need to compare a state with itself.
 
 \begin{figure}[h!]
 \centering
@@ -43,7 +46,7 @@ We will use the DFA shown below to illustrate the minimization process. As we wo
 \noindent\textbf{Understanding the Indis Table:}
 \begin{itemize}[itemsep=0.2em]
 \item \textbf{Empty cells} correspond to a \texttt{True} value, meaning we have not yet learned that the pair of states are distinguishable. These pairs are \emph{potentially indistinguishable}.
-\item \textbf{Cells marked with ``X''} correspond to a \texttt{False} value, indicating we have determined that the pair of states \emph{are} distinguishable. There exists at least one input string that leads to different outcomes (one accepts, one rejects) from these two states.
+\item \textbf{Cells marked with ``X''} correspond to a \texttt{False} value, indicating we have determined that the pair of states \emph{are} distinguishable. There exists at least one input string that is accepted from one state and rejected from the other.
 \item The table only shows cells below the diagonal because:
   \begin{itemize}
   \item Indis$(p, q)$ = Indis$(q, p)$ (order doesn't matter)
@@ -58,9 +61,11 @@ We will use the DFA shown below to illustrate the minimization process. As we wo
 {%- if step_idx == 0 %}
 \subsection*{Initialization}
 
-The algorithm implements the base cases in the definition of distinguishable states by setting the $\text{Indis}(p, q)$ value to \texttt{False} for those pairs of states that are an accepting state paired with a non-accepting state.
+The algorithm implements the base cases in the definition of distinguishable states by setting Indis$(p, q)$
+to \texttt{False} for those pairs of states where one is accepting and the other is non-accepting.
 
-\textbf{Why?} If one state is accepting and the other is non-accepting, they are immediately distinguishable: the empty string $\varepsilon$ is accepted from one state but rejected from the other. This is the simplest way two states can differ.
+\textbf{Why?} If one state is accepting and the other is non-accepting, they are immediately distinguishable:
+the empty string $\varepsilon$ is accepted from one state but rejected from the other (lines 5 through 7).
 
 {%- if indis_details[step_idx].finality_analysis %}
 \begin{table}[h!]
@@ -83,19 +88,19 @@ $({{ analysis.pair[0] }}, {{ analysis.pair[1] }})$ &
 {%- endif %}
 
 {%- if indis_details[0].final_states_list %}
-Since states {{ indis_details[0].final_states_list|join(" and ") }} are accepting and all other states are non-accepting, we fill in the rows and columns for {{ indis_details[0].final_states_list|join(" and ") }}.
+Since states {{ indis_details[0].final_states_list|join(" and ") }} are accepting and all other states are non-accepting, we fill in the rows and columns for {{ indis_details[0].final_states_list|join(" and ") }}, except for any cell comparing two accepting states (those remain \texttt{True} for now).
 {%- endif %}
 
 {%- else %}
 \subsection*{Iteration {{ step_idx }}}
 
-We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have {{ 
+We{% if step_idx == 1 %} now enter the while loop and scan through all empty cells (i.e., cells that still have \texttt{True} values). For this iteration, that means we have {{ 
   (indis_details[step_idx].pair_substeps | selectattr('decision','equalto','mark') | list | length) 
   + 
   (indis_details[step_idx].pair_substeps | selectattr('decision','equalto','keep-unmarked') | list | length) 
 }} cells to process.{% endif %}
 
-\textbf{Strategy:} For each unmarked pair $(p, q)$, we test all input symbols. If we find \emph{any} input $a$ where $\delta(p, a)$ and $\delta(q, a)$ lead to states that are already marked as distinguishable, then $(p, q)$ must also be distinguishable.
+\textbf{Strategy:} For each pair $(p, q)$ whose Indis value is still \texttt{True}, we consider each possible input symbol. If there exists an input $a$ such that $\delta(p,a)$ and $\delta(q,a)$ transition to a pair of states that is already known to be distinguishable, then we must set Indis$(p,q)$ to \texttt{False}.
 
 {%- if indis_details[step_idx].pair_substeps|length > 0 %}
 
@@ -103,25 +108,25 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
 {%- if pairs_to_show %}
 
 {%- for ps in pairs_to_show %}
-\paragraph{$({{ ps.pair[0] }}, {{ ps.pair[1] }})$} Check inputs for distinguishability.
+\paragraph{$({{ ps.pair[0] }}, {{ ps.pair[1] }})$} Consider both possible inputs.
 
 {%- if ps.probes and ps.probes|length > 0 %}
 \begin{itemize}[itemsep=0.3em]
 {%- for r in ps.probes %}
 {%- if ps.decision == 'mark' and r.decision != 'mark' %}
-{# Skip probes after we found the marking one #}
+{# Skip checks after we found the one that causes the change #}
 {%- else %}
 \item \textbf{Input ${{ r.a }}$:} $\delta({{ ps.pair[0] }}, {{ r.a }}) = {{ r.delta_p }}$, $\delta({{ ps.pair[1] }}, {{ r.a }}) = {{ r.delta_q }}$.
 {%- if r.witness_pair[0] == r.witness_pair[1] %}
-  Both states transition to the same state, so $\text{Indis}({{ ps.pair[0] }}, {{ ps.pair[1] }})$ will never change based on ${{ r.a }}$. This input provides no distinguishing information.
+  Here both $\delta({{ ps.pair[0] }}, {{ r.a }})$ and $\delta({{ ps.pair[1] }}, {{ r.a }})$ transition to the same state. Thus, Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ will never change based on input ${{ r.a }}$.
 {%- elif r.witness_marked %}
-  Since $\text{Indis}({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ is \texttt{False}, we \textcolor{red}{change $\text{Indis}({{ ps.pair[0] }}, {{ ps.pair[1] }})$ to \texttt{False}}.
+  Since Indis$({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ is \texttt{False}, we set Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ to \texttt{False}.
   
-  \textcolor{red}{\textbf{→ We set Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ = False}}
+  \textcolor{red}{\textbf{→ We set Indis$({{ ps.pair[0] }}, {{ ps.pair[1] }})$ = \texttt{False}}}
   
-  \textbf{Reason:} A marked witness pair $( {{ r.witness_pair[0] }}, {{ r.witness_pair[1] }} )$ reachable on input ${{ r.a }}$ implies $( {{ ps.pair[0] }}, {{ ps.pair[1] }} )$ is distinguishable.
+  \textbf{Reason:} On input ${{ r.a }}$, state ${{ ps.pair[0] }}$ transitions to ${{ r.witness_pair[0] }}$ and state ${{ ps.pair[1] }}$ transitions to ${{ r.witness_pair[1] }}$. Since this resulting pair of states is already known to be distinguishable, the original pair must also be distinguishable.
 {%- else %}
-  Since $\text{Indis}({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ is not \texttt{False} (still \texttt{True}), this does not cause a change in $\text{Indis}({{ ps.pair[0] }}, {{ ps.pair[1] }})$. We continue checking other inputs.
+  Since Indis$({{ r.witness_pair[0] }}, {{ r.witness_pair[1] }})$ remains \texttt{True}, this input does not cause a change. We continue checking the remaining inputs.
 {%- endif %}
 {%- endif %}
 {%- endfor %}
@@ -157,12 +162,12 @@ We{% if step_idx == 1 %} now scan through all empty cells (i.e., cells that stil
 
 {%- if indis_details[step_idx].metrics.newly_count > 0 %}
 \vspace{0.5em}
-\noindent This iteration through all empty cells caused \textbf{{ "{" }}{{ indis_details[step_idx].metrics.newly_count }}{{ "}" }} cell value(s) to change from \texttt{True} to \texttt{False}. Thus, at the end of this iteration, the table looks like this, with updated values shown in red ``X'' marks:
+\noindent This iteration through all empty cells caused \textbf{{ "{" }}{{ indis_details[step_idx].metrics.newly_count }}{{ "}" }} cell values to change from \texttt{True} to \texttt{False}. Thus, at the end of this iteration, the table looks like this, with updated values shown in red ``X'' marks:
 
 \textbf{Progress check:} Since we made changes, we must continue to the next iteration. The newly marked pairs might help us identify additional distinguishable pairs in the next round.
 {%- else %}
 \vspace{0.5em}
-\noindent This pass through the {{ pairs_to_show|length }} remaining cells did not cause a change. We now break out of our loop and we are finished finding all indistinguishable pairs of states.
+\noindent This pass through the {{ pairs_to_show|length }} remaining cells did not cause a change. Thus, we break out of the while loop and we are finished finding all indistinguishable pairs of states.
 
 \textbf{Why stop?} If a full iteration produces no new markings, it means we've found all distinguishable pairs. The remaining empty cells represent states that truly cannot be distinguished by any input string — these are the indistinguishable pairs we will merge.
 {%- endif %}
@@ -208,9 +213,9 @@ We must now merge the indistinguishable states and determine the start state, tr
 
 \subsection*{Identifying Indistinguishable States}
 
-After the algorithm terminates, all \textbf{empty cells} in the Indis Table (those with \texttt{True} values) represent pairs of states that cannot be distinguished by any input string. These states behave identically from the perspective of language acceptance.
+After the algorithm terminates, all \textbf{empty cells} in the Indis Table (those with \texttt{True} values) represent pairs of states that cannot be distinguished by any input string.
 
-\textbf{Key insight:} If Indis$(p, q)$ = \texttt{True} at the end, then for \emph{every possible input string} $w$, either both $p$ and $q$ accept $w$ or both reject $w$. Since they're functionally equivalent, we can merge them into a single state.
+\textbf{Key insight:} If Indis$(p, q)$ remains \texttt{True} at the end, then for every input string $w$, either both $p$ and $q$ accept $w$ or both reject $w$. Since they behave the same, we can merge them into a single state.
 
 {%- set final_blocks = indis_details[-1].blocks %}
 {%- if final_blocks %}
@@ -224,10 +229,12 @@ After the algorithm terminates, all \textbf{empty cells} in the Indis Table (tho
 \right\}
 \]
 
+\noindent The table tells us which pairs of states must be combined. Note that when it is discovered that one state $p$ is indistinguishable from two different states $q$ and $r$, it must be that $q$ and $r$ are also indistinguishable; if that does not happen, then there was a mistake in the computation of Indis.
+
 \noindent Each equivalence class becomes a single state in the minimized DFA:
 \begin{itemize}[itemsep=0.2em]
 {%- for block in final_blocks %}
-\item States $\{ {{ block|join(", ") }} \}$ merge into state ${{ block|join("") }}$
+\item States $\{ {{ block|join(", ") }} \}$ merge into state ${{ block|join("") }}
 {%- endfor %}
 \end{itemize}
 {%- endif %}
@@ -252,13 +259,13 @@ After the algorithm terminates, all \textbf{empty cells} in the Indis Table (tho
 \end{figure}
 {%- endif %}
 
-The minimized DFA accepts exactly the same language as the original DFA but uses the minimum number of states possible. States that could not be distinguished by any input string have been merged while preserving the transition structure and accepting behavior.
+The minimized DFA accepts exactly the same language as the original DFA but uses the minimum number of states possible.
 
 \subsection*{Why This Works}
 
 \begin{itemize}[itemsep=0.3em]
-\item \textbf{Correctness:} Two states are merged only if no input string can distinguish them (empty cells in Indis Table)
+\item \textbf{Correctness:} Two states are merged only if their cell remains \texttt{True} at the end of the algorithm
 \item \textbf{Completeness:} The algorithm exhaustively checks all possible distinguishing strings through iterative refinement
-\item \textbf{Termination:} Guaranteed because cells can only change from \texttt{True} to \texttt{False} (never the reverse) and there are finitely many cells
-\item \textbf{Minimality:} The result has the fewest possible states while preserving the language — merging any states that are marked as distinguishable would change the language
+\item \textbf{Termination:} Guaranteed because cells can only change from \texttt{True} to \texttt{False} and there are finitely many cells
+\item \textbf{Minimality:} The result has the fewest possible states while preserving the language
 \end{itemize}
