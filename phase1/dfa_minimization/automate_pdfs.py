@@ -169,7 +169,7 @@ def process_single_dfa(dfa, example_id, base_dir="training_data"):
             ax.set_yticks([n - 1 - i + 0.5 for i in range(1, n)])
             ax.set_yticklabels(indis_states[1:], fontsize=14)
             ax.yaxis.tick_left()
-            ax.set_title(f"Indistinguishability Table â€” Step {idx + 1}", fontsize=20, pad=20)
+            ax.set_title(f"Indistinguishability Table - Step {idx + 1}", fontsize=20, pad=20)
             ax.invert_yaxis()
             ax.tick_params(length=0)
             

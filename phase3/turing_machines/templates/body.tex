@@ -50,7 +50,7 @@ The transition function $\delta$ is defined in the following table. Each cell sh
 ${{ row['State'] }}$ {% for col in transition_table.columns[1:] %}& ${{ row[col] }}$ {% endfor %}\\ \hline
 {%- endfor %}
 \end{tabular}
-\caption{Complete Transition Function for the Turing Machine}
+\caption{Complete Transition Function For The Turing Machine}
 \end{table}
 
 \section{Turing Machine Simulation Visualizations}
@@ -112,7 +112,7 @@ The \textbf{Before} tape shows the configuration prior to this transition, and t
 \vspace{0.5em}
 
 \begin{center}
-    {% set caption_text = "Initial configuration" if idx == 0 else "Before and after Transition " ~ (idx+1)|string %}
+    {% set caption_text = "Initial Configuration" if idx == 0 else "Before And After Transition " ~ (idx+1)|string %}
     \includegraphics[width=0.9\linewidth]{plots/plot{{ idx+1 }}.png}
     \captionof{figure}{ {{ caption_text }} }
 \end{center}

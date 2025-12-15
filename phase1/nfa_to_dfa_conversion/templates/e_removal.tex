@@ -26,18 +26,19 @@
         \centering
         \includegraphics[width=0.95\linewidth]{phase1/part_c/out/figures/final_no_epsilon.png}
     \end{minipage}
-    \caption{Original NFA (left) and NFA without $\epsilon$-transitions (right)}
+    \caption{Original NFA (Left) And NFA Without $\epsilon$-Transitions (Right)}
 \end{figure}
 
 {%- if e_closure_table %}
-\begin{center}
+\begin{table}[h!]
+\centering
 \begin{tabular}{c|l}
 \textbf{State} & $\epsilon$-closure \\\hline
 {%- for state, closure in e_closure_table.items() %}
 {{ state }} & $\{ {{ closure }} \}$ \\\hline
 {%- endfor %}
 \end{tabular}
-\end{center}
+\end{table}
 {%- endif %}
 
 
@@ -80,7 +81,7 @@ After processing state {{state}}, we add these new transitions to $M'$, shown be
     \vspace{0.3em}
     \includegraphics[width=0.82\linewidth]{phase1/part_c/out/figures/step_{{state}}.png}
     \vspace{0.3em}
-    \caption{Updated automaton after handling state ${{ state }}$}
+    \caption{Updated Automaton After Handling State ${{ state }}$}
     \label{fig:M_after_step_{{state}}}
 \end{figure}
 

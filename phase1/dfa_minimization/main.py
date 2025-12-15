@@ -799,7 +799,7 @@ def plot_indis_step_enhanced(states: List[str],
     ax.set_yticklabels(states[1:], fontsize=14)
     ax.yaxis.tick_left()
 
-    ax.set_title(f"Indistinguishability Table â€” Step {step_idx + 1}", fontsize=20, pad=20)
+    ax.set_title(f"Indistinguishability Table - Step {step_idx + 1}", fontsize=20, pad=20)
     ax.invert_yaxis()
     ax.tick_params(length=0)
     
