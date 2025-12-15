@@ -30,15 +30,16 @@
 \end{figure}
 
 {%- if e_closure_table %}
-\begin{table}[h!]
-\centering
+\begin{center}
+\setlength{\tabcolsep}{12pt}
+\renewcommand{\arraystretch}{1.1}
 \begin{tabular}{c|l}
 \textbf{State} & $\epsilon$-closure \\\hline
 {%- for state, closure in e_closure_table.items() %}
 {{ state }} & $\{ {{ closure }} \}$ \\\hline
 {%- endfor %}
 \end{tabular}
-\end{table}
+\end{center}
 {%- endif %}
 
 

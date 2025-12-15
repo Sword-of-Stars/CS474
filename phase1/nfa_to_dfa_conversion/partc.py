@@ -112,7 +112,7 @@ def create_side_by_side_diagram_with_progression(original_nfa: NFA, current_stat
         }
     )
     
-    table_html = '''<TABLE BORDER="3" CELLBORDER="2" CELLSPACING="4" CELLPADDING="8" COLOR="black">
+    table_html = '''<TABLE BORDER="3" CELLBORDER="2" CELLSPACING="4" CELLPADDING="8" COLOR="black" ALIGN="CENTER">
     <TR><TD BGCOLOR="lightblue" ALIGN="CENTER"><FONT POINT-SIZE="24"><B>State</B></FONT></TD>
     <TD BGCOLOR="lightblue" ALIGN="CENTER"><FONT POINT-SIZE="24"><B>ε-Closure</B></FONT></TD></TR>'''
     
@@ -135,7 +135,9 @@ def create_side_by_side_diagram_with_progression(original_nfa: NFA, current_stat
             fontsize='24',
             fontname='Arial Bold',
             penwidth='3',
-            labeljust='c'
+            labeljust='c',
+            labelloc='t',
+            center='true'
         )
         table_panel.attr('node', style='', fontname='Arial')
         table_panel.node('epsilon_table', f'<{table_html}>', 
