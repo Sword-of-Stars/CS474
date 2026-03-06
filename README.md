@@ -1,3 +1,13 @@
+---
+title: CS474 Auto Explainer
+emoji: "🧠"
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 8080
+pinned: false
+---
+
 # Project Description
 
 Theoretical Computer Science educators often need to generate solutions to problems, in a variety of forms (PDF, HTML, Markdown, LaTeX, etc.). However, these often involve creating diagrams and precise mathematical statements. Further, these solutions should have an explanation of what is occurring in each step, or how the solution was obtained. In summary, these solutions almost always need to be created by hand.
