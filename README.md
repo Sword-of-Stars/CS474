@@ -1,11 +1,7 @@
 ---
 title: CS474 Auto Explainer
-emoji: "🧠"
-colorFrom: blue
-colorTo: indigo
 sdk: docker
 app_port: 8080
-pinned: false
 ---
 
 # Project Description
