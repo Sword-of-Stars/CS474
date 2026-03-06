@@ -92,3 +92,25 @@ JSON Examples
   - NFA (ε-removal): `interfaces/presets/nfa_eps_sample.json`
   - Grammar (CNF): `interfaces/presets/grammar_sample.json`
   - Turing Machine: `interfaces/presets/tm_sample.json`
+
+Web UI Visual Automata Editor
+
+- Start with: `python interfaces/web_ui.py` (or use the Docker entrypoint used by this repo).
+- DFA and NFA tabs now use the visual editor path for UI creation:
+  - Add/Delete/Clear states from toolbar buttons
+  - Drag states to reposition
+  - Set start state and accept states in sidebar
+  - Add transitions by dragging on canvas or via manual transition form
+  - Edit transition labels (comma-separated symbols; use `ε` for epsilon in NFA mode)
+  - Import JSON and re-render graph from the JSON
+  - Export preview shows the exact explainer JSON payload
+
+Explainer JSON Contract Used by Visual Editor
+
+- DFA output:
+  - `states`, `input_symbols`, `transitions`, `initial_state`, `final_states`
+  - `transitions[state][symbol] = target_state`
+- NFA output:
+  - `states`, `input_symbols`, `transitions`, `initial_state`, `final_states`
+  - `transitions[state][symbol] = [target_state, ...]`
+  - Use empty string `""` internally for epsilon.

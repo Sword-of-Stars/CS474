@@ -39,3 +39,20 @@ You are not required to have all the conversions to Markdown, LaTeX, etc. implem
  
 
 You are NOT permitted to use Generative AI for these problems.
+
+## Streamlit Automata Editor Build
+
+The DFA/NFA visual editor is now a Streamlit custom component backed by a Vite + React frontend.
+
+One-time build steps:
+
+1. `pip install -r requirements.txt`
+2. Build frontend:
+   - macOS/Linux: `bash build_frontend.sh`
+   - Windows: `build_frontend.bat`
+3. Run app: `streamlit run interfaces/web_ui.py`
+
+Development mode (optional):
+
+1. In one terminal: `cd frontend && npm install && npm run dev`
+2. In another terminal: set `AUTOMATA_DEV=1` and run `streamlit run interfaces/web_ui.py`

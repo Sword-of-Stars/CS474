@@ -7,3 +7,4 @@ pygraphviz
 graphviz
 automata-lib
 coloraide
+streamlit-flow-component
