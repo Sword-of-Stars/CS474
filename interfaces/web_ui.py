@@ -1361,6 +1361,8 @@ EXPLAINER_LABELS = {
     "NFA ε-Removal": "nfa-eps",
     "CFG → CNF": "cnf",
     "Turing Machine": "tm",
+    "Pumping Lemma — Explanation": "pl-explain",
+    "Pumping Lemma — Interactive": "pl-interactive",
 }
 label_choice = st.sidebar.selectbox("Explainer", list(EXPLAINER_LABELS.keys()), index=0)
 tab = EXPLAINER_LABELS[label_choice]
@@ -1717,3 +1719,32 @@ elif tab == "tm":
                 preview_pdf_inline(pdf_path)
         else:
             st.info(f"LaTeX generated at {out_tex}")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tabs: Pumping Lemma (Explanation / Interactive)
+# ─────────────────────────────────────────────────────────────────────────────
+
+elif tab in ("pl-explain", "pl-interactive"):
+    _pl_dir = _THIS_DIR / "pumping_lemma"
+    if str(_pl_dir) not in sys.path:
+        sys.path.insert(0, str(_pl_dir))
+
+    import importlib as _il
+
+    if tab == "pl-explain":
+        st.header("Pumping Lemma — Explanation")
+        try:
+            import explanation as _pl_explanation
+            _il.reload(_pl_explanation)
+            _pl_explanation.render_explanation()
+        except Exception as _ex:
+            st.error(f"Unable to load pumping lemma explanation: {_ex}")
+    else:
+        st.header("Pumping Lemma — Interactive")
+        try:
+            import interactive as _pl_interactive
+            _il.reload(_pl_interactive)
+            _pl_interactive.render_interactive()
+        except Exception as _ex:
+            st.error(f"Unable to load pumping lemma interactive: {_ex}")

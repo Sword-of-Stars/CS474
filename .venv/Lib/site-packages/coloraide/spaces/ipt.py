@@ -1,0 +1,90 @@
+"""
+The IPT color space.
+
+https://www.researchgate.net/publication/\
+221677980_Development_and_Testing_of_a_Color_Space_IPT_with_Improved_Hue_Uniformity.
+"""
+from __future__ import annotations
+from .lab import Lab
+from ..channels import Channel, FLG_MIRROR_PERCENT
+from .. import algebra as alg
+from ..cat import WHITES
+from ..types import Vector
+
+# IPT matrices are only provided with around 16 bit accuracy.
+# We've provided matrices for cleaner conversions for 64 bit doubles
+# that maintain the accuracy within the first 16 bits.
+# Additionally, we've adapted the matrices to accommodate our D65 white point
+# which is slightly different than the one used in the IPT paper with comparable
+# 16 bit results.
+XYZ_TO_LMS = [
+    [0.40021437220265654, 0.7075074077935767, -0.0807060322407405],
+    [-0.22798649207313385, 1.1500016565804587, 0.061235922568512555],
+    [0.0, 0.0, 0.9182249511582473]
+]
+
+LMS_TO_XYZ = [
+    [1.8502178571407482, -1.1382964819820247, 0.23853455189294792],
+    [0.3668035401574027, 0.6438980099694507, -0.01070155012685343],
+    [0.0, 0.0, 1.0890577507598784]
+]
+
+LMS_P_TO_IPT = [
+    [0.4000, 0.4000, 0.2000],
+    [4.4550, -4.8510, 0.3960],
+    [0.8056, 0.3572, -1.1628]
+]
+
+IPT_TO_LMS_P = [
+    [1.0, 0.0975689305146139, 0.20522643316459155],
+    [1.0, -0.11387648547314713, 0.133217158369998],
+    [1.0, 0.03261510991706641, -0.6768871830691794]
+]
+
+
+def xyz_to_ipt(xyz: Vector) -> Vector:
+    """XYZ to IPT."""
+
+    lms_p = [alg.spow(c, 0.43) for c in alg.matmul_x3(XYZ_TO_LMS, xyz, dims=alg.D2_D1)]
+    return alg.matmul_x3(LMS_P_TO_IPT, lms_p, dims=alg.D2_D1)
+
+
+def ipt_to_xyz(ipt: Vector) -> Vector:
+    """IPT to XYZ."""
+
+    lms = [alg.nth_root(c, 0.43) for c in alg.matmul_x3(IPT_TO_LMS_P, ipt, dims=alg.D2_D1)]
+    return alg.matmul_x3(LMS_TO_XYZ, lms, dims=alg.D2_D1)
+
+
+class IPT(Lab):
+    """The IPT class."""
+
+    BASE = "xyz-d65"
+    NAME = "ipt"
+    SERIALIZE = ("--ipt",)  # type: tuple[str, ...]
+    CHANNELS = (
+        Channel("i", 0.0, 1.0),
+        Channel("p", -1.0, 1.0, flags=FLG_MIRROR_PERCENT),
+        Channel("t", -1.0, 1.0, flags=FLG_MIRROR_PERCENT)
+    )
+    CHANNEL_ALIASES = {
+        "intensity": "i",
+        "protan": "p",
+        "tritan": "t"
+    }
+    WHITE = WHITES['2deg']['D65']
+
+    def lightness_name(self) -> str:
+        """Get lightness name."""
+
+        return "i"
+
+    def to_base(self, coords: Vector) -> Vector:
+        """To XYZ."""
+
+        return ipt_to_xyz(coords)
+
+    def from_base(self, coords: Vector) -> Vector:
+        """From XYZ."""
+
+        return xyz_to_ipt(coords)
