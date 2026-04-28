@@ -1,0 +1,153 @@
+{%- macro bold_red(character) -%}
+    \textcolor{red}{\textbf{ {{character}} }}
+{%- endmacro -%}
+
+{% macro pop_set(set_) %}
+    {%- if not set_ -%}
+    \varnothing
+    {%- else -%}
+        \{ 
+        {%- for item in set_ -%}
+            {{ item }}
+           {%- if not loop.last -%}
+            , 
+           {%- endif -%}
+        {%- endfor -%}
+        \}
+    {%- endif %}
+{% endmacro %}
+
+\section{Removing $\epsilon$-Transitions}
+
+Our goal in this section is to eliminate all $\epsilon$-transitions from the given NFA while preserving the language it accepts. Intuitively, an $\epsilon$-transition allows the automaton to change states without consuming any input symbol. While this is convenient for construction, it complicates execution and analysis. To address this, we construct a new automaton $M'$ that has no $\epsilon$-transitions but behaves \emph{exactly the same} as the original automaton $M$ on every input string.
+
+\textbf{Key idea:} Any time the original NFA could take one or more $\epsilon$-transitions before or after reading an input character, we explicitly encode that behavior using ordinary transitions in $M'$.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.47\linewidth}
+        \centering
+        \includegraphics[width=0.95\linewidth]{figures/original.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.47\linewidth}
+        \centering
+        \includegraphics[width=0.95\linewidth]{figures/final_no_epsilon.png}
+    \end{minipage}
+    \caption{Original NFA (Left) And NFA Without $\epsilon$-Transitions (Right)}
+\end{figure}
+
+The automaton on the right has no $\epsilon$-transitions, but every path that was possible in the original automaton is still represented.
+
+\subsection*{$\epsilon$-Closure Intuition}
+
+When starting from a state in an NFA, it is often possible to reach several other states without reading any input symbols by following $\epsilon$-transitions. This means that the automaton may \emph{effectively} be in multiple states at once before reading the next character. To capture this behavior, we use the concept of the \textbf{$\epsilon$-closure}. The $\epsilon$-closure of a set of states consists of all states that can be reached from that set by following zero or more $\epsilon$-transitions.
+
+\textbf{Important observations:}
+\begin{itemize}[itemsep=0.3em]
+    \item The $\epsilon$-closure is always defined on a \emph{set} of states, not just a single state.
+    \item Every state is always in its own $\epsilon$-closure.
+    \item $\epsilon$-closures capture all ``hidden movement'' the automaton can make without reading input.
+\end{itemize}
+
+{%- if e_closure_table %}
+\begin{center}
+\setlength{\tabcolsep}{12pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{c|l}
+\textbf{State} & $\epsilon$-closure \\\hline
+{%- for state, closure in e_closure_table.items() %}
+{{ state }} & $\{ {{ closure }} \}$ \\\hline
+{%- endfor %}
+\end{tabular}
+\end{center}
+{%- endif %}
+
+The table above shows the $\epsilon$-closure for each state. For example, if $E(\{q\}) = \{q, r, s\}$, then starting in $q$ the automaton could silently move to $r$ or $s$ before consuming any input.
+
+---
+
+{% for state, closure in e_closure_table.items() %}
+\subsection*{Handling State ${{ state }}$}
+
+We now describe how transitions in $M'$ are constructed for state ${{ state }}$. Each step ensures that
+all possible behaviors involving $\epsilon$-transitions in $M$ are faithfully simulated.
+
+\begin{enumerate}[itemsep=0.4em]
+
+    \item \textcolor{gray}{Calculate the $\epsilon$-closure of the state in $M$; call the result $S$.}  
+
+    From the table above, we know that:
+    \[
+        E(\{ {{state}} \}) = \{ {{closure}} \}.
+    \]
+
+    This means that before reading any input symbol, the automaton could already be in \emph{any} of the
+    states in $\{ {{closure}} \}$.
+
+    \item \textcolor{gray}{Calculate transitions from all states in $S$ on each input symbol.}
+
+    For each input symbol, we collect every possible destination reachable by reading that symbol from
+    \emph{any} state in the $\epsilon$-closure. This reflects the idea that the automaton might have silently
+    moved before reading the symbol.
+
+    \begin{itemize}[itemsep=0.2em]
+        {% for character, value in transitions.get(state, 'ERROR').items() %}
+            \item [{{bold_red(character)}}] 
+            Starting in any state in $\{ {{closure}} \}$, we consider all transitions labeled
+            {{bold_red(character)}}.
+
+            \begin{itemize}
+            {%- for e_closure_state in closure -%}
+                \item $\delta({{e_closure_state}}, {{bold_red(character)}}) = {{ pop_set(transitions.get(e_closure_state, empty_set).get(character, empty_set)) }}$
+            {%- endfor %}
+            \end{itemize}
+
+            Collecting these results, we obtain an intermediate set of states reachable after reading
+            {{bold_red(character)}}:
+            \[
+                \delta_R({{state}}, {{bold_red(character)}}) \supseteq
+                \{ {{partial_closure.get(state, empty_set).get(character, empty_set)}} \}.
+            \]
+        {% endfor %}
+    \end{itemize}
+
+    \item \textcolor{gray}{Take the $\epsilon$-closure of the resulting set.}
+
+    After reading an input symbol, the automaton may once again follow $\epsilon$-transitions before
+    processing the next symbol. Therefore, we compute the $\epsilon$-closure of the intermediate set to
+    obtain the final transition in $M'$.
+
+    \begin{itemize}[itemsep=0.2em]
+    {% for character, value in transitions.get(state, 'ERROR').items() %}
+        \item [{{bold_red(character)}}]
+        Taking the $\epsilon$-closure of the intermediate set, we conclude:
+        \[
+            \delta_R({{state}}, {{character}}) =
+            \{ {{aggregate_closure.get(state, empty_set)[character]}} \}.
+        \]
+    {% endfor %}
+    \end{itemize}
+
+\end{enumerate}
+
+After processing state {{state}}, we add these transitions to $M'$. The updated automaton is shown below.
+
+\begin{figure}[H]
+    \centering
+    \vspace{0.3em}
+    \includegraphics[width=0.82\linewidth]{figures/step_{{state}}.png}
+    \vspace{0.3em}
+    \caption{Updated Automaton After Handling State ${{ state }}$}
+    \label{fig:M_after_step_{{state}}}
+\end{figure}
+
+{% endfor %}
+
+\subsection*{Final Result}
+
+By repeating this process for every state in the original automaton, we ensure that all behaviors involving
+$\epsilon$-transitions are fully simulated using only ordinary transitions.
+
+\textbf{Conclusion:} The resulting automaton $M'$ has no $\epsilon$-transitions and accepts exactly the
+same language as the original NFA $M$. All implicit movement has been made explicit, simplifying
+execution while preserving correctness.

@@ -1,0 +1,23 @@
+\relax 
+\@writefile{toc}{\contentsline {section}{\numberline {1}Step 1: Create a New Start Variable}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Step 2: Eliminate $\varepsilon $-Rules (Epsilon Rules)}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Step 2a: Find Nullable Variables}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Step 2b: Analyze Rules Containing Nullable Variables}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Step 2c: Add New Rules for Each Possibility}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Step 2d: Delete All $\varepsilon $-Rules}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Step 3: Eliminate Unit Rules}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Step 3a: What's a Unit Rule?}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Step 3b: Visualize the Dependencies}{4}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {Unit Rule Dependency Graph.} Each arrow $A \to B$ means there's a unit rule from $A$ to $B$. If you can follow arrows from $X$ to $Y$, then $X$ can "borrow" all of $Y$'s non-unit productions.}}{4}{}\protected@file@percent }
+\newlabel{fig:dir_graph}{{1}{4}{Step 3b: Visualize the Dependencies}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Step 3c: Follow All Paths (Using Floyd-Warshall)}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Step 3d: Remove the Unit Rules Themselves}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Step 4: Separate Terminals from Variables}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Step 4a: The CNF Requirement}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Step 4b: The Fix — Create Helper Variables}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Step 4c: After Applying This Transformation}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Step 5: Break Up Long Productions}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Step 5a: The Final CNF Requirement}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Step 5b: The Fix — Introduce Intermediate Variables}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Step 5c: Final Grammar in Chomsky Normal Form}{7}{}\protected@file@percent }
+\gdef \@abspage@last{7}

@@ -1,0 +1,38 @@
+
+\begin{document}
+
+\title{\textbf{DFA Minimizer}}
+\author{William Gregory, Matthew Wanta, and Dr. Ryan Dougherty}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+
+The following is an auto-explainer for DFA Minimization as represented by a series of figures depicting the evolving partitions of the DFA’s state set. \\
+
+A Deterministic Finite Automaton (DFA) is denoted by the quintuple
+\[
+M = (Q, \Sigma, \delta, q_0, F)
+\]
+and the minimization process works by iteratively refining partitions of the state set until all equivalent states are grouped together. In the minimization process:
+\begin{itemize}
+    \item The initial partition divides $Q$ into two blocks: the final states $F$ and the non-final states $Q \setminus F$.
+    \item At each subsequent step, the partition is refined by examining the transitions for every input symbol and grouping together states that behave equivalently.
+    \item This iterative refinement continues until no further splitting is possible, thus yielding a minimal DFA.
+\end{itemize}
+
+\section{DFA Definition and Minimization Overview}
+
+A Deterministic Finite Automaton is defined as a 5-tuple 
+\[
+(Q, \Sigma, \delta, q_0, F)
+\]
+where:
+\begin{itemize}
+    \item $Q$ is a finite set of states,
+    \item $\Sigma$ is a finite input alphabet,
+    \item $\delta : Q \times \Sigma \rightarrow Q$ is the transition function,
+    \item $q_0 \in Q$ is the start state, and
+    \item $F \subseteq Q$ is the set of final (accepting) states.
+\end{itemize}
+
+The minimization of a DFA entails computing an equivalent DFA with the fewest possible states. The process begins by partitioning the state set into final and non-final states and then repeatedly refining these partitions by identifying states that are indistinguishable with respect to the input symbols. The resulting minimized DFA retains the same language as the original.

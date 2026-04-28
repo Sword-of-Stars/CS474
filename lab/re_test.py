@@ -1,0 +1,1 @@
+print("ass kicking"."sk")

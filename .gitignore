@@ -1,0 +1,3 @@
+# Ignore any folder starting with .venv anywhere in the project
+**/.venv*/
+**/venv*/

@@ -1,0 +1,26 @@
+{# This template documents the incremental subset construction for NFA->DFA #}
+
+{% macro join_set(s) -%}
+{%- if not s or (s is string and s|trim == "") -%}∅
+{%- else -%}
+{ {{ s|join(', ') }} }
+{%- endif -%}
+{%- endmacro %}
+
+{% for state, data in incremental.items() %}
+## Handling State {{ state }}
+
+1. **Remove a set \(S\) from \(C\).**  
+   We select the next set \(S\) from \(C\) to process. In this case, \( S = \{ {{ state }} \} \).
+
+2. **For each \(a \in \Sigma\)**  
+   For each input symbol \(a\), compute the move from the current subset and then its ε-closure:
+   - \( \text{move}(S, a) = \) {{ join_set(data.get('move', {}).get('a', [])) if data is mapping else '∅' }}
+   - \( \varepsilon\text{-closure}(\text{move}(S, a)) = \) {{ join_set(data.get('closure', {}).get('a', [])) if data is mapping else '∅' }}
+
+{# Optionally include a figure per state if you save one, e.g. "figures/subset_step_<state>.png" #}
+{% if data.get('figure_path') %}
+![Subset step {{ state }}]({{ data.figure_path }})
+{% endif %}
+
+{% endfor %}

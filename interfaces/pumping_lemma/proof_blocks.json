@@ -1,0 +1,172 @@
+{
+  "problems": [
+    {
+      "id": "pumping_lemma_0n1n",
+      "title": "Pumping Lemma for $L = \\{0^n1^n : n \\geq 0\\}$",
+      "language_definition": "$L=\\{0^n1^n:n\\geq 0\\}$",
+      "steps": [
+        {
+          "id": "1",
+          "index": 1,
+          "is_distractor": false,
+          "content": "Proof by Contradiction."
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "is_distractor": false,
+          "content": "Assume to the contrary that $L$ is a regular language; then there is some DFA that accepts $L$."
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "is_distractor": false,
+          "content": "Let $p$ be the number of states in our DFA."
+        },
+        {
+          "id": "3d",
+          "index": 3,
+          "is_distractor": true,
+          "content": "Let $p$ be the length of the string $w$.",
+          "feedback": "While our choice of $w$ needs to be of length at least $p$, this is an incorrect definition of $p$. Hint: $p$ describes something about our DFA."
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "is_distractor": false,
+          "content": "Consider the string $w=0^p1^p$. Since $w\\in L$ and $|w|\\geq p$, the pumping lemma holds for this $w$."
+        },
+        {
+          "id": "4d",
+          "index": 4,
+          "is_distractor": true,
+          "content": "Consider the string $w=0^{p-1}1^{p+1}$. Since $w\\in L$ and $|w|\\geq p$, the pumping lemma holds for this $w$.",
+          "feedback": "Remember that $L=\\{0^n1^n : n \\geq 1\\}$. That means we need an equal number of 0s and 1s. Since $(p-1)\\neq (p+1)$, $w$ is not in $L$."
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "is_distractor": false,
+          "content": "Every decomposition of $w$ into $xyz$ that satisfies (1) and (2) of the pumping lemma looks like:<br>\n<ul style=\"margin-top: 10px; margin-bottom: 0;\">\n    <li>$x=0^{\\alpha}$ for some $0 \\leq \\alpha < p$</li>\n    <li>$y=0^{\\beta}$ for some $\\beta \\geq 1$</li>\n    <li>$z=0^{p-\\alpha-\\beta}1^p$ ($z$ is the rest of the string)</li>\n</ul>"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "is_distractor": false,
+          "content": "Let $i=2$. Then from our decomposition, $xy^iz=xy^2z=xyyz=0^\\alpha 0^\\beta 0^\\beta 0^{p-\\alpha-\\beta}1^p=0^{p+\\beta}1^p$."
+        },
+        {
+          "id": "6d",
+          "index": 6,
+          "is_distractor": true,
+          "content": "Let $i=1$. Then from our decomposition, $xy^iz=xyz=0^\\alpha 0^\\beta 0^{p-\\alpha-\\beta}1^p=0^p1^p$.",
+          "feedback": "If we just choose $i=1$, we get our original string and don't break out of the language. Choose another value of $i$."
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "is_distractor": false,
+          "content": "This string starts with $p+\\beta$ 0s and ends with $p$ 1s. However, from our decomposition, we know that $\\beta \\geq 1$. Thus, the number of 0s is greater than the number of 1s. Therefore, $xy^2z\\notin L$."
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "is_distractor": false,
+          "content": "Since $xy^iz \\notin L$ for all $i \\geq 0$, $L$ is not a regular language."
+        }
+      ]
+    },
+    {
+      "id": "pumping_lemma_neq",
+      "title": "Pumping Lemma for $L = \\{0^a1^b : a \\neq b\\}$",
+      "language_definition": "$L = \\{0^a1^b : a \\neq b\\}$",
+      "steps": [
+        {
+          "id": "1",
+          "index": 1,
+          "is_distractor": false,
+          "content": "Proof by Contradiction."
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "is_distractor": false,
+          "content": "Assume to the contrary that $L$ is a regular language; then there is some DFA that accepts $L$."
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "is_distractor": false,
+          "content": "Let $p$ be the number of states in our DFA."
+        },
+        {
+          "id": "3d",
+          "index": 3,
+          "is_distractor": true,
+          "content": "Let $p$ be the greater value of $a$ and $b$.",
+          "feedback": "This is an incorrect definition of $p$. Recall that $p$ describes something about our DFA."
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "is_distractor": false,
+          "content": "Consider the string $w=0^p1^{p+p!}$. Since $w\\in L$ and $|w|\\geq p$, the pumping lemma holds for this $w$."
+        },
+        {
+          "id": "4d",
+          "index": 4,
+          "is_distractor": true,
+          "content": "Consider the string $w=0^{p}1^{p}$. Since $w\\in L$ and $|w|\\geq p$, the pumping lemma holds for this $w$.",
+          "feedback": "Remember that $L=\\{0^a1^b : a \\neq b\\}$. That means we need an unequal number of 0s and 1s. Since $(p)\\neq (p)$ is false, $w$ is not in $L$, and this string is invalid."
+        },
+        {
+          "id": "4e",
+          "index": 4,
+          "is_distractor": false,
+          "content": "Consider the string $w=0^{p+1}1^{p}$. Since $w\\in L$ and $|w|\\geq p$, the pumping lemma holds for this $w$."
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "is_distractor": false,
+          "content": "Every decomposition of $w$ into $xyz$ that satisfies (1) and (2) of the pumping lemma looks like:<br>\n<ul style=\"margin-top: 10px; margin-bottom: 0;\">\n    <li>$x=0^{\\alpha}$ for some $0 \\leq \\alpha < p$</li>\n    <li>$y=0^{\\beta}$ for some $\\beta \\geq 1$</li>\n    <li>$z=0^{p-\\alpha-\\beta}1^{p+p!}$ ($z$ is the rest of the string)</li>\n</ul>",
+          "must_precede": ["4"],
+          "must_precede_feedback": "This decomposition is not correct for your choice of string."
+        },
+        {
+          "id": "5e",
+          "index": 5,
+          "is_distractor": false,
+          "content": "Every decomposition of $w$ into $xyz$ that satisfies (1) and (2) of the pumping lemma looks like:<br>\n<ul style=\"margin-top: 10px; margin-bottom: 0;\">\n    <li>$x=0^{\\alpha}$ for some $0 \\leq \\alpha < p$</li>\n    <li>$y=0^{\\beta}$ for some $\\beta \\geq 1$</li>\n    <li>$z=0^{p+1-\\alpha-\\beta}1^p$ ($z$ is the rest of the string)</li>\n</ul>",
+          "must_precede": ["4e"],
+          "must_precede_feedback": "This decomposition is not correct for your choice of string."
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "is_distractor": false,
+          "content": "Let $i=2$. Then from our decomposition, $xy^iz=xy^2z=xyyz=0^\\alpha 0^\\beta 0^\\beta 0^{p-\\alpha-\\beta}1^p=0^{p+\\beta}1^p$."
+        },
+        {
+          "id": "6d",
+          "index": 6,
+          "is_distractor": true,
+          "content": "Let $i=1$. Then from our decomposition, $xy^iz=xyz=0^\\alpha 0^\\beta 0^{p-\\alpha-\\beta}1^p=0^p1^p$.",
+          "feedback": "If we just choose $i=1$, we get our original string and don't break out of the language. Choose another value of $i$."
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "is_distractor": false,
+          "content": "This string starts with $p+\\beta$ 0s and ends with $p$ 1s. However, from our decomposition, we know that $\\beta \\geq 1$. Thus, the number of 0s is greater than the number of 1s. Therefore, $xy^2z\\notin L$."
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "is_distractor": false,
+          "content": "Since $xy^iz \\notin L$ for all $i \\geq 0$, $L$ is not a regular language."
+        }
+      ]
+    }
+  ]
+}

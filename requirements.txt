@@ -1,0 +1,10 @@
+streamlit
+jinja2
+matplotlib
+networkx
+pandas
+pygraphviz
+graphviz
+automata-lib
+coloraide
+streamlit-flow-component

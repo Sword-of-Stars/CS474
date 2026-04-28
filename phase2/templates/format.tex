@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage[a4paper, margin=1in]{geometry} % Adjust margins
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{pifont}
+\usepackage{tcolorbox}
+\usetikzlibrary{automata, positioning}
+\usepackage{helvet} % Match font to reference
+\pagestyle{fancy}
+\usepackage{enumitem,xcolor}
+
+
+% Ensure proper header spacing
+\setlength{\headheight}{15pt} % Adjust height of the header
+\setlength{\headsep}{10pt} 
+
+% Define Header/Footer
+\fancyhf{}
+\fancyhead[L]{\textbf{Computer Science Education}} % Left header
+\fancyhead[R]{Chomsky Normal Form Converter} % Right header
+\cfoot{\thepage} % Page number at center bottom
+
+% Define colors for section and subsection titles
+\usepackage{titlesec}
+\definecolor{sectioncolor}{rgb}{0.1, 0.3, 0.7} % Dark blue
+\titleformat{\section}{\large\bfseries\color{sectioncolor}}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries\color{sectioncolor}}{\thesubsection}{1em}{}
+
+% Define custom colors for different text types
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\newcommand{\important}[1]{\textcolor{red}{#1}}
+\newtcbtheorem
+  []% init options
+  {definition}% name
+  {Definition}% title
+  {%
+    colback=blue!5,
+    colframe=blue!35!black,
+    fonttitle=\bfseries,
+  }% options
+  {def}% prefix
+\newcommand{\note}[1]{\textcolor{green!50!black}{#1}}
+
+% Theorem environment setup
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\definecolor{codegray}{gray}{0.9}
+\lstdefinestyle{customc}{
+  backgroundcolor=\color{codegray},
+  language=C,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red}
+}

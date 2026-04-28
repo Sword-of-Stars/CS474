@@ -1,0 +1,198 @@
+\begin{document}
+\title{Universal Turing Machine Visualization}
+\author{The Dark Knight}
+\maketitle
+\thispagestyle{fancy}
+
+
+In this example, we'll be explaining the design of a Universal Turing Machine (UTM), which can take in any input Turing Machine $T$ and string $w$, and fully simulate the behavior of $M$ on $w$.
+
+\section*{Provided Turing Machine and String}
+Consider the following Turing Machine, $T$, which adds 1 to a binary number that is represented in reverse (least significant bit on the left).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\linewidth]{ phase3/universal_turing_machine/out/tm_graph.png }
+    \caption{Provided Turing Machine}
+    \label{fig:enter-label}
+\end{figure}
+
+Now, consider the string $w=1101$, which represents a reversed $11$ in binary $(1011)$. We expect an output of a reversed $12$ in binary, or $0011$.
+
+\section*{Encoding a Turing Machine and a String}
+\subsection*{Encoding Schema}
+To encode a Turing Machine $T=(Q, \sum, \Gamma, \delta, q_0, h_a, h_r)$ as a binary string, we first must encode the individual parts of each transition. This includes the symbols in the alphabets, the states, and the tape-head directions. These encodings will then be used to encode the transitions and the input string.
+
+
+Our schema involves an ordering function, ORD that assigns a unique-to-the-states positive integer to each state, a unique-to-the-alphabets positive integer to each alphabet symbol, and assigns a unique-to-the-directions positive integer to each direction. Then, each state, symbol, and direction is encoded in unary by the function ENCODE(x)=$1^{ORD(x)}$, a length of $1$ s equal to its ORD value. This Universal Turing Machine implementation uses unary encoding with `0' as a separator.
+
+Using this schema, the following table encodes $T$:
+
+\begin{table}[h]
+    \centering
+    \renewcommand{\arraystretch}{1.3}  % Increase vertical spacing in table
+    \begin{tabular}{|ccc|ccc|ccc|}
+        \hline
+        \multicolumn{3}{|c|}{$Q = \{h_{\mathtt{a}}, h_{\mathtt{r}}, q_0, q_1, \cdots , q_m\}$} & 
+        \multicolumn{3}{c|}{$\Gamma = \{\sqcup, \sigma_1, \cdots , \sigma_n\}$} & 
+        \multicolumn{3}{c|}{Direction = $\{\mathrm{R}, \mathrm{L}, \mathrm{N}\}$} \\
+        \multicolumn{1}{|c}{\textcolor{gray}{state}} & 
+        \multicolumn{1}{c}{\textcolor{gray}{\textsc{Ord}($\cdot$)}} & 
+        \multicolumn{1}{c|}{\textcolor{gray}{\textsc{Encode}($\cdot$)}} & 
+        \multicolumn{1}{c}{\textcolor{gray}{symbol}} & 
+        \multicolumn{1}{c}{\textcolor{gray}{\textsc{Ord}($\cdot$)}} & 
+        \multicolumn{1}{c|}{\textcolor{gray}{\textsc{Encode}($\cdot$)}} & 
+        \multicolumn{1}{c}{\textcolor{gray}{direction}} & 
+        \multicolumn{1}{c}{\textcolor{gray}{\textsc{Ord}($\cdot$)}} & 
+        \multicolumn{1}{c|}{\textcolor{gray}{\textsc{Encode}($\cdot$)}} \\
+        \hline
+        % dynamic portion
+        % $h_{\mathtt{a}}$ & 1 & \textcolor{red}{1} & $\sqcup$ & 1 & \textcolor{red}{1} & R & 1 & \textcolor{red}{1} \\
+        % $h_{\mathtt{r}}$ & 2 & \textcolor{red}{11} & \$ & 2 & \textcolor{red}{11} & L & 2 & \textcolor{red}{11} \\
+        % $q_0$ & 3 & \textcolor{red}{111} & $\sigma_1$ & 3 & \textcolor{red}{111} & S & 3 & \textcolor{red}{111} \\
+        % $q_1$ & 4 & \textcolor{red}{1111} & $\sigma_2$ & 4 & \textcolor{red}{1111} & & & \\
+        % $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & & & \\
+        % $q_m$ & $m+3$ & \textcolor{red}{$1^{m+3}$} & $\sigma_n$ & $n+2$ & \textcolor{red}{$1^{n+2}$} & & & \\
+        \hline
+        {% for i in range(max_length) %}
+            {% if i < states|length %}{{ states[i][0] }} & {{ states[i][1] }} & \textcolor{red}{ {{- states[i][2] -}} }{% else %} & & {% endif %} & 
+            {% if i < characters|length %}{{ characters[i][0] }} & {{ characters[i][1] }} & \textcolor{red}{ {{- characters[i][2] -}} }{% else %} & & {% endif %} & 
+            {% if i < directions|length %}{{ directions[i][0] }} & {{ directions[i][1] }} & \textcolor{red}{ {{- directions[i][2] -}} }{% else %} & & {% endif %} \\
+        {% endfor %}
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection*{String Encoding}
+A string $w=w_1...w_n$ is encoded by separating the character encodings with a $0$:
+
+\begin{align}
+ENCODE(w)&=01^{ORD(w_1)}01^{ORD(w_2)}...01^{ORD(w_n)}
+\end{align}
+
+\noindent For our example string of $w={{string}}$, the encoded string (using the same ordering scheme
+as above) looks like:
+
+\begin{align}
+ENCODE({{string}})&={{encoded_string}}\end{align}
+
+\subsection*{Transition Encoding}
+
+Suppose that we have the transition $\delta(p, a) = (q, b, D)$. This transition is encoded by separating the encodings of the individual parts of the transition with 0s. Our convention is to order the parts of the transition in the same order they appear in the functional representation $\delta(p, a) = (q, b, D)$. Thus, the generic transition shown above becomes:
+
+\begin{align}
+ENCODE(1101)&=1^{ORD(p)}01^{ORD(a)}01^{ORD(q)}01^{ORD(b)}01^{ORD(D)}\end{align}
+
+% Consider the first transistion $t_1$ in our instance, $\delta(q_0, 0)=(q_{accept}, 1, S)$. This encoding is given by:
+
+% \begin{align}
+% ENCODE(t_1)&=111011101011110111
+% \end{align}
+
+\subsection*{TM Encoding}
+A Turing Machine can be represented by its transition function alone. Thus, to encode an entire Turing Machine $T$ with transitions $t_1$, $t_2$, up through $t_k$, we simply add a $0$ between adjacent pairs of encoded transitions. The transitions can appear in any order. The encoding of $T$ is then:
+
+\begin{align}
+ENCODE(T)&=ENCODE(t_1)0ENCODE(t_2)0...ENCODE(t_n)0
+\end{align}
+
+Since the encoding of each transition itself ends in a $0$, transitions are identifiable as being the substrings between closest pairs of the sub-string $00$. There are no other occurences of $00$ in ENCODE($T$). Notice that the last transition ends with $00$, which means that ENCODE($T$) ends with $00$.
+
+\subsection*{Encoding a TM and its String}
+The input to a UTM requires both an input TM $T$ and an input string $w$. To encode these together, we simply concatenate their binary
+encodings:
+\begin{align} 
+ENCODE(T)ENCODE(w) 
+\end{align}
+
+Notice that since the encoding of $T$ ends in two 0s and the encoding of the string $w$ begins with a $0$,
+we can easily find the beginning of $w$ by scanning right until we find the sub-string $000$; there are no other
+places in the entire encoding that have three consecutive 0s.
+
+\newpage
+
+\section*{The Universal Turing Machine}
+UTMs typically have an initialization and simulation phase. The initialization phase involves encoding the TM using the process described above and breaking it down into the following three tapes used to simulate the TM.
+
+After the initialization phase, the UTM implementation will have three tapes:
+\begin{itemize}
+    \item Tape 1 has the encoded input string $w$
+    \item Tape 2 has the encoded TM $T$
+    \item Tape 3 keeps track of the current state $q$
+\end{itemize}
+
+
+Note that at the end of the initialization phase, all tapes have their pointers set to index 0. For our instance, the tapes have the following values:
+
+\vspace{0.5cm}
+
+%\dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{01011010894238392014893210841010110}{21:pointer}{1-5:window}
+\dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{ {{- encoded_string -}} }{0:head}{}
+
+\dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{ {{- encoded_TM -}} }{0:head}{}
+
+\dynamicTapeAdvanced{Tape 3: Current State $q$ \hspace{2cm}}{0}{15}{ {{-encoded_state-}} }{0:head}{}
+
+\vspace{1cm}
+Note that for the sake of brevity, additional blank entries at the end of each tape are not considered. Each tape is assumed to be proceeded by an infinite string of blank characters.
+
+\newpage
+
+\section*{Step-by-Step UTM Execution}
+
+\begin{enumerate}
+{% for pass in passes %}
+    
+    \item  Attempting to execute a transition
+        {% for step in pass.states %}
+        \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{ {{- encoded_TM -}} }{ {{- step[0][1] -}} :head}{ {{- step[0][0]-}}-{{- step[0][1] -}}:{{- step[0][2] -}} }
+
+        \dynamicTapeAdvanced{Tape 3: Current State {{step[1][2]}} \hspace{2cm}}{0}{15}{ {{-pass.current_state-}} }{ {{- step[1][1] -}} :head}{ {{- step[1][0]-}}-{{- step[1][1] -}}:{{- step[1][2] -}}  }
+        \vspace{1cm}
+
+        % if the state matched, 
+        {% if step[0][3] %}
+          The state {{step[1][2]}} matched, now we check the character.
+          \vspace{1cm}
+
+          \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{ {{- pass.string -}} }{ {{- step[3][1] -}} :head}{ {{- step[3][0]-}}-{{- step[3][1] -}}:{{- step[3][2] -}} }
+
+          \dynamicTapeAdvanced{Tape 2: Encoded Turing Machine $T$}{0}{15}{ {{- encoded_TM -}} }{ {{- step[2][1] -}} :head}{ {{- step[2][0]-}}-{{- step[2][1] -}}:{{- step[2][2] -}} }
+        \vspace{1cm}
+        {% if not loop.last%}
+          \vspace{1cm}
+          The transition character {{step[2][2]}} did not match the current character {{step[3][2]}}, so this transition is invalid.
+          \vspace{1cm}
+        {% endif%}
+
+
+        {%endif%}
+
+        {% if loop.last%}
+        {% if pass.match %}
+            We have successfully matched our states and character, and thus can execute the transition.
+            First, we update the current state:\\\\
+            \vspace{1cm}
+            \dynamicTapeAdvanced{Tape 3: Current State {{pass.updates.state[1]}} \hspace{2cm}}{0}{15}{ {{-pass.updates.state[0]-}} }{0:head}{0-{{- pass.updates.state[2] -}}:{{- pass.updates.state[1] -}}  }
+
+            Next, we replace the current character on Tape 1. We also move the tape head in the appropriate direction, {{pass.updates.string[2]}}.\\
+            \dynamicTapeAdvanced{Tape 1: Encoded Input String $w$}{0}{15}{ {{-pass.updates.string[0]-}} }{ {{-pass.updates.string[1]-}} :head}{ {{- pass.updates.string[4]-}}-{{- pass.updates.string[5] -}}:{{- pass.updates.string[3] -}} }
+
+            
+        {% else %}
+            No transition in the TM matched the current state and input character. Thus, we transition to halt-reject.
+        {% endif -%}
+
+        {%- endif -%}
+
+        {%endfor%}
+{%endfor%}
+\end{enumerate}
+
+{% if total_accept %}
+  The Turing Machine accepted the string! Thus, we change the current state to $q_a$:\\
+  \dynamicTapeAdvanced{Tape 3: Current State $q_a$ \hspace{2cm}}{0}{15}{ {{-accept_state-}} }{0:head}{0-{{- accept_state | length - 1-}}:$q_a$}
+{% else %}
+  The Turing Machine rejected the string. Thus, we change the current state to $q_r$:\\
+  \dynamicTapeAdvanced{Tape 3: Current State $q_r$ \hspace{2cm}}{0}{15}{ {{-reject_state-}} }{0:head}{0-{{- reject_state | length - 1-}}:$q_r$}
+{%endif%}

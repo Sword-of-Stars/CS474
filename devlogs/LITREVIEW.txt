@@ -1,0 +1,7 @@
+Here, I'll list some sources to use for a lit review:
+
+- https://arxiv.org/pdf/2310.08248 (NFA-> DFA conversion)
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC5819994/ (Visualization theory)
+- https://arxiv.org/pdf/2202.01344 (High School Olympiad Auto Solver)
+- https://arxiv.org/pdf/2112.15594 (Neural Network Solver)
+
