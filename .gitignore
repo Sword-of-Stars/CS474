@@ -22,6 +22,9 @@ frontend/dist/
 *.png
 *.pdf
 
+# Exception: static image assets used by the app at runtime
+!interfaces/pumping_lemma/images/*.png
+
 # Private keys and certificates
 *.pem
 *.key
