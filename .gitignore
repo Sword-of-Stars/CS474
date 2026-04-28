@@ -1,3 +1,36 @@
-# Ignore any folder starting with .venv anywhere in the project
+# Virtual environments
 **/.venv*/
 **/venv*/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Node.js
+node_modules/
+frontend/dist/
+
+# Generated LaTeX output
+*.aux
+*.log
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+
+# Generated binary/image output
+*.png
+*.pdf
+
+# Private keys and certificates
+*.pem
+*.key
+
+# Claude-specific local settings
+.claude/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Training data
+training_data/
