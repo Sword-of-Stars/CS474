@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 COPY interfaces/presets interfaces/presets
+COPY interfaces/pumping_lemma interfaces/pumping_lemma
 COPY interfaces/auto_explainer_cli.py interfaces/auto_explainer_cli.py
 COPY interfaces/web_ui.py interfaces/web_ui.py
 COPY interfaces/automata_editor_component.py interfaces/automata_editor_component.py
