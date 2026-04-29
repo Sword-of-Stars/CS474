@@ -72,7 +72,7 @@
           "id": "8",
           "index": 8,
           "is_distractor": false,
-          "content": "Since $xy^iz \\notin L$ for all $i \\geq 0$, $L$ is not a regular language."
+          "content": "Since $xy^iz \\notin L$ for some $i \\geq 0$, $L$ is not a regular language."
         }
       ]
     },
@@ -164,7 +164,7 @@
           "id": "8",
           "index": 8,
           "is_distractor": false,
-          "content": "Since $xy^iz \\notin L$ for all $i \\geq 0$, $L$ is not a regular language."
+          "content": "Since $xy^iz \\notin L$ for some $i \\geq 0$, $L$ is not a regular language."
         }
       ]
     }
