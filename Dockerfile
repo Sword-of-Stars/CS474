@@ -45,7 +45,8 @@ RUN pip install --no-cache-dir -r requirements.txt || true \
         pygraphviz \
         graphviz \
         coloraide \
-        automata-lib
+        automata-lib \
+        pymupdf
 
 RUN mkdir -p /app/out
 

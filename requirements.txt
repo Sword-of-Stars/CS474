@@ -8,3 +8,4 @@ graphviz
 automata-lib
 coloraide
 streamlit-flow-component
+pymupdf

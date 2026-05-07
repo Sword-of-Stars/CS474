@@ -1,6 +1,6 @@
 import io
 import json
-import base64
+import base64  # kept for potential future use
 import os
 import re
 import math
@@ -1065,13 +1065,14 @@ def preview_pdf_inline(file_path: str, height: int = 820):
         st.info("No PDF to preview.")
         return
     try:
-        with open(file_path, "rb") as f:
-            b64 = base64.b64encode(f.read()).decode("utf-8")
-        st.markdown(
-            f'<iframe src="data:application/pdf;base64,{b64}" '
-            f'width="100%" height="{height}px" style="border:1px solid #dee2e6; border-radius:6px;"></iframe>',
-            unsafe_allow_html=True,
-        )
+        import fitz  # PyMuPDF
+        doc = fitz.open(file_path)
+        for page_num in range(len(doc)):
+            page = doc.load_page(page_num)
+            # 2x scale gives ~144 DPI — crisp without being huge
+            pix = page.get_pixmap(matrix=fitz.Matrix(2.0, 2.0))
+            st.image(pix.tobytes("png"), use_container_width=True)
+        doc.close()
     except Exception as e:
         st.warning(f"Could not preview PDF: {e}")
 
